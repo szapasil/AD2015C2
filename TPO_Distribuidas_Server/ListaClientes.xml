@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- PLANILLA DE CLIENTES -->
+
+<ListaCliente>
+
+<Cliente>
+	<Id>1</Id>
+	<Cuil>20-30931165-6</Cuil>
+	<Direccion>Lima 700</Direccion>
+	<Fecha>25/05/2015</Fecha>
+	<Monto>0</Monto>
+	<Razon>Feanor</Razon>
+</Cliente>
+
+<Cliente>
+	<Id>2</Id>
+	<Cuil>0002</Cuil>
+	<Direccion>Lima 700</Direccion>
+	<Fecha>25/05/2015</Fecha>
+	<Monto>0</Monto>
+	<Razon>Fingolfin</Razon>
+</Cliente>
+
+<Cliente>
+	<Id>2</Id>
+	<Cuil>0003</Cuil>
+	<Direccion>Lima 700</Direccion>
+	<Fecha>25/05/2015</Fecha>
+	<Monto>0</Monto>
+	<Razon>Finarfin</Razon>
+</Cliente>
+
+<Cliente>
+	<Id>2</Id>
+	<Cuil>0004</Cuil>
+	<Direccion>Lima 700</Direccion>
+	<Fecha>25/05/2015</Fecha>
+	<Monto>0</Monto>
+	<Razon>Maedhros</Razon>
+</Cliente>
+
+</ListaCliente>

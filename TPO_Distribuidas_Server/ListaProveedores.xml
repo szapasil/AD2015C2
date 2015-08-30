@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- PLANILLA DE PROVEEDORES -->
+
+<Lista_Proveedores>
+	<Proveedor cuil ="20-30931165-6">
+		<razon_social>Melkor</razon_social>
+		<direccion>Bolivar 491</direccion>
+		<condiciones_pago>condicion 1</condiciones_pago>
+		<descuento>0.05</descuento>
+		<condiciones_compra>condicion 1</condiciones_compra>
+		<estado>activo</estado>
+	</Proveedor>
+
+	<Proveedor cuil ="20-25671165-6">
+		<razon_social>Mairon</razon_social>
+		<direccion>Armenia 500</direccion>
+		<condiciones_pago>condicion 2</condiciones_pago>
+		<descuento>0</descuento>
+		<condiciones_compra>condicion 1</condiciones_compra>
+		<estado>activo</estado>
+	</Proveedor>
+	
+	<Proveedor cuil="27-34955565-3">
+		<razon_social>Varda</razon_social>
+		<direccion>Valinor</direccion>
+		<condiciones_pago>condicion 8</condiciones_pago>
+		<descuento>25</descuento>
+		<condiciones_compra>condicion 2</condiciones_compra>
+		<estado>activo</estado>
+	</Proveedor>
+
+
+</Lista_Proveedores>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SOLICITUD DE COTIZACION -->
+<SolicitudCotizacion numero="0001" fecha="28/04/2015">
+	<Cliente>
+		<Cuil>20-30931165-6</Cuil>
+		<RazonSocial>Empresa01</RazonSocial>
+	</Cliente>
+	<Rodamientos>
+		<Item serie="22310">
+			<Sufijo>CCW33</Sufijo>
+			<Marca>ZKL</Marca>
+			<Origen>Japon</Origen>
+			<Cantidad>100</Cantidad>
+		</Item>
+		<Item serie="22310">
+			<Sufijo>EKW33</Sufijo>
+			<Marca>SKF</Marca>
+			<Origen>Argentina</Origen>
+			<Cantidad>200</Cantidad>
+		</Item>
+		<Item serie="6200">
+			<Sufijo>2RS</Sufijo>
+			<Marca>FAG</Marca>
+			<Origen>Argentina</Origen>
+			<Cantidad>300</Cantidad>
+		</Item>
+		<Item serie="6204">
+			<Sufijo>2RSC3</Sufijo>
+			<Marca>SFK</Marca>
+			<Origen>Brasil</Origen>
+			<Cantidad>400</Cantidad>
+		</Item>
+		<Item serie="NA 213">
+			<Sufijo>C3</Sufijo>
+			<Marca>SKF</Marca>
+			<Origen>Suecia</Origen>
+			<Cantidad>500</Cantidad>
+		</Item>
+	</Rodamientos>
+</SolicitudCotizacion>

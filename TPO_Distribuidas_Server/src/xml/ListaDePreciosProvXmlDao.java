@@ -64,7 +64,7 @@ public class ListaDePreciosProvXmlDao {
 				String fechaPublicacion = e.getElementsByTagName("Fecha").item(0).getTextContent();
 				String fechaHasta = e.getElementsByTagName("Termino").item(0).getTextContent();
 				try {
-					lp.setFecha(format.parse(fechaPublicacion));
+					lp.setFecha(format.parse(fechaPublicacion));me voy yendo
 					lp.setVigencia(format.parse(fechaHasta));				
 				} catch (ParseException e1) {
 					e1.printStackTrace();

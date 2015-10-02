@@ -4,10 +4,7 @@ public class DTO {
 
 	
 	
-	
-	public void saraza() {
-		
-		;
-	}
+int a;
+
 ;	
 }

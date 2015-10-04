@@ -1,18 +1,12 @@
 package hbt;
 
-import java.io.Serializable;
-
 import javax.persistence.*;
 
 @MappedSuperclass
-public class PersistentObject implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class PersistentObject {
 	
 	@Id
-	@GeneratedValue( strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected Integer id;
 	
 	public Integer getId() {

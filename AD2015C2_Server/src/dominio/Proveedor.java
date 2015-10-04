@@ -1,89 +1,88 @@
 package dominio;
 
+import java.util.List;
+
 public class Proveedor {
 	private String razonSocial;
 	private String direccion;
 	private String cuil;
-	private String condicionesPago;
-	private float descuento;
-	private ListaPrecios listaPrecios;
+	private List<CondCompraProv> condicionesCompra;
+	private int LPVigente;
+	private List<ListaPrecios> listasDePrecios;
 	private String estado;
-
-
-	public Proveedor(String razonSocial,String direccion,String cuil,String condicionesPago,float descuento) {
+	
+	public Proveedor(String razonSocial, String direccion, String cuil,
+			List<CondCompraProv> condicionesCompra, int lPVigente,
+			List<ListaPrecios> listasDePrecios, String estado) {
 		super();
 		this.razonSocial = razonSocial;
 		this.direccion = direccion;
 		this.cuil = cuil;
-		this.condicionesPago = condicionesPago;
-		this.descuento = descuento;
-		this.listaPrecios = new ListaPrecios();
-		this.estado = "activo";
-	}
-	
-	public Proveedor() {
-		
+		this.condicionesCompra = condicionesCompra;
+		LPVigente = lPVigente;
+		this.listasDePrecios = listasDePrecios;
+		this.estado = estado;
 	}
 	
 	public String getRazonSocial() {
 		return razonSocial;
 	}
-
+	
 	public void setRazonSocial(String razonSocial) {
 		this.razonSocial = razonSocial;
 	}
-
+	
 	public String getDireccion() {
 		return direccion;
 	}
-
+	
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-
+	
 	public String getCuil() {
 		return cuil;
 	}
-
+	
 	public void setCuil(String cuil) {
 		this.cuil = cuil;
 	}
-
-	public String getCondicionesPago() {
-		return condicionesPago;
+	
+	public List<CondCompraProv> getCondicionesCompra() {
+		return condicionesCompra;
 	}
-
-	public void setCondicionesPago(String condicionesPago) {
-		this.condicionesPago = condicionesPago;
+	
+	public void setCondicionesCompra(List<CondCompraProv> condicionesCompra) {
+		this.condicionesCompra = condicionesCompra;
 	}
-
-	public float getDescuento() {
-		return descuento;
+	
+	public int getLPVigente() {
+		return LPVigente;
 	}
-
-	public void setDescuento(float descuento) {
-		this.descuento = descuento;
+	
+	public void setLPVigente(int lPVigente) {
+		LPVigente = lPVigente;
 	}
-
-	public ListaPrecios getListaPrecios() {
-		return listaPrecios;
+	
+	public List<ListaPrecios> getListasDePrecios() {
+		return listasDePrecios;
 	}
-
-	public void setListaPrecios(ListaPrecios listaPrecios) {
-		this.listaPrecios = listaPrecios;
+	
+	public void setListasDePrecios(List<ListaPrecios> listasDePrecios) {
+		this.listasDePrecios = listasDePrecios;
 	}
-
+	
 	public String getEstado() {
 		return estado;
 	}
-
+	
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-/*	
+/*
 	public dto.Proveedor toDTO() {
-		return new dto.Proveedor(this.razonSocial,this.direccion,this.cuil,this.condicionesPago,
-								this.descuento,this.condicionesCompra,this.listaPrecios,this.estado);
+		return new dto.Proveedor(this.condicionesCompra,this.cuil,this.direccion,this.estado,
+						this.listasDePrecios,this.LPVigente,this.razonSocial);
 	}
 */
 }

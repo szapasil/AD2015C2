@@ -4,6 +4,7 @@ import interfaz.IOV;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Date;
 import java.util.List;
 
 import dominio.Cliente;
@@ -14,6 +15,7 @@ import dominio.OrdenDeCompra;
 import dominio.OrdenDePedido;
 import dominio.Remito;
 import dominio.SolicitudCotizacion;
+import dao.ClienteDAO;
 
 public class OV extends UnicastRemoteObject implements IOV {
 
@@ -120,5 +122,27 @@ public class OV extends UnicastRemoteObject implements IOV {
 	public void setCondicionPago(List<CondPago> condicionesPago) {
 		this.condicionesPago = condicionesPago;
 	}
+	
+	
+	
+	/* ABM Clientes - Gaston 04/10 */
+	
+	public void altaCliente(String cuil, String razonSocial, java.sql.Date fechaRegistro, 
+			CondPago condPago, String direccion) throws RemoteException {
+		Cliente c = new Cliente();
+		c.setCuil(cuil);
+		c.setRazonSocial(razonSocial);
+		c.setFechaRegistro(fechaRegistro);
+		c.setDireccion(direccion);
+		c.setCondicionesPago(condPago);
+		c.setSolicitudesCotizacion(null);
+		
+		ClienteDAO.getInstancia().crearCliente(c);
+		
+			
+	}
+	
+	
+	
 		
 }

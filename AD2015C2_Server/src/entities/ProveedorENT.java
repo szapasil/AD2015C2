@@ -1,30 +1,25 @@
-package dominio;
+package entities;
 
-public class Proveedor {
+import javax.persistence.CascadeType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+import dominio.ListaPrecios;
+
+public class ProveedorENT {
+
+	@Id
+	private String cuil;
 	private String razonSocial;
 	private String direccion;
-	private String cuil;
 	private String condicionesPago;
 	private float descuento;
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="listaPrecios")
 	private ListaPrecios listaPrecios;
 	private String estado;
 
-
-	public Proveedor(String razonSocial,String direccion,String cuil,String condicionesPago,float descuento) {
-		super();
-		this.razonSocial = razonSocial;
-		this.direccion = direccion;
-		this.cuil = cuil;
-		this.condicionesPago = condicionesPago;
-		this.descuento = descuento;
-		this.listaPrecios = new ListaPrecios();
-		this.estado = "activo";
-	}
-	
-	public Proveedor() {
-		
-	}
-	
 	public String getRazonSocial() {
 		return razonSocial;
 	}
@@ -80,10 +75,5 @@ public class Proveedor {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-/*	
-	public dto.Proveedor toDTO() {
-		return new dto.Proveedor(this.razonSocial,this.direccion,this.cuil,this.condicionesPago,
-								this.descuento,this.condicionesCompra,this.listaPrecios,this.estado);
-	}
-*/
+	
 }

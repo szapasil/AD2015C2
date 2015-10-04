@@ -1,11 +1,8 @@
 package entities;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import java.util.List;
 
-import dominio.ListaPrecios;
+import javax.persistence.*;
 
 public class ProveedorENT {
 
@@ -13,61 +10,61 @@ public class ProveedorENT {
 	private String cuil;
 	private String razonSocial;
 	private String direccion;
-	private String condicionesPago;
-	private float descuento;
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="listaPrecios")
-	private ListaPrecios listaPrecios;
+	private List<CondCompraProvENT> condicionesCompra;
+	private int LPVigente;
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="listasDePrecios")
+	private List<ListaPreciosENT> listasDePrecios;
 	private String estado;
-
-	public String getRazonSocial() {
-		return razonSocial;
-	}
-
-	public void setRazonSocial(String razonSocial) {
-		this.razonSocial = razonSocial;
-	}
-
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-
+	
 	public String getCuil() {
 		return cuil;
 	}
-
+	
 	public void setCuil(String cuil) {
 		this.cuil = cuil;
 	}
-
-	public String getCondicionesPago() {
-		return condicionesPago;
+	
+	public String getRazonSocial() {
+		return razonSocial;
 	}
-
-	public void setCondicionesPago(String condicionesPago) {
-		this.condicionesPago = condicionesPago;
+	
+	public void setRazonSocial(String razonSocial) {
+		this.razonSocial = razonSocial;
 	}
-
-	public float getDescuento() {
-		return descuento;
+	
+	public String getDireccion() {
+		return direccion;
 	}
-
-	public void setDescuento(float descuento) {
-		this.descuento = descuento;
+	
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
-
-	public ListaPrecios getListaPrecios() {
-		return listaPrecios;
+	
+	public List<CondCompraProvENT> getCondicionesCompra() {
+		return condicionesCompra;
 	}
-
-	public void setListaPrecios(ListaPrecios listaPrecios) {
-		this.listaPrecios = listaPrecios;
+	
+	public void setCondicionesCompra(List<CondCompraProvENT> condicionesCompra) {
+		this.condicionesCompra = condicionesCompra;
 	}
-
+	
+	public int getLPVigente() {
+		return LPVigente;
+	}
+	
+	public void setLPVigente(int lPVigente) {
+		LPVigente = lPVigente;
+	}
+	
+	public List<ListaPreciosENT> getListasDePrecios() {
+		return listasDePrecios;
+	}
+	
+	public void setListasDePrecios(List<ListaPreciosENT> listasDePrecios) {
+		this.listasDePrecios = listasDePrecios;
+	}
+	
 	public String getEstado() {
 		return estado;
 	}

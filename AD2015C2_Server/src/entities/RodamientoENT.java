@@ -1,7 +1,14 @@
-package dominio;
+package entities;
 
-public class Rodamiento {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="rodamientos")
+public class RodamientoENT {
+
+	@Id
 	private String codRodamiento;
 	private String marca;
 	private String pais;
@@ -10,18 +17,6 @@ public class Rodamiento {
 	private String codSFK;
 	private int stock;
 	
-	public Rodamiento(String codRodamiento, String marca, String pais,
-			String tipo, String medidas, String codSFK, int stock) {
-		super();
-		this.codRodamiento = codRodamiento;
-		this.marca = marca;
-		this.pais = pais;
-		this.tipo = tipo;
-		this.medidas = medidas;
-		this.codSFK = codSFK;
-		this.stock = stock;
-	}
-
 	public String getCodRodamiento() {
 		return codRodamiento;
 	}
@@ -77,10 +72,5 @@ public class Rodamiento {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-/*
-	public dto.Rodamiento toDTO() {
-		return new dto.Rodamiento(this.codRodamiento,this.codSFK,this.marca,this.medidas,
-								this.pais,this.stock,this.tipo);
-	}
-*/	
+	
 }

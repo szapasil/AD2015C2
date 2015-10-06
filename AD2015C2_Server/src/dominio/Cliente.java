@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.ClienteDAO;
+
 
 
 
@@ -85,6 +87,9 @@ public void setSolicitudesCotizacion(
 	this.solicitudesCotizacion = solicitudesCotizacion;
 }
 	
+public static Cliente buscarClienteDAO(String cuil) {
+	return ClienteDAO.getInstancia().BuscarCliente(cuil);
+}
 	
 /* TODO: Ver esta operacion*/
 public int calcularAntiguedad(){

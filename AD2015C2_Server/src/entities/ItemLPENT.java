@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name="itemsLP")
 public class ItemLPENT extends PersistentObject {
 	
-	@Id
+
 	private RodamientoENT rodamiento;
 	private float precio;
 	private int stock;

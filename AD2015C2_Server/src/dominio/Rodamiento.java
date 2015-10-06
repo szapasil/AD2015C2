@@ -8,10 +8,9 @@ public class Rodamiento {
 	private String tipo;
 	private String medidas;
 	private String codSFK;
-	private int stock;
 	
-	public Rodamiento(String codRodamiento, String marca, String pais,
-			String tipo, String medidas, String codSFK, int stock) {
+	public Rodamiento(String codRodamiento, String marca, String pais, String tipo, 
+			String medidas, String codSFK) {
 		super();
 		this.codRodamiento = codRodamiento;
 		this.marca = marca;
@@ -19,7 +18,10 @@ public class Rodamiento {
 		this.tipo = tipo;
 		this.medidas = medidas;
 		this.codSFK = codSFK;
-		this.stock = stock;
+	}
+	
+	public Rodamiento() {
+	
 	}
 
 	public String getCodRodamiento() {
@@ -70,13 +72,6 @@ public class Rodamiento {
 		this.codSFK = codSFK;
 	}
 
-	public int getStock() {
-		return stock;
-	}
-
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
 /*
 	public dto.Rodamiento toDTO() {
 		return new dto.Rodamiento(this.codRodamiento,this.codSFK,this.marca,this.medidas,

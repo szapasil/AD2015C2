@@ -11,8 +11,12 @@ public class HibernateUtil {
     static {
         try {
         	 AnnotationConfiguration config = new AnnotationConfiguration();
-        	 config.addAnnotatedClass(entities.ProveedorENT.class);
+        	 config.addAnnotatedClass(entities.CondCompraENT.class);
+        	 config.addAnnotatedClass(entities.CondCompraProvENT.class);
+        	 config.addAnnotatedClass(entities.ItemLPENT.class);
         	 config.addAnnotatedClass(entities.ListaPreciosENT.class);
+        	 config.addAnnotatedClass(entities.ProveedorENT.class);
+        	 config.addAnnotatedClass(entities.RodamientoENT.class);
         	 sessionFactory = config.buildSessionFactory();
         }
         catch (Throwable ex) {

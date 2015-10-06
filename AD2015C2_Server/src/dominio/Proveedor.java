@@ -1,27 +1,32 @@
 package dominio;
 
+import hbt.HibernateDAO;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import dao.ProveedorDAO;
+
 public class Proveedor {
+	private String cuit;
 	private String razonSocial;
 	private String direccion;
-	private String cuil;
 	private List<CondCompraProv> condicionesCompra;
 	private int LPVigente;
 	private List<ListaPrecios> listasDePrecios;
 	private String estado;
 	
-	public Proveedor(String razonSocial, String direccion, String cuil,
-			List<CondCompraProv> condicionesCompra, int lPVigente,
-			List<ListaPrecios> listasDePrecios, String estado) {
+	public Proveedor(String cuit,String razonSocial, String direccion) {
 		super();
+		this.cuit = cuit;
 		this.razonSocial = razonSocial;
 		this.direccion = direccion;
-		this.cuil = cuil;
-		this.condicionesCompra = condicionesCompra;
-		LPVigente = lPVigente;
-		this.listasDePrecios = listasDePrecios;
-		this.estado = estado;
+		this.condicionesCompra = new ArrayList<CondCompraProv>();
+		LPVigente = -1;
+		this.listasDePrecios = new ArrayList<ListaPrecios>();
+		this.estado = "activo";
+		HibernateDAO.getInstancia().saveOrUpdate(this);
+		//ProveedorDAO.getInstancia().Insert(this);
 	}
 	
 	public String getRazonSocial() {
@@ -41,11 +46,11 @@ public class Proveedor {
 	}
 	
 	public String getCuil() {
-		return cuil;
+		return cuit;
 	}
 	
-	public void setCuil(String cuil) {
-		this.cuil = cuil;
+	public void setCuil(String cuit) {
+		this.cuit = cuit;
 	}
 	
 	public List<CondCompraProv> getCondicionesCompra() {
@@ -81,7 +86,7 @@ public class Proveedor {
 	}
 /*
 	public dto.Proveedor toDTO() {
-		return new dto.Proveedor(this.condicionesCompra,this.cuil,this.direccion,this.estado,
+		return new dto.Proveedor(this.condicionesCompra,this.cuit,this.direccion,this.estado,
 						this.listasDePrecios,this.LPVigente,this.razonSocial);
 	}
 */

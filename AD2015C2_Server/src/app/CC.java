@@ -2,6 +2,7 @@ package app;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 
 import dominio.OrdenDeCompra;
@@ -28,19 +29,14 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		return instancia;
 	}
 	
-	public CC(List<OV> ovs, List<Rodamiento> rodamientos, List<Proveedor> proveedores, 
-			List<OrdenDeCompra> ordenesDeCompra, List<SolicitudDeCompra> solicitudesDeCompra,
-			float porcentajeGanancia) throws RemoteException {
-		super();
-		this.ovs = ovs;
-		this.rodamientos = rodamientos;
-		this.proveedores = proveedores;
-		this.ordenesDeCompra = ordenesDeCompra;
-		this.solicitudesDeCompra = solicitudesDeCompra;
-		this.porcentajeGanancia = porcentajeGanancia;
-	}
-
 	public CC() throws RemoteException {
+		super();
+		this.ovs = new ArrayList<OV>();
+		this.rodamientos = new ArrayList<Rodamiento>();
+		this.proveedores = new ArrayList<Proveedor>();
+		this.ordenesDeCompra = new ArrayList<OrdenDeCompra>();
+		this.solicitudesDeCompra = new ArrayList<SolicitudDeCompra>();
+		this.porcentajeGanancia = 35;
 	}
 
 	public List<OV> getOvs() {
@@ -89,6 +85,16 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 
 	public void setPorcentajeGanancia(float porcentajeGanancia) {
 		this.porcentajeGanancia = porcentajeGanancia;
+	}
+
+	//PUNTO 1 - ABM PROVEEDOR
+	@Override
+	public void altaProveedor(String cuit, String razonSocial, String direccion) throws RemoteException {
+//		Proveedor prov = buscarProveedor(cuit);
+//		if(prov==null) {
+			Proveedor prov = new Proveedor(cuit, razonSocial, direccion);
+			proveedores.add(prov);
+//		}
 	}
 
 }

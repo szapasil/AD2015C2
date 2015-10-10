@@ -100,7 +100,9 @@ public class Proveedor {
 
 	public static Proveedor buscarProveedorDAO(String cuit) {
 		ProveedorENT provENT = ProveedorDAO.getInstancia().BuscarProveedor(cuit);
-		return toDOM(provENT);
+		if(provENT!=null)
+			return toDOM(provENT);
+		return null;
 	}
 
 	private static Proveedor toDOM(ProveedorENT provENT) {

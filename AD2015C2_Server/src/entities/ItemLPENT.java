@@ -2,6 +2,7 @@ package entities;
 
 import hbt.PersistentObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -19,6 +20,19 @@ public class ItemLPENT extends PersistentObject {
 	@JoinColumn(name="itemLP")
 	private List<CondCompraENT> condicionesCompra;
 
+	public ItemLPENT() {
+		
+	}
+	
+	public ItemLPENT(RodamientoENT rodamiento, float precio, int stock) {
+		super();
+		this.rodamiento = rodamiento;
+		this.precio = precio;
+		this.stock = stock;
+		this.condicionesCompra = new ArrayList<CondCompraENT>();
+	}
+	
+	
 	public RodamientoENT getRodamiento() {
 		return rodamiento;
 	}
@@ -50,5 +64,5 @@ public class ItemLPENT extends PersistentObject {
 	public void setCondicionesCompra(List<CondCompraENT> condicionesCompra) {
 		this.condicionesCompra = condicionesCompra;
 	}
-	
+
 }

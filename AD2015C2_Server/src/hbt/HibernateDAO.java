@@ -19,11 +19,7 @@ public class HibernateDAO {
 		
 		return instancia;
 	}
-/*	
-	static  {
-		sf = HibernateUtil.getSessionFactory();
-	}
-*/
+
 	protected Session getSession() {
 		if(session == null || !session.isOpen())
 			session = sf.openSession();

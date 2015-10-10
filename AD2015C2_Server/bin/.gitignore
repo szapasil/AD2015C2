@@ -4,3 +4,6 @@
 /app/
 /dao/
 /srv/
+/entities/
+/dominio/
+/hbt/

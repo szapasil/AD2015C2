@@ -1,42 +1,40 @@
-package dominio;
+package entities;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.ClienteDAO;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import dominio.CondPago;
+import dominio.SolicitudCotizacion;
 
 
+@Entity
+@Table(name="CLIENTES")
 
-
-public class Cliente {
+public class ClienteENT {
 	
 	
 	private String razonSocial;
 	private String direccion;
-
+	@Id
+	@Column(length=11)
 	private String cuil;
 	private CondPago condicionesPago;
 	private java.sql.Date fechaRegistro;
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="cuilCliente")
 	private List<SolicitudCotizacion> solicitudesCotizacion;
 
 	
 	
-	public Cliente(String razonSocial, String cuil, Date fechaRegistro, CondPago condicionesPago, String direccion,
-		       List<SolicitudCotizacion> solicitudesContizacion) {
-	super();
-	this.razonSocial = razonSocial;
-	this.cuil = cuil;
-	this.fechaRegistro = fechaRegistro;
-	this.condicionesPago = condicionesPago;
-	this.direccion = direccion;
-	this.solicitudesCotizacion =  new ArrayList<SolicitudCotizacion>();
-}
-
-public Cliente()
-{
-	
-}
 
 public String getRazonSocial() {
 	return razonSocial;
@@ -87,9 +85,6 @@ public void setSolicitudesCotizacion(
 	this.solicitudesCotizacion = solicitudesCotizacion;
 }
 	
-public static Cliente buscarClienteDAO(String cuil) {
-	return ClienteDAO.getInstancia().BuscarCliente(cuil);
-}
 	
 /* TODO: Ver esta operacion*/
 public int calcularAntiguedad(){

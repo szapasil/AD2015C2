@@ -40,11 +40,11 @@ public class ProveedorENT {
 		this.estado = estado;
 	}
 
-	public String getCuil() {
+	public String getCuit() {
 		return cuit;
 	}
 	
-	public void setCuil(String cuit) {
+	public void setCuit(String cuit) {
 		this.cuit = cuit;
 	}
 	

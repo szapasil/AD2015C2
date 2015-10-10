@@ -16,7 +16,6 @@ public class HibernateDAO {
 			instancia = new HibernateDAO();
 			sf = HibernateUtil.getSessionFactory();
 		}
-		
 		return instancia;
 	}
 

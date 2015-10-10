@@ -139,9 +139,18 @@ public class OV extends UnicastRemoteObject implements IOV {
 		
 		ClienteDAO.getInstancia().crearCliente(c);
 		
-			
 	}
 	
+
+	public void bajaCliente(String cuil) throws RemoteException {
+		ClienteDAO.getInstancia().bajaCliente(cuil);
+	}
+
+
+	public void modificarCliente(String cuil, String razsoc, String direccion) throws RemoteException{
+		ClienteDAO.getInstancia().modificarCliente(cuil, razsoc,  direccion);
+	}
+
 	
 	
 		

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.ProveedorDAO;
+
 import entities.ProveedorENT;
 
 public class Proveedor {
@@ -24,7 +25,7 @@ public class Proveedor {
 		this.razonSocial = razonSocial;
 		this.direccion = direccion;
 		this.condicionesCompra = new ArrayList<CondCompraProv>();
-		LPVigente = 0;
+		this.LPVigente = 0;
 		this.listasDePrecios = new ArrayList<ListaPrecios>();
 		this.estado = "activo";
 		ProveedorENT provENT = toENT();
@@ -103,7 +104,7 @@ public class Proveedor {
 	}
 
 	private static Proveedor toDOM(ProveedorENT provENT) {
-		return new Proveedor(provENT.getCuil(), provENT.getRazonSocial(), provENT.getDireccion());
+		return new Proveedor(provENT.getCuit(), provENT.getRazonSocial(), provENT.getDireccion());
 	}
 
 	public void baja() {

@@ -1,6 +1,7 @@
 package entities;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -18,6 +19,18 @@ public class ListaPreciosENT {
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="nroLP")
 	private List<ItemLPENT> items;
+
+	public ListaPreciosENT() {
+		
+	}
+	
+	public ListaPreciosENT(int numero, Date fecha, ProveedorENT proveedor) {
+		super();
+		this.numero = numero;
+		this.fecha = fecha;
+		this.proveedor = proveedor;
+		this.items = new ArrayList<ItemLPENT>();
+	}
 
 	public int getNumero() {
 		return numero;

@@ -35,7 +35,7 @@ public class ProveedorENT {
 		this.razonSocial = razonSocial;
 		this.direccion = direccion;
 		this.condicionesCompraProv = new ArrayList<CondCompraProvENT>();
-		LPVigente = lPVigente;
+		this.LPVigente = lPVigente;
 		this.listasDePrecios = new ArrayList<ListaPreciosENT>();
 		this.estado = estado;
 	}

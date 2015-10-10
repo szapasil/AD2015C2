@@ -15,8 +15,22 @@ public class RodamientoENT {
 	private String tipo;
 	private String medidas;
 	private String codSFK;
-	private int stock;
 	
+	public RodamientoENT() {
+		
+	}
+	
+	public RodamientoENT(String codRodamiento, String marca, String pais,
+			String tipo, String medidas, String codSFK) {
+		super();
+		this.codRodamiento = codRodamiento;
+		this.marca = marca;
+		this.pais = pais;
+		this.tipo = tipo;
+		this.medidas = medidas;
+		this.codSFK = codSFK;
+	}
+
 	public String getCodRodamiento() {
 		return codRodamiento;
 	}
@@ -65,12 +79,4 @@ public class RodamientoENT {
 		this.codSFK = codSFK;
 	}
 
-	public int getStock() {
-		return stock;
-	}
-
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
-	
 }

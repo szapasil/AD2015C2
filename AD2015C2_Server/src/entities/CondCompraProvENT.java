@@ -13,6 +13,17 @@ public class CondCompraProvENT extends PersistentObject{
 	private int valor;
 	private float bonificacion;
 	
+	public CondCompraProvENT() {
+		
+	}
+	
+	public CondCompraProvENT(String tipo, int valor, float bonificacion) {
+		super();
+		this.tipo = tipo;
+		this.valor = valor;
+		this.bonificacion = bonificacion;
+	}
+
 	public String getTipo() {
 		return tipo;
 	}

@@ -47,4 +47,12 @@ public class HibernateDAO {
 		session.close();
 	}
 	
+	public void delete(Object objeto){
+		session = getSession();
+		session.beginTransaction();
+		session.delete(objeto);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
 }

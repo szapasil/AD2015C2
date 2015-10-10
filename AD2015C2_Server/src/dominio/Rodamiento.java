@@ -1,5 +1,9 @@
 package dominio;
 
+import hbt.HibernateDAO;
+import dao.RodamientoDAO;
+import entities.RodamientoENT;
+
 public class Rodamiento {
 
 	private String codRodamiento;
@@ -71,11 +75,47 @@ public class Rodamiento {
 	public void setCodSFK(String codSFK) {
 		this.codSFK = codSFK;
 	}
+	
+	private static Rodamiento toDOM(RodamientoENT rodENT) {
+		return new Rodamiento(rodENT.getCodRodamiento(),rodENT.getMarca(),rodENT.getPais(),rodENT.getTipo(),
+				rodENT.getMedidas(),rodENT.getCodSFK());
+	}
 
+	private RodamientoENT toENT() {
+		return new RodamientoENT(codRodamiento, marca, pais, tipo, medidas, codSFK);
+	}
 /*
 	public dto.Rodamiento toDTO() {
 		return new dto.Rodamiento(this.codRodamiento,this.codSFK,this.marca,this.medidas,
 								this.pais,this.stock,this.tipo);
 	}
-*/	
+*/
+
+	public static Rodamiento buscarRodamientoDAO(String codRodamiento) {
+		RodamientoENT rodENT = RodamientoDAO.getInstancia().BuscarRodamiento(codRodamiento);
+		if(rodENT!=null)
+			return toDOM(rodENT);
+		return null;
+	}
+
+	public void baja() {
+		RodamientoENT rodENT = toENT();
+		HibernateDAO.getInstancia().delete(rodENT);
+	}
+	
+	public void modificar(String marca, String pais, String tipo, String medidas, String codSFK) {
+		if(!marca.isEmpty())
+			this.marca = marca;
+		if(!pais.isEmpty())
+			this.pais = pais;
+		if(!tipo.isEmpty())
+			this.tipo = tipo;
+		if(!medidas.isEmpty())
+			this.medidas = medidas;
+		if(!codSFK.isEmpty())
+			this.codSFK = codSFK;
+		RodamientoENT rodENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(rodENT);
+	}
+	
 }

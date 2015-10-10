@@ -88,25 +88,11 @@ public class Proveedor {
 		this.estado = estado;
 	}
 	
-	public ProveedorENT toENT() {
-		return new ProveedorENT(cuit, razonSocial, direccion, LPVigente, estado);
-	}
-/*
-	public dto.Proveedor toDTO() {
-		return new dto.Proveedor(this.condicionesCompra,this.cuit,this.direccion,this.estado,
-						this.listasDePrecios,this.LPVigente,this.razonSocial);
-	}
-*/
-
 	public static Proveedor buscarProveedorDAO(String cuit) {
 		ProveedorENT provENT = ProveedorDAO.getInstancia().BuscarProveedor(cuit);
 		if(provENT!=null)
 			return toDOM(provENT);
 		return null;
-	}
-
-	private static Proveedor toDOM(ProveedorENT provENT) {
-		return new Proveedor(provENT.getCuit(), provENT.getRazonSocial(), provENT.getDireccion());
 	}
 
 	public void baja() {
@@ -124,4 +110,17 @@ public class Proveedor {
 		HibernateDAO.getInstancia().saveOrUpdate(provENT);
 	}
 	
+	private static Proveedor toDOM(ProveedorENT provENT) {
+		return new Proveedor(provENT.getCuit(), provENT.getRazonSocial(), provENT.getDireccion());
+	}
+	
+	public ProveedorENT toENT() {
+		return new ProveedorENT(cuit, razonSocial, direccion, LPVigente, estado);
+	}
+/*
+	public dto.Proveedor toDTO() {
+		return new dto.Proveedor(this.condicionesCompra,this.cuit,this.direccion,this.estado,
+						this.listasDePrecios,this.LPVigente,this.razonSocial);
+	}
+*/
 }

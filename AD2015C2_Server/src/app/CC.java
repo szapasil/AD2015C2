@@ -123,4 +123,42 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			System.out.print("No existe un Proveedor con ese cuit");
 	}
 	
+	//ABM RODAMIENTO
+		public void altaRodamiento(String codRodamiento, String marca, String pais,	String tipo,
+				String medidas, String codSFK) throws RemoteException {
+			Rodamiento rod = buscarRodamiento(codRodamiento);
+			if(rod==null) {
+				rod = new Rodamiento(codRodamiento, marca, pais, tipo, medidas, codSFK);
+				rodamientos.add(rod);
+			}
+			else
+				System.out.print("Ya existe un Rodamiento con ese codigo");
+		}
+
+		private Rodamiento buscarRodamiento(String codRodamiento) {
+			for(Rodamiento r:rodamientos)
+				if(r.getCodRodamiento().equals(codRodamiento))
+					return r;		
+			return Rodamiento.buscarRodamientoDAO(codRodamiento);
+		}
+		
+		public void bajaRodamiento(String codRodamiento) throws RemoteException {
+			Rodamiento rod = buscarRodamiento(codRodamiento);
+			if(rod!=null) {
+				rod.baja();
+				rodamientos.remove(rod);
+			}
+			else
+				System.out.print("No existe un Rodamiento con ese codigo");
+		}
+
+		public void modificarRodamiento(String codRodamiento,String marca, String pais,	String tipo,
+				String medidas, String codSFK) throws RemoteException {
+			Rodamiento rod = buscarRodamiento(codRodamiento);
+			if(rod!=null) {
+				rod.modificar(marca, pais, tipo, medidas, codSFK);
+			}
+			else
+				System.out.print("No existe un Rodamiento con ese codigo");
+		}
 }

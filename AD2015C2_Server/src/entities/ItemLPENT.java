@@ -1,21 +1,22 @@
 package entities;
 
-import java.util.List;
-
 import hbt.PersistentObject;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name="itemsLP")
 public class ItemLPENT extends PersistentObject {
 	
-
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="codRodamiento")
 	private RodamientoENT rodamiento;
 	private float precio;
 	private int stock;
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="itemLP")
 	private List<CondCompraENT> condicionesCompra;
 
 	public RodamientoENT getRodamiento() {

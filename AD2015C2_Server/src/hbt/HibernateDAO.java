@@ -16,14 +16,9 @@ public class HibernateDAO {
 			instancia = new HibernateDAO();
 			sf = HibernateUtil.getSessionFactory();
 		}
-		
 		return instancia;
 	}
-/*	
-	static  {
-		sf = HibernateUtil.getSessionFactory();
-	}
-*/
+
 	protected Session getSession() {
 		if(session == null || !session.isOpen())
 			session = sf.openSession();

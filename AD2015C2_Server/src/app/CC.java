@@ -88,13 +88,39 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 	}
 
 	//PUNTO 1 - ABM PROVEEDOR
-	@Override
 	public void altaProveedor(String cuit, String razonSocial, String direccion) throws RemoteException {
-//		Proveedor prov = buscarProveedor(cuit);
-//		if(prov==null) {
-			Proveedor prov = new Proveedor(cuit, razonSocial, direccion);
+		Proveedor prov = buscarProveedor(cuit);
+		if(prov==null) {
+			prov = new Proveedor(cuit, razonSocial, direccion);
 			proveedores.add(prov);
-//		}
+		}
+		else
+			System.out.print("Ya existe un Proveedor con ese cuit");
+	}
+	
+	public Proveedor buscarProveedor(String cuit) throws RemoteException{
+		for(Proveedor p:proveedores)
+			if(p.getCuit().equals(cuit))
+				return p;		
+		return Proveedor.buscarProveedorDAO(cuit);
 	}
 
+	public void bajaProveedor(String cuit) throws RemoteException {
+		Proveedor prov = buscarProveedor(cuit);
+		if(prov!=null) {
+			prov.baja();
+		}
+		else
+			System.out.print("No existe un Proveedor con ese cuit");
+	}
+
+	public void modificarProveedor(String cuit,String razonSocial, String direccion) throws RemoteException {
+		Proveedor prov = buscarProveedor(cuit);
+		if(prov!=null) {
+			prov.modificar(razonSocial,direccion);
+		}
+		else
+			System.out.print("No existe un Proveedor con ese cuit");
+	}
+	
 }

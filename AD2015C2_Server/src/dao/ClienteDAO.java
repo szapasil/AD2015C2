@@ -71,6 +71,5 @@ public class ClienteDAO {
 		session.getTransaction().commit();
 		session.close();
 	}
-
 	
 }

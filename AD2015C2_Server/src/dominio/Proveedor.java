@@ -7,7 +7,10 @@ import java.util.List;
 
 import dao.ProveedorDAO;
 
+import entities.ProveedorENT;
+
 public class Proveedor {
+
 	private String cuit;
 	private String razonSocial;
 	private String direccion;
@@ -22,11 +25,11 @@ public class Proveedor {
 		this.razonSocial = razonSocial;
 		this.direccion = direccion;
 		this.condicionesCompra = new ArrayList<CondCompraProv>();
-		LPVigente = -1;
+		this.LPVigente = 0;
 		this.listasDePrecios = new ArrayList<ListaPrecios>();
 		this.estado = "activo";
-		HibernateDAO.getInstancia().saveOrUpdate(this);
-		//ProveedorDAO.getInstancia().Insert(this);
+		ProveedorENT provENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(provENT);
 	}
 	
 	public String getRazonSocial() {
@@ -45,11 +48,11 @@ public class Proveedor {
 		this.direccion = direccion;
 	}
 	
-	public String getCuil() {
+	public String getCuit() {
 		return cuit;
 	}
 	
-	public void setCuil(String cuit) {
+	public void setCuit(String cuit) {
 		this.cuit = cuit;
 	}
 	
@@ -84,10 +87,39 @@ public class Proveedor {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+	
+	public ProveedorENT toENT() {
+		return new ProveedorENT(cuit, razonSocial, direccion, LPVigente, estado);
+	}
 /*
 	public dto.Proveedor toDTO() {
 		return new dto.Proveedor(this.condicionesCompra,this.cuit,this.direccion,this.estado,
 						this.listasDePrecios,this.LPVigente,this.razonSocial);
 	}
 */
+
+	public static Proveedor buscarProveedorDAO(String cuit) {
+		ProveedorENT provENT = ProveedorDAO.getInstancia().BuscarProveedor(cuit);
+		return toDOM(provENT);
+	}
+
+	private static Proveedor toDOM(ProveedorENT provENT) {
+		return new Proveedor(provENT.getCuit(), provENT.getRazonSocial(), provENT.getDireccion());
+	}
+
+	public void baja() {
+		this.estado = "inactivo";
+		ProveedorENT provENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(provENT);
+	}
+
+	public void modificar(String razonSocial, String direccion) {
+		if(!direccion.isEmpty())
+			this.direccion = direccion;
+		if(!razonSocial.isEmpty())
+			this.razonSocial = razonSocial;
+		ProveedorENT provENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(provENT);
+	}
+	
 }

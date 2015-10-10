@@ -2,10 +2,11 @@ package dao;
 
 import hbt.HibernateUtil;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import dominio.Proveedor;
+import entities.ProveedorENT;
 
 public class ProveedorDAO {
 	protected static ProveedorDAO instancia = null;
@@ -20,12 +21,14 @@ public class ProveedorDAO {
 		return instancia;
 	}
 	
-	public void Insert(Proveedor proveedor)	{
+	public ProveedorENT BuscarProveedor(String cuit) {
 		session = sf.openSession();
 		session.beginTransaction();
-		session.persist(proveedor);
-		session.getTransaction().commit();
+		Query query = session.createQuery("from ProveedorENT prov  where prov.cuit = :cuit");
+		query.setString("cuit", cuit);
+		ProveedorENT provENT = (ProveedorENT) query.uniqueResult();
+		session.flush();
 		session.close();
-	}
-	
+		return provENT;
+	}	
 }

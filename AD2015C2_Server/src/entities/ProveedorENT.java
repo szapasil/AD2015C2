@@ -1,28 +1,51 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
+import dominio.CondCompraProv;
+import dominio.ListaPrecios;
+
+@Entity
+@Table(name="proveedores")
 public class ProveedorENT {
 
 	@Id
-	private String cuil;
+	private String cuit;
 	private String razonSocial;
 	private String direccion;
-	private List<CondCompraProvENT> condicionesCompra;
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="cuitProveedor")
+	private List<CondCompraProvENT> condicionesCompraProv;
 	private int LPVigente;
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="listasDePrecios")
+	@JoinColumn(name="cuitProveedor")
 	private List<ListaPreciosENT> listasDePrecios;
 	private String estado;
 	
-	public String getCuil() {
-		return cuil;
+	public ProveedorENT() {
+		
 	}
 	
-	public void setCuil(String cuil) {
-		this.cuil = cuil;
+	public ProveedorENT(String cuit, String razonSocial, String direccion, int lPVigente, String estado) {
+		super();
+		this.cuit = cuit;
+		this.razonSocial = razonSocial;
+		this.direccion = direccion;
+		this.condicionesCompraProv = new ArrayList<CondCompraProvENT>();
+		LPVigente = lPVigente;
+		this.listasDePrecios = new ArrayList<ListaPreciosENT>();
+		this.estado = estado;
+	}
+
+	public String getCuit() {
+		return cuit;
+	}
+	
+	public void setCuit(String cuit) {
+		this.cuit = cuit;
 	}
 	
 	public String getRazonSocial() {
@@ -42,11 +65,11 @@ public class ProveedorENT {
 	}
 	
 	public List<CondCompraProvENT> getCondicionesCompra() {
-		return condicionesCompra;
+		return condicionesCompraProv;
 	}
 	
-	public void setCondicionesCompra(List<CondCompraProvENT> condicionesCompra) {
-		this.condicionesCompra = condicionesCompra;
+	public void setCondicionesCompra(List<CondCompraProvENT> condicionesCompraProv) {
+		this.condicionesCompraProv = condicionesCompraProv;
 	}
 	
 	public int getLPVigente() {

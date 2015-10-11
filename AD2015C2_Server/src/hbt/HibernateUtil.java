@@ -17,6 +17,8 @@ public class HibernateUtil {
         	 config.addAnnotatedClass(entities.ListaPreciosENT.class);
         	 config.addAnnotatedClass(entities.ProveedorENT.class);
         	 config.addAnnotatedClass(entities.RodamientoENT.class);
+        	 config.addAnnotatedClass(entities.ListaCompENT.class);
+        	 config.addAnnotatedClass(entities.ItemLCENT.class);
         	 sessionFactory = config.buildSessionFactory();
         }
         catch (Throwable ex) {

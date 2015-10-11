@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import dominio.CondCompraProv;
-import dominio.ListaPrecios;
-
 @Entity
 @Table(name="proveedores")
 public class ProveedorENT {

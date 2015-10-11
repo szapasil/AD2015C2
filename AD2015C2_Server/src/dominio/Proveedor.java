@@ -110,13 +110,14 @@ public class Proveedor {
 		HibernateDAO.getInstancia().saveOrUpdate(provENT);
 	}
 	
+	public ProveedorENT toENT() {
+		return new ProveedorENT(cuit, razonSocial, direccion, LPVigente, estado);
+	}
+	
 	private static Proveedor toDOM(ProveedorENT provENT) {
 		return new Proveedor(provENT.getCuit(), provENT.getRazonSocial(), provENT.getDireccion());
 	}
 	
-	public ProveedorENT toENT() {
-		return new ProveedorENT(cuit, razonSocial, direccion, LPVigente, estado);
-	}
 /*
 	public dto.Proveedor toDTO() {
 		return new dto.Proveedor(this.condicionesCompra,this.cuit,this.direccion,this.estado,

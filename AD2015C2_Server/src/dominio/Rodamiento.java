@@ -22,6 +22,8 @@ public class Rodamiento {
 		this.tipo = tipo;
 		this.medidas = medidas;
 		this.codSFK = codSFK;
+		RodamientoENT rodENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(rodENT);
 	}
 	
 	public Rodamiento() {

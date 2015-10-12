@@ -14,9 +14,13 @@ public class HibernateUtil {
         	 config.addAnnotatedClass(entities.CondCompraENT.class);
         	 config.addAnnotatedClass(entities.CondCompraProvENT.class);
         	 config.addAnnotatedClass(entities.ItemLPENT.class);
+        	 config.addAnnotatedClass(entities.ItemSolENT.class);
         	 config.addAnnotatedClass(entities.ListaPreciosENT.class);
         	 config.addAnnotatedClass(entities.ProveedorENT.class);
-        	 config.addAnnotatedClass(entities.RodamientoENT.class);
+           	 config.addAnnotatedClass(entities.RodamientoENT.class);
+           	 config.addAnnotatedClass(entities.ClienteENT.class);
+           	 config.addAnnotatedClass(entities.CondPagoENT.class);
+          	 config.addAnnotatedClass(entities.SolicitudCotizacionENT.class);
         	 sessionFactory = config.buildSessionFactory();
         }
         catch (Throwable ex) {

@@ -1,7 +1,13 @@
 package dominio;
 
+import hbt.HibernateDAO;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import entities.ProveedorENT;
+import entities.SolicitudCotizacionENT;
 
 
 public class SolicitudCotizacion {
@@ -10,7 +16,7 @@ public class SolicitudCotizacion {
 	
 	private Date fechaEnviada;	
 	private int numero;
-	private String cuilCliente;
+	private Cliente cliente;
 	private String estado;
 	private List<ItemSolicitud> items;
 	
@@ -18,13 +24,14 @@ public class SolicitudCotizacion {
 	
 	
 	public SolicitudCotizacion(Date fechaEnviada, int numero,
-			String cuilCliente, String estado, List<ItemSolicitud> items) {
+			Cliente cliente, String estado) {
 		super();
 		this.fechaEnviada = fechaEnviada;
 		this.numero = numero;
-		this.cuilCliente = cuilCliente;
+		this.cliente = cliente;
 		this.estado = estado;
-		this.items = items;
+		this.items =  new ArrayList<ItemSolicitud>();
+
 	}
 	
 		
@@ -54,13 +61,15 @@ public class SolicitudCotizacion {
 	}
 
 
-	public String getCuilCliente() {
-		return cuilCliente;
+
+
+	public Cliente getCliente() {
+		return cliente;
 	}
 
 
-	public void setCuilCliente(String cuilCliente) {
-		this.cuilCliente = cuilCliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 
@@ -82,7 +91,6 @@ public class SolicitudCotizacion {
 	public void setItems(List<ItemSolicitud> items) {
 		this.items = items;
 	}
-	
 	
 	
 	

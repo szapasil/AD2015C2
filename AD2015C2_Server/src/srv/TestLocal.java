@@ -1,8 +1,20 @@
 package srv;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
+import dao.ClienteDAO;
+import dominio.Cliente;
+import dominio.CondPago;
+import dominio.Cotizacion;
+import dominio.Factura;
+import dominio.OrdenDeCompra;
+import dominio.OrdenDePedido;
+import dominio.Remito;
+import dominio.SolicitudCotizacion;
+import entities.ClienteENT;
 import app.CC;
+import app.OV;
 
 public class TestLocal {
 
@@ -10,7 +22,7 @@ public class TestLocal {
 
 		try {
 			//ALTA PROVEEDOR
-//			CC.getInstancia().altaProveedor("30-00000002-9", "Rodamientos Malos", " Av. San Juan 2331");
+		//	CC.getInstancia().altaProveedor("30-00000002-1", "Rodamientos Malos", " Av. San Juan 2332");
 		
 			//BAJA PROVEEDOR
 //			CC.getInstancia().bajaProveedor("30-00000002-9");
@@ -31,7 +43,32 @@ public class TestLocal {
 //			CC.getInstancia().bajaRodamiento("RSA0001");
 			
 			//MODIFICAR RODAMIENTO
-			CC.getInstancia().modificarRodamiento("RSA0002", "", "", "", "2x4", "");
+			//CC.getInstancia().modificarRodamiento("RSA0002", "", "", "", "2x4", "");
+			
+			
+			OV ovtest = new OV("Suc1", null, null, null,
+					null, null, null, null, null); 		
+			
+			//ALTA CLIENTE
+		
+	//	ovtest.altaCliente("20-30000002-6", "Gaston R", " Oro 1800");
+
+			
+			//BAJA CLIENTE
+			//ovtest.bajaCliente("20-30000002-6");
+			
+			//MODIFICAR CLIENTE
+	//	ovtest.modificarCliente("20-30000002-6", "pepe", "Rivadavia 3054");
+	  		
+			//BUSCAR CLIENTE
+			// ClienteENT cliEnt = ClienteDAO.getInstancia().BuscarCliente("20-30000002-6");
+			
+			
+			//System.out.println(cliEnt.getDireccion());
+		
+		
+		
+
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();

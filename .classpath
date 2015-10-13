@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="AD2015C2_Base/src"/>
+	<classpathentry kind="src" path="AD2015C2_Cliente_Swing/src"/>
+	<classpathentry kind="src" path="AD2015C2_Cliente_Web/src"/>
+	<classpathentry kind="src" path="AD2015C2_Server/src"/>
+	<classpathentry kind="src" path="TPO_Distribuidas_Base/src"/>
+	<classpathentry kind="src" path="TPO_Distribuidas_Cliente_Swing/src"/>
+	<classpathentry kind="src" path="TPO_Distribuidas_Cliente_Web/src"/>
+	<classpathentry kind="src" path="TPO_Distribuidas_Server/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/ejb3-persistence.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/hibernate-commons-annotations.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/hibernate3.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/javassist-3.4.GA.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/jtds-1.2.5.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/slf4j-api-1.5.6.jar"/>
+	<classpathentry kind="lib" path="TPO_Distribuidas_Server/lib/slf4j-simple-1.5.6.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

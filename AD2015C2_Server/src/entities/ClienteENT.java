@@ -15,26 +15,39 @@ import javax.persistence.Table;
 import dominio.CondPago;
 import dominio.SolicitudCotizacion;
 
-
 @Entity
-@Table(name="CLIENTES")
-
+@Table(name="clientes")
 public class ClienteENT {
 	
-	
+	@Id
+	private String cuil;
 	private String razonSocial;
 	private String direccion;
-	@Id
-	@Column(length=11)
-	private String cuil;
-	private CondPago condicionesPago;
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="cuilCliente")
+	private List<CondPagoENT> condicionesPago;
 	private java.sql.Date fechaRegistro;
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="cuilCliente")
-	private List<SolicitudCotizacion> solicitudesCotizacion;
+	private List<SolicitudCotizacionENT> solicitudesCotizacion;
+	
 
+public ClienteENT() {
+
+}
 	
-	
+public ClienteENT(  String cuil, String razonSocial, String direccion) {
+		super();
+		this.razonSocial = razonSocial;
+		this.cuil = cuil;
+		long time = System.currentTimeMillis();
+		this.fechaRegistro  = new java.sql.Date(time);
+		this.condicionesPago = new ArrayList<CondPagoENT>();
+		this.direccion = direccion;
+		this.solicitudesCotizacion =  new ArrayList<SolicitudCotizacionENT>();
+	}
+
+
 
 public String getRazonSocial() {
 	return razonSocial;
@@ -60,11 +73,11 @@ public void setCuil(String cuil) {
 	this.cuil = cuil;
 }
 
-public CondPago getCondicionesPago() {
+public List<CondPagoENT> getCondicionesPago() {
 	return condicionesPago;
 }
 
-public void setCondicionesPago(CondPago condicionesPago) {
+public void setCondicionesPago(List<CondPagoENT> condicionesPago) {
 	this.condicionesPago = condicionesPago;
 }
 
@@ -76,12 +89,12 @@ public void setFechaRegistro(java.sql.Date fechaRegistro) {
 	this.fechaRegistro = fechaRegistro;
 }
 
-public List<SolicitudCotizacion> getSolicitudesCotizacion() {
+public List<SolicitudCotizacionENT> getSolicitudesCotizacion() {
 	return solicitudesCotizacion;
 }
 
 public void setSolicitudesCotizacion(
-		List<SolicitudCotizacion> solicitudesCotizacion) {
+		List<SolicitudCotizacionENT> solicitudesCotizacion) {
 	this.solicitudesCotizacion = solicitudesCotizacion;
 }
 	

@@ -7,6 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import dominio.Cliente;
+import entities.ClienteENT;
+
 
 
 public class ClienteDAO {
@@ -38,15 +40,17 @@ public class ClienteDAO {
 	}
 	
 	// Busca un cliente en DB por su CUIL
-	public Cliente BuscarCliente(String cuil) {
+	public ClienteENT BuscarCliente(String cuil) {
 		session = sf.openSession();
 		session.beginTransaction();
-		Query query = session.createQuery("FROM CLIENTES WHERE cuil = :cuil");
+		Query query = session.createQuery("FROM ClienteENT WHERE cuil = :cuil");
 		query.setString("cuil", cuil);
-		Cliente cli = (Cliente) query.uniqueResult();
+		ClienteENT cliENT = (ClienteENT) query.uniqueResult();
 		session.close();
-		return cli;
+		
+		return cliENT;
 	}
+	
 	
 	
 	public void bajaCliente(String cuil)

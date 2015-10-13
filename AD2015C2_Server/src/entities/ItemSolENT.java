@@ -1,21 +1,27 @@
-package dominio;
+package entities;
 
-public class ItemSolicitud {
-	
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import hbt.PersistentObject;
+
+
+@Entity
+@Table(name="itemsSOL")
+public class ItemSolENT extends PersistentObject { 
+
 	int cantidad;
 	String codRodamiento;
 	
+
+	public ItemSolENT( ) {
+
+	}
 	
-	public ItemSolicitud(int cantidad, String codRodamiento) {
+	public ItemSolENT(int cantidad, String codRodamiento) {
 		super();
 		this.cantidad = cantidad;
 		this.codRodamiento = codRodamiento;
-	}	
-	
-
-	public ItemSolicitud() {
-		
-		
 	}
 
 
@@ -42,7 +48,5 @@ public class ItemSolicitud {
 	
 	
 	
+	
 }
-
-
-

@@ -9,6 +9,7 @@ import dominio.OrdenDeCompra;
 import dominio.Proveedor;
 import dominio.Rodamiento;
 import dominio.SolicitudDeCompra;
+import dominio.ListaComp;
 
 public class CC extends UnicastRemoteObject implements interfaz.ICC {	
 
@@ -19,6 +20,7 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 	private List<Proveedor> proveedores;
 	private List<OrdenDeCompra> ordenesDeCompra;
 	private List<SolicitudDeCompra> solicitudesDeCompra;
+	private ListaComp ListaComp;
 	private float porcentajeGanancia;
 	
 	private static CC instancia;
@@ -36,6 +38,7 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		this.proveedores = new ArrayList<Proveedor>();
 		this.ordenesDeCompra = new ArrayList<OrdenDeCompra>();
 		this.solicitudesDeCompra = new ArrayList<SolicitudDeCompra>();
+		this.ListaComp = null;
 		this.porcentajeGanancia = 35;
 	}
 
@@ -77,6 +80,14 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 
 	public void setSolicitudesDeCompra(List<SolicitudDeCompra> solicitudesDeCompra) {
 		this.solicitudesDeCompra = solicitudesDeCompra;
+	}
+	
+	public ListaComp getListaComp() {
+		return ListaComp;
+	}
+
+	public void setListaComp(ListaComp listaComp) {
+		ListaComp = listaComp;
 	}
 
 	public float getPorcentajeGanancia() {
@@ -161,4 +172,10 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			else
 				System.out.print("No existe un Rodamiento con ese codigo");
 		}
+		
+		//ALTA LISTA COMPARATIVA (solo para prueba)
+		public void altaListaComp() throws RemoteException {
+			ListaComp lc = new ListaComp();
+				setListaComp(lc);
+			}
 }

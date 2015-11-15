@@ -16,10 +16,10 @@ public class ItemLCENT extends PersistentObject {
 	private RodamientoENT rodamiento;
 	private float precio;
 	private int stock;
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="itemLC")
 	private List<CondCompraENT> condicionesCompra;
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="cuitProveedor")
 	private ProveedorENT proveedor;
 	

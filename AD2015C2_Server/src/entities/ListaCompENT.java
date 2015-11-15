@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name="listaComparativa")
 public class ListaCompENT extends PersistentObject {
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="idListaComp")
 	private List<ItemLCENT> itemsLC;
 	

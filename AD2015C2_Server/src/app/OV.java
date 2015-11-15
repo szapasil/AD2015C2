@@ -4,6 +4,7 @@ import interfaz.IOV;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import dominio.Cotizacion;
 import dominio.Factura;
 import dominio.OrdenDeCompra;
 import dominio.OrdenDePedido;
+import dominio.Proveedor;
 import dominio.Remito;
+import dominio.Rodamiento;
 import dominio.SolicitudCotizacion;
 import dao.ClienteDAO;
 
@@ -36,15 +39,15 @@ public class OV extends UnicastRemoteObject implements IOV {
 			List<OrdenDeCompra> ordenesCompra, List<Remito> remitos,
 			List<CondPago> condicionesPago) throws RemoteException {
 		super();
-		this.sucursal = sucursal;
-		this.solicitudesCotizacion = solicitudesCotizacion;
-		this.cotizaciones = cotizaciones;
-		this.clientes = clientes;
-		this.facturas = facturas;
-		this.ordenesPedido = ordenesPedido;
-		this.ordenesCompra = ordenesCompra;
-		this.remitos = remitos;
-		this.condicionesPago = condicionesPago;
+		this.sucursal = sucursal;		
+		this.solicitudesCotizacion = new ArrayList<SolicitudCotizacion>();
+		this.cotizaciones = new ArrayList<Cotizacion>();
+		this.clientes = new ArrayList<Cliente>();
+		this.facturas = new ArrayList<Factura>();
+		this.ordenesPedido = new ArrayList<OrdenDePedido>();
+		this.ordenesCompra = new ArrayList<OrdenDeCompra>();
+		this.remitos =  new ArrayList<Remito>();
+		this.condicionesPago = new ArrayList<CondPago>();
 	}
 
 	public OV() throws RemoteException {
@@ -127,28 +130,48 @@ public class OV extends UnicastRemoteObject implements IOV {
 	
 	/* ABM Clientes - Gaston 04/10 */
 	
-	public void altaCliente(String cuil, String razonSocial, java.sql.Date fechaRegistro, 
-			CondPago condPago, String direccion) throws RemoteException {
-		Cliente c = new Cliente();
-		c.setCuil(cuil);
-		c.setRazonSocial(razonSocial);
-		c.setFechaRegistro(fechaRegistro);
-		c.setDireccion(direccion);
-		c.setCondicionesPago(condPago);
-		c.setSolicitudesCotizacion(null);
+	public void altaCliente(String cuil, String razonSocial, String direccion) throws RemoteException {
 		
-		ClienteDAO.getInstancia().crearCliente(c);
-		
+		Cliente c = buscarCliente(cuil);	
+		if(c==null){
+		 c = new Cliente(cuil, razonSocial, direccion);
+		//clientes.add(c);
+		}
+		else
+			System.out.print("Ya existe un Cliente con ese cuil");
+			
+			
 	}
 	
+	public Cliente buscarCliente(String cuil) throws RemoteException{
+		/*
+		 * for(Cliente c:clientes)
+			if(c.getCuil().equals(cuil))
+				return c;				
+		*/
+		return Cliente.buscarClienteDAO(cuil);
+	}
 
+	
+		
+	
 	public void bajaCliente(String cuil) throws RemoteException {
-		ClienteDAO.getInstancia().bajaCliente(cuil);
+		Cliente c = buscarCliente(cuil);	
+		if(c!=null){
+				c.baja();
+		}
+		else
+			System.out.print("No existe un Cliente con ese cuil");
 	}
 
 
-	public void modificarCliente(String cuil, String razsoc, String direccion) throws RemoteException{
-		ClienteDAO.getInstancia().modificarCliente(cuil, razsoc,  direccion);
+	public void modificarCliente(String cuil, String razonSocial, String direccion) throws RemoteException{
+		Cliente c = buscarCliente(cuil);	
+		if(c!=null){
+				c.modificar(razonSocial,direccion);
+		}
+		else
+			System.out.print("No existe un Cliente con ese cuil");
 	}
 
 	

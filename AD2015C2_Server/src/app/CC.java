@@ -5,11 +5,11 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import dominio.ListaComp;
 import dominio.OrdenDeCompra;
 import dominio.Proveedor;
 import dominio.Rodamiento;
 import dominio.SolicitudDeCompra;
+import dominio.ListaComp;
 
 public class CC extends UnicastRemoteObject implements interfaz.ICC {	
 
@@ -81,7 +81,7 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 	public void setSolicitudesDeCompra(List<SolicitudDeCompra> solicitudesDeCompra) {
 		this.solicitudesDeCompra = solicitudesDeCompra;
 	}
-
+	
 	public ListaComp getListaComp() {
 		return ListaComp;
 	}
@@ -178,5 +178,4 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			ListaComp lc = new ListaComp();
 				setListaComp(lc);
 			}
-		
 }

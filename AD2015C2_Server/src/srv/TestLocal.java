@@ -3,6 +3,7 @@ package srv;
 import java.rmi.RemoteException;
 
 import app.CC;
+import app.OV;
 
 public class TestLocal {
 
@@ -22,7 +23,28 @@ public class TestLocal {
 			//BUSCAR PROVEEDOR
 //			ProveedorENT provEnt = ProveedorDAO.getInstancia().BuscarProveedor("30-00000001-9");
 //			System.out.println(provEnt.getDireccion());
+	
+			OV ovtest = new OV("Suc1", null, null, null,
+					null, null, null, null, null); 		
+			
+			//ALTA CLIENTE
 		
+	//	ovtest.altaCliente("20-30000002-6", "Gaston R", " Oro 1800");
+
+			
+			//BAJA CLIENTE
+			//ovtest.bajaCliente("20-30000002-6");
+			
+			//MODIFICAR CLIENTE
+	//	ovtest.modificarCliente("20-30000002-6", "pepe", "Rivadavia 3054");
+	  		
+			//BUSCAR CLIENTE
+			// ClienteENT cliEnt = ClienteDAO.getInstancia().BuscarCliente("20-30000002-6");
+			
+			
+			//System.out.println(cliEnt.getDireccion());
+				
+			
 			//ALTA RODAMIENTO
 			CC.getInstancia().altaRodamiento("RSA0001", "ZKL", "USA", "Bolilla", "1x3", "SFK2502");
 			CC.getInstancia().altaRodamiento("RSA0002", "ZKL", "USA", "Rodillo", "1x3", "SFK2503");

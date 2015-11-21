@@ -1,13 +1,14 @@
 package srv;
 
 import java.rmi.RemoteException;
+import java.text.ParseException;
 
 import app.CC;
 import app.OV;
 
 public class TestLocal {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 
 		try {
 			//ALTA PROVEEDOR
@@ -24,8 +25,23 @@ public class TestLocal {
 //			ProveedorENT provEnt = ProveedorDAO.getInstancia().BuscarProveedor("30-00000001-9");
 //			System.out.println(provEnt.getDireccion());
 	
-			OV ovtest = new OV("Suc1", null, null, null,
-					null, null, null, null, null); 		
+			//ALTA RODAMIENTO
+			CC.getInstancia().altaRodamiento("RSA0001", "ZKL", "USA", "Bolilla", "1x3", "SFK2502");
+			CC.getInstancia().altaRodamiento("RSA0002", "ZKL", "USA", "Rodillo", "1x3", "SFK2503");
+					
+		
+			//BAJA RODAMIENTO
+//			CC.getInstancia().bajaRodamiento("RSA0001");
+			
+			//MODIFICAR RODAMIENTO
+//			CC.getInstancia().modificarRodamiento("RSA0002", "", "", "", "2x4", "");
+			
+			//ALTA LISTA DE PRECIOS
+			CC.getInstancia().altaListaPrecios("ListaPrecios.xml");
+//			OV ovtest = new OV("Suc1", null, null, null, null, null, null, null, null); 		
+
+			//ALTA LISTA COMPARATIVA
+//			CC.getInstancia().altaListaComp();
 			
 			//ALTA CLIENTE
 		
@@ -44,21 +60,7 @@ public class TestLocal {
 			
 			//System.out.println(cliEnt.getDireccion());
 				
-			
-			//ALTA RODAMIENTO
-			CC.getInstancia().altaRodamiento("RSA0001", "ZKL", "USA", "Bolilla", "1x3", "SFK2502");
-			CC.getInstancia().altaRodamiento("RSA0002", "ZKL", "USA", "Rodillo", "1x3", "SFK2503");
-					
-		
-			//BAJA RODAMIENTO
-//			CC.getInstancia().bajaRodamiento("RSA0001");
-			
-			//MODIFICAR RODAMIENTO
-//			CC.getInstancia().modificarRodamiento("RSA0002", "", "", "", "2x4", "");
-			
-			//ALTA LISTA COMPARATIVA
-			CC.getInstancia().altaListaComp();
-			
+						
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

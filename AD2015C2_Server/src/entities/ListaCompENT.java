@@ -7,12 +7,16 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 @Table(name="listaComparativa")
 public class ListaCompENT extends PersistentObject {
 	
-	@OneToMany
-	@JoinColumn(name="idListaComp")
+	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinColumn(name="idLC")
 	private List<ItemLCENT> itemsLC;
 	
 //	public ListaCompENT(List<ItemLCENT> itemsLC) {

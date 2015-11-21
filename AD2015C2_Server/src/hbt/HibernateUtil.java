@@ -15,7 +15,7 @@ public class HibernateUtil {
         	 config.addAnnotatedClass(entities.CondCompraENT.class);
         	 config.addAnnotatedClass(entities.CondCompraProvENT.class);
         	 config.addAnnotatedClass(entities.ItemLPENT.class);
-        	 config.addAnnotatedClass(entities.ItemSolENT.class);
+        	 config.addAnnotatedClass(entities.ItemSCENT.class);
         	 config.addAnnotatedClass(entities.ListaPreciosENT.class);
         	 config.addAnnotatedClass(entities.ProveedorENT.class);
         	 config.addAnnotatedClass(entities.RodamientoENT.class);

@@ -1,9 +1,6 @@
-/dominio/
 /entities/
-/hbt/
-/app/
-/dao/
+/dominio/
 /srv/
-/entities/
-/dominio/
 /hbt/
+/dao/
+/app/

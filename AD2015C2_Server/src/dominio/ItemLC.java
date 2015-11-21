@@ -1,7 +1,12 @@
 package dominio;
 
+import hbt.HibernateDAO;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import entities.ItemLCENT;
+import entities.CondCompraENT;
 
 public class ItemLC {
 
@@ -63,6 +68,26 @@ public class ItemLC {
 
 	public void setProveedor(Proveedor proveedor) {
 		this.proveedor = proveedor;
+	}
+
+	public void modificarItemLC(ListaPrecios lp, ItemLP ilp) {
+		precio = ilp.getPrecio();
+		condicionesCompra = ilp.getCondicionesCompra();
+		proveedor = lp.getProveedor();
+		persistirse();
+	}
+
+	public void persistirse() {
+		ItemLCENT ilcENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(ilcENT);
+	}
+
+	@SuppressWarnings("null")
+	public ItemLCENT toENT() {
+		List<CondCompraENT> condicionesCompraENT = null;
+		for(CondCompra cc:this.condicionesCompra)
+			condicionesCompraENT.add(cc.toENT());
+		return new ItemLCENT(rodamiento.toENT(), precio, stock,	condicionesCompraENT, proveedor.toENT());
 	}
 
 }

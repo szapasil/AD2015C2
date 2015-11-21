@@ -14,8 +14,7 @@ private List<ItemLC> itemsLC;
 	public ListaComp() {
 		super();
 		this.itemsLC = new ArrayList<ItemLC>();
-		ListaCompENT lcENT = toENT();
-		HibernateDAO.getInstancia().saveOrUpdate(lcENT);
+		persistirse();
 	}
 
 	public List<ItemLC> getItemsLC() {
@@ -26,9 +25,14 @@ private List<ItemLC> itemsLC;
 		this.itemsLC = itemsLC;
 	}
 
+	public void persistirse() {
+		ListaCompENT lcENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(lcENT);
+	}
+	
 	private ListaCompENT toENT() {
 		return new ListaCompENT();
-		}
+	}
 		
 	/*
 		public dto.Proveedor toDTO() {

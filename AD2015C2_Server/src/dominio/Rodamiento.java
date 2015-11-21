@@ -78,12 +78,12 @@ public class Rodamiento {
 		this.codSFK = codSFK;
 	}
 	
-	private static Rodamiento toDOM(RodamientoENT rodENT) {
+	public static Rodamiento toDOM(RodamientoENT rodENT) {
 		return new Rodamiento(rodENT.getCodRodamiento(),rodENT.getMarca(),rodENT.getPais(),rodENT.getTipo(),
 				rodENT.getMedidas(),rodENT.getCodSFK());
 	}
 
-	private RodamientoENT toENT() {
+	public RodamientoENT toENT() {
 		return new RodamientoENT(codRodamiento, marca, pais, tipo, medidas, codSFK);
 	}
 /*
@@ -100,11 +100,6 @@ public class Rodamiento {
 		return null;
 	}
 
-	public void baja() {
-		RodamientoENT rodENT = toENT();
-		HibernateDAO.getInstancia().delete(rodENT);
-	}
-	
 	public void modificar(String marca, String pais, String tipo, String medidas, String codSFK) {
 		if(!marca.isEmpty())
 			this.marca = marca;
@@ -116,8 +111,17 @@ public class Rodamiento {
 			this.medidas = medidas;
 		if(!codSFK.isEmpty())
 			this.codSFK = codSFK;
+		persistirse();
+	}
+
+	public void persistirse() {
 		RodamientoENT rodENT = toENT();
 		HibernateDAO.getInstancia().saveOrUpdate(rodENT);
+	}
+	
+	public void baja() {
+		RodamientoENT rodENT = toENT();
+		HibernateDAO.getInstancia().delete(rodENT);
 	}
 	
 }

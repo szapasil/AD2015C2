@@ -2,11 +2,16 @@ package dominio;
 
 import hbt.HibernateDAO;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.ProveedorDAO;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import dao.ProveedorDAO;
 import entities.ProveedorENT;
 
 public class Proveedor {
@@ -28,10 +33,9 @@ public class Proveedor {
 		this.LPVigente = 0;
 		this.listasDePrecios = new ArrayList<ListaPrecios>();
 		this.estado = "activo";
-		ProveedorENT provENT = toENT();
-		HibernateDAO.getInstancia().saveOrUpdate(provENT);
+		persistirse();
 	}
-	
+
 	public String getRazonSocial() {
 		return razonSocial;
 	}
@@ -101,11 +105,17 @@ public class Proveedor {
 		HibernateDAO.getInstancia().saveOrUpdate(provENT);
 	}
 
-	public void modificar(String razonSocial, String direccion) {
+	public void modificar(String razonSocial, String direccion, int lpVigente) {
 		if(!direccion.isEmpty())
 			this.direccion = direccion;
 		if(!razonSocial.isEmpty())
 			this.razonSocial = razonSocial;
+		if(lpVigente != 0)
+			this.LPVigente = lpVigente;
+		persistirse();
+	}
+	
+	private void persistirse() {
 		ProveedorENT provENT = toENT();
 		HibernateDAO.getInstancia().saveOrUpdate(provENT);
 	}
@@ -116,6 +126,23 @@ public class Proveedor {
 	
 	private static Proveedor toDOM(ProveedorENT provENT) {
 		return new Proveedor(provENT.getCuit(), provENT.getRazonSocial(), provENT.getDireccion());
+	}
+
+	public ListaPrecios obtenerLP(Document doc) throws ParseException {
+		Element ele = doc.getElementById("ListaPrecios");
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        java.util.Date parsed = format.parse(ele.getAttribute("Fecha"));
+        java.sql.Date fechaSQL = new java.sql.Date(parsed.getTime());
+		ListaPrecios lp = new ListaPrecios(Integer.parseInt(ele.getAttribute("Numero")),fechaSQL,this); 
+		listasDePrecios.add(lp);
+		return lp;
+	}
+
+	public ListaPrecios obtenerLP(Date fechaLP, int nroLP) {
+		ListaPrecios lp = new ListaPrecios(nroLP,fechaLP,this); 
+		listasDePrecios.add(lp);
+		modificar("","",lp.getNumero());
+		return lp;
 	}
 	
 /*

@@ -2,7 +2,6 @@ package dominio;
 
 import hbt.HibernateDAO;
 import entities.CondCompraENT;
-import entities.ProveedorENT;
 
 public class CondCompra {
 
@@ -15,8 +14,11 @@ public class CondCompra {
 		this.tipo = tipo;
 		this.valor = valor;
 		this.bonificacion = bonificacion;
-		CondCompraENT condCompraENT = toENT();
-		HibernateDAO.getInstancia().saveOrUpdate(condCompraENT);
+		persistirse();
+	}
+
+	public CondCompra() {
+		
 	}
 
 	public String getTipo() {
@@ -45,6 +47,11 @@ public class CondCompra {
 	
 	public CondCompraENT toENT() {
 		return new CondCompraENT(tipo, valor, bonificacion);
+	}
+	
+	public void persistirse() {
+		CondCompraENT condCompraENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(condCompraENT);
 	}
 /*
 	public dto.CondCompra toDTO() {

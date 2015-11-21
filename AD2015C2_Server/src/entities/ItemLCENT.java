@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 @Table(name="itemsLC")
 public class ItemLCENT extends PersistentObject {
@@ -16,9 +19,12 @@ public class ItemLCENT extends PersistentObject {
 	private RodamientoENT rodamiento;
 	private float precio;
 	private int stock;
-	@OneToMany
+
+	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name="itemLC")
 	private List<CondCompraENT> condicionesCompra;
+
 	@OneToOne
 	@JoinColumn(name="cuitProveedor")
 	private ProveedorENT proveedor;

@@ -6,6 +6,10 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.IndexColumn;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 @Table(name="listasPrecios")
 public class ListaPreciosENT {
@@ -13,10 +17,14 @@ public class ListaPreciosENT {
 	@Id
 	private int numero;
 	private Date fecha;
+	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="cuitProveedor")
 	private ProveedorENT proveedor;
-	@OneToMany(cascade=CascadeType.ALL)
+	
+//	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name="nroLP")
 	private List<ItemLPENT> items;
 

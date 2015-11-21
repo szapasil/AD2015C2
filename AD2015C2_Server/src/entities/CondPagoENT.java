@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="CONDPAGO")
+@Table(name="condPagoCliente")
 public class CondPagoENT extends PersistentObject {
 
 	

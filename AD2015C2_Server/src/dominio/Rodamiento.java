@@ -1,5 +1,9 @@
 package dominio;
 
+import hbt.HibernateDAO;
+import dao.RodamientoDAO;
+import entities.RodamientoENT;
+
 public class Rodamiento {
 
 	private String codRodamiento;
@@ -8,10 +12,9 @@ public class Rodamiento {
 	private String tipo;
 	private String medidas;
 	private String codSFK;
-	private int stock;
 	
-	public Rodamiento(String codRodamiento, String marca, String pais,
-			String tipo, String medidas, String codSFK, int stock) {
+	public Rodamiento(String codRodamiento, String marca, String pais, String tipo, 
+			String medidas, String codSFK) {
 		super();
 		this.codRodamiento = codRodamiento;
 		this.marca = marca;
@@ -19,7 +22,12 @@ public class Rodamiento {
 		this.tipo = tipo;
 		this.medidas = medidas;
 		this.codSFK = codSFK;
-		this.stock = stock;
+		RodamientoENT rodENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(rodENT);
+	}
+	
+	public Rodamiento() {
+	
 	}
 
 	public String getCodRodamiento() {
@@ -69,18 +77,51 @@ public class Rodamiento {
 	public void setCodSFK(String codSFK) {
 		this.codSFK = codSFK;
 	}
-
-	public int getStock() {
-		return stock;
+	
+	public static Rodamiento toDOM(RodamientoENT rodENT) {
+		return new Rodamiento(rodENT.getCodRodamiento(),rodENT.getMarca(),rodENT.getPais(),rodENT.getTipo(),
+				rodENT.getMedidas(),rodENT.getCodSFK());
 	}
 
-	public void setStock(int stock) {
-		this.stock = stock;
+	public RodamientoENT toENT() {
+		return new RodamientoENT(codRodamiento, marca, pais, tipo, medidas, codSFK);
 	}
 /*
 	public dto.Rodamiento toDTO() {
 		return new dto.Rodamiento(this.codRodamiento,this.codSFK,this.marca,this.medidas,
 								this.pais,this.stock,this.tipo);
 	}
-*/	
+*/
+
+	public static Rodamiento buscarRodamientoDAO(String codRodamiento) {
+		RodamientoENT rodENT = RodamientoDAO.getInstancia().BuscarRodamiento(codRodamiento);
+		if(rodENT!=null)
+			return toDOM(rodENT);
+		return null;
+	}
+
+	public void modificar(String marca, String pais, String tipo, String medidas, String codSFK) {
+		if(!marca.isEmpty())
+			this.marca = marca;
+		if(!pais.isEmpty())
+			this.pais = pais;
+		if(!tipo.isEmpty())
+			this.tipo = tipo;
+		if(!medidas.isEmpty())
+			this.medidas = medidas;
+		if(!codSFK.isEmpty())
+			this.codSFK = codSFK;
+		persistirse();
+	}
+
+	public void persistirse() {
+		RodamientoENT rodENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(rodENT);
+	}
+	
+	public void baja() {
+		RodamientoENT rodENT = toENT();
+		HibernateDAO.getInstancia().delete(rodENT);
+	}
+	
 }

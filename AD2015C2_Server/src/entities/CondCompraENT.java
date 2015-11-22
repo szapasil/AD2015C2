@@ -13,6 +13,17 @@ public class CondCompraENT extends PersistentObject {
 	private String valor;
 	private float bonificacion;
 	
+	public CondCompraENT() {
+		
+	}
+	
+	public CondCompraENT(String tipo, String valor, float bonificacion) {
+		super();
+		this.tipo = tipo;
+		this.valor = valor;
+		this.bonificacion = bonificacion;
+	}
+
 	public String getTipo() {
 		return tipo;
 	}

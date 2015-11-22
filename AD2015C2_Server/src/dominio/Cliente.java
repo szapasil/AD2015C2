@@ -1,38 +1,39 @@
 package dominio;
 
+import hbt.HibernateDAO;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
+import dao.ClienteDAO;
+import entities.ClienteENT;
 
 public class Cliente {
 	
-	
 	private String razonSocial;
 	private String direccion;
-
 	private String cuil;
-	private CondPago condicionesPago;
+	private List<CondPago> condicionesPago;
 	private java.sql.Date fechaRegistro;
 	private List<SolicitudCotizacion> solicitudesCotizacion;
 
 	
 	
-	public Cliente(String razonSocial, String cuil, Date fechaRegistro, CondPago condicionesPago, String direccion,
-		       List<SolicitudCotizacion> solicitudesContizacion) {
+public Cliente( String cuil, String razonSocial, String direccion) {
 	super();
 	this.razonSocial = razonSocial;
 	this.cuil = cuil;
-	this.fechaRegistro = fechaRegistro;
-	this.condicionesPago = condicionesPago;
+	long time = System.currentTimeMillis();
+	this.fechaRegistro  = new java.sql.Date(time);
+	this.condicionesPago = new ArrayList<CondPago>();
 	this.direccion = direccion;
 	this.solicitudesCotizacion =  new ArrayList<SolicitudCotizacion>();
+	ClienteENT cliENT = toENT();
+	HibernateDAO.getInstancia().saveOrUpdate(cliENT);
 }
 
-public Cliente()
-{
+public Cliente(){
 	
 }
 
@@ -60,11 +61,11 @@ public void setCuil(String cuil) {
 	this.cuil = cuil;
 }
 
-public CondPago getCondicionesPago() {
+public List<CondPago> getCondicionesPago() {
 	return condicionesPago;
 }
 
-public void setCondicionesPago(CondPago condicionesPago) {
+public void setCondicionesPago(List<CondPago> condicionesPago) {
 	this.condicionesPago = condicionesPago;
 }
 
@@ -85,7 +86,40 @@ public void setSolicitudesCotizacion(
 	this.solicitudesCotizacion = solicitudesCotizacion;
 }
 	
+public static Cliente buscarClienteDAO(String cuil) {
 	
+	ClienteENT cliENT =  ClienteDAO.getInstancia().BuscarCliente(cuil);
+	if(cliENT!=null)
+		return toDOM(cliENT);
+	return null;
+}
+	
+
+
+
+
+public void modificar(String razonSocial, String direccion) {
+	if(!direccion.isEmpty())
+		this.direccion = direccion;
+	if(!razonSocial.isEmpty())
+		this.razonSocial = razonSocial; 
+	ClienteENT cliENT  = toENT();
+	HibernateDAO.getInstancia().saveOrUpdate(cliENT);
+}
+
+
+private static Cliente toDOM(ClienteENT cliENT) {
+	return new Cliente(cliENT.getCuil(), cliENT.getRazonSocial(), cliENT.getDireccion());
+}
+
+public ClienteENT toENT() {
+	return new ClienteENT(cuil, razonSocial, direccion);
+}
+
+
+
+
+
 /* TODO: Ver esta operacion*/
 public int calcularAntiguedad(){
 	
@@ -94,5 +128,15 @@ public int calcularAntiguedad(){
 	
 	return ant;
 }
+
+public void baja() {
+	ClienteENT cliENT = toENT();
+	HibernateDAO.getInstancia().saveOrUpdate(cliENT);
+	
+}
+
+
+
+
 
 }

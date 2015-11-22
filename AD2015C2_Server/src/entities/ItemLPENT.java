@@ -1,23 +1,43 @@
 package entities;
 
-import java.util.List;
-
 import hbt.PersistentObject;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.*;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name="itemsLP")
 public class ItemLPENT extends PersistentObject {
 	
-	@Id
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="codRodamiento")
 	private RodamientoENT rodamiento;
 	private float precio;
-	private int stock;
+	private int stock;	
+	
+	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinColumn(name="itemLP")
 	private List<CondCompraENT> condicionesCompra;
 
+	public ItemLPENT() {
+		
+	}
+	
+	public ItemLPENT(RodamientoENT rodamiento, float precio, int stock) {
+		super();
+		this.rodamiento = rodamiento;
+		this.precio = precio;
+		this.stock = stock;
+		this.condicionesCompra = new ArrayList<CondCompraENT>();
+	}
+	
+	
 	public RodamientoENT getRodamiento() {
 		return rodamiento;
 	}
@@ -49,5 +69,5 @@ public class ItemLPENT extends PersistentObject {
 	public void setCondicionesCompra(List<CondCompraENT> condicionesCompra) {
 		this.condicionesCompra = condicionesCompra;
 	}
-	
+
 }

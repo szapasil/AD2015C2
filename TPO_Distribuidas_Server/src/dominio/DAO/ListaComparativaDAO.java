@@ -11,7 +11,7 @@ import org.hibernate.SessionFactory;
 
 import dominio.ItemLC;
 import dominio.ItemLP;
-import dominio.ListaComparativa;
+import dominio.ListaComp;
 import dominio.ListaPrecios;
 
 public class ListaComparativaDAO {
@@ -35,7 +35,7 @@ public class ListaComparativaDAO {
 	{
 		session = sf.openSession();
 		session.beginTransaction();
-		ListaComparativa lc = new ListaComparativa();
+		ListaComp lc = new ListaComp();
 		session.persist(lc);
 		//genero la tabla ListaComparativa: id y fecha.
 		session.getTransaction().commit();

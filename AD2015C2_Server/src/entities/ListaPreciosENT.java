@@ -1,21 +1,44 @@
 package entities;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.IndexColumn;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+@Entity
+@Table(name="listasPrecios")
 public class ListaPreciosENT {
 
 	@Id
 	private int numero;
 	private Date fecha;
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="proveedor")
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="cuitProveedor")
 	private ProveedorENT proveedor;
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="nroLista")
+	
+//	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinColumn(name="nroLP")
 	private List<ItemLPENT> items;
+
+	public ListaPreciosENT() {
+		
+	}
+	
+	public ListaPreciosENT(int numero, Date fecha, ProveedorENT proveedor) {
+		super();
+		this.numero = numero;
+		this.fecha = fecha;
+		this.proveedor = proveedor;
+		this.items = new ArrayList<ItemLPENT>();
+	}
 
 	public int getNumero() {
 		return numero;

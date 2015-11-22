@@ -26,7 +26,7 @@ public class HibernateUtil {
         	 config.addAnnotatedClass(dominio.ItemRemito.class);
         	 config.addAnnotatedClass(dominio.ItemSC.class);
         	 config.addAnnotatedClass(dominio.ItemSolicitud.class);
-        	 config.addAnnotatedClass(dominio.ListaComparativa.class);
+        	 config.addAnnotatedClass(dominio.ListaComp.class);
         	 config.addAnnotatedClass(dominio.ListaPrecios.class);
              config.addAnnotatedClass(dominio.SolicitudCotizacion.class);
              config.addAnnotatedClass(dominio.Marca.class);

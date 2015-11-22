@@ -10,13 +10,13 @@ import dominio.DAO.ListaComparativaDAO;
 
 @Entity
 @Table(name="listaComparativa")
-public class ListaComparativa implements Observer {
+public class ListaComp implements Observer {
 
 	@OneToMany
 	@JoinColumn(name="idLista")
 	private List<ItemLC> itemsLC;
 	
-	public ListaComparativa(){
+	public ListaComp(){
 	}
 
 	public List<ItemLC> getItemsLC() {

@@ -241,7 +241,7 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			for (int i=0;i < nList.getLength(); i++){
 				if (nList.item(i).hasChildNodes()){
 					Element eleItem = (Element)nList.item(i);
-					String codRodamiento = ele.getElementsByTagName("Codigo").item(0).getTextContent();
+					String codRodamiento = eleItem.getElementsByTagName("Codigo").item(0).getTextContent();
 					Rodamiento rod = buscarRodamiento(codRodamiento);
 					if(rod==null)
 						rod = altaRodamientoXML(eleItem);
@@ -274,6 +274,8 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			ItemLC item = null;
 			for(ItemLP ilp: lp.getItems()){
 				for(ItemLC ilc: ListaComp.getItemsLC()){
+					System.out.println("itemLP: " + ilp.getRodamiento().getCodRodamiento()); //sacar
+					System.out.println("itemLC: " + ilc.getRodamiento().getCodRodamiento()); //sacar 
 					if(ilc.getRodamiento().getCodRodamiento().equals(ilp.getRodamiento().getCodRodamiento())){
 						existe = true;
 						if(ilc.getPrecio() > ilp.getPrecio())
@@ -281,7 +283,8 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 					}
 				}
 				if(!existe){
-					item = new ItemLC(ilp.getRodamiento(), ilp.getPrecio(), ilp.getStock(), ilp.getCondicionesCompra(), lp.getProveedor());
+//					item = new ItemLC(ilp.getRodamiento(), ilp.getPrecio(), ilp.getStock(), ilp.getCondicionesCompra(), lp.getProveedor());
+					item = new ItemLC(ilp.getRodamiento(), ilp.getPrecio(), ilp.getStock(), ilp.getCondcompra(), ilp.getBonificacion(), lp.getProveedor());
 					ListaComp.getItemsLC().add(item);
 					item.persistirse();
 				}

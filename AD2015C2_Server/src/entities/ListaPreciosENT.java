@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -23,6 +22,7 @@ public class ListaPreciosENT {
 	private ProveedorENT proveedor;
 	
 //	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+//	@OneToMany(mappedBy="rodamiento",cascade=CascadeType.ALL)
 	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name="nroLP")

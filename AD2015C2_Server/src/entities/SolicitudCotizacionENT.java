@@ -12,9 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import dominio.ItemSolicitud;
-import dominio.SolicitudCotizacion;
-
 
 @Entity
 @Table(name="SolicitudesCotizacion")
@@ -29,9 +26,13 @@ public class SolicitudCotizacionENT {
 	private ClienteENT cliente;
 	private String estado;
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="nroSol")
-	private List<ItemSolENT> items;
+	@JoinColumn(name="nroSC")
+	private List<ItemSCENT> items;
 	
+	
+	public SolicitudCotizacionENT() {
+		
+	}
 	
 	public SolicitudCotizacionENT(Date fechaEnviada, int numero,
 			ClienteENT cliente, String estado) {
@@ -40,15 +41,8 @@ public class SolicitudCotizacionENT {
 		this.numero = numero;
 		this.cliente = cliente;
 		this.estado = estado;
-		this.items =  new ArrayList<ItemSolENT>();
+		this.items =  new ArrayList<ItemSCENT>();
 	}
-	
-		
-	public SolicitudCotizacionENT(){
-		
-		
-	}
-
 
 	public Date getFechaEnviada() {
 		return fechaEnviada;
@@ -90,12 +84,12 @@ public class SolicitudCotizacionENT {
 	}
 
 
-	public List<ItemSolENT> getItems() {
+	public List<ItemSCENT> getItems() {
 		return items;
 	}
 
 
-	public void setItems(List<ItemSolENT> items) {
+	public void setItems(List<ItemSCENT> items) {
 		this.items = items;
 	}
 

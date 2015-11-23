@@ -12,8 +12,8 @@ public class TestLocal {
 
 		try {
 			//ALTA PROVEEDOR
-			CC.getInstancia().altaProveedor("30-00000001-9", "Rodamientos S.A.", "Rivadavia 4545");
-			CC.getInstancia().altaProveedor("30-00000002-9", "Rodamientos Malos", "Av. San Juan 2331");
+//			CC.getInstancia().altaProveedor("30-00000001-9", "Rodamientos S.A.", "Rivadavia 4545");
+//			CC.getInstancia().altaProveedor("30-00000002-9", "Rodamientos Malos", "Av. San Juan 2331");
 		
 			//BAJA PROVEEDOR
 //			CC.getInstancia().bajaProveedor("30-00000002-9");
@@ -26,8 +26,8 @@ public class TestLocal {
 //			System.out.println(provEnt.getDireccion());
 	
 			//ALTA RODAMIENTO
-			CC.getInstancia().altaRodamiento("RSA0001", "ZKL", "USA", "Bolilla", "1x3", "SFK2502");
-			CC.getInstancia().altaRodamiento("RSA0002", "ZKL", "USA", "Rodillo", "1x3", "SFK2503");
+//			CC.getInstancia().altaRodamiento("RSA0001", "ZKL", "USA", "Bolilla", "1x3", "SFK2502");
+//			CC.getInstancia().altaRodamiento("RSA0002", "ZKL", "USA", "Rodillo", "1x3", "SFK2503");
 					
 		
 			//BAJA RODAMIENTO
@@ -38,6 +38,7 @@ public class TestLocal {
 			
 			//ALTA LISTA DE PRECIOS
 			CC.getInstancia().altaListaPrecios("ListaPrecios.xml");
+			
 //			OV ovtest = new OV("Suc1", null, null, null, null, null, null, null, null); 		
 
 			//ALTA LISTA COMPARATIVA

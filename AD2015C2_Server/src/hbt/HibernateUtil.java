@@ -12,7 +12,7 @@ public class HibernateUtil {
         try {
         	 AnnotationConfiguration config = new AnnotationConfiguration();
            	 config.addAnnotatedClass(entities.ClienteENT.class);
-        	 config.addAnnotatedClass(entities.CondCompraENT.class);
+//        	 config.addAnnotatedClass(entities.CondCompraENT.class);
         	 config.addAnnotatedClass(entities.CondCompraProvENT.class);
         	 config.addAnnotatedClass(entities.ItemLPENT.class);
         	 config.addAnnotatedClass(entities.ItemSCENT.class);
@@ -20,7 +20,6 @@ public class HibernateUtil {
         	 config.addAnnotatedClass(entities.ProveedorENT.class);
         	 config.addAnnotatedClass(entities.RodamientoENT.class);
         	 config.addAnnotatedClass(entities.CondPagoENT.class);
-          	 config.addAnnotatedClass(entities.SolicitudCotizacionENT.class);
         	 config.addAnnotatedClass(entities.ListaCompENT.class);
         	 config.addAnnotatedClass(entities.ItemLCENT.class);
         	 sessionFactory = config.buildSessionFactory();

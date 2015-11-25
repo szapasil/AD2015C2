@@ -14,6 +14,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Table(name="listaComparativa")
 public class ListaCompENT extends PersistentObject {
 	
+//	@OneToMany(mappedBy="rodamiento",cascade=CascadeType.ALL)
 	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name="idLC")

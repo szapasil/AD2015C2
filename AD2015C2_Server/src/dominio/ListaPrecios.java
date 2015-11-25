@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
-import dao.ListaPreciosDAO;
 import entities.ListaPreciosENT;
 
 public class ListaPrecios {
@@ -65,20 +64,18 @@ public class ListaPrecios {
 */
 	
 	public void agregarItem(Element ele, Rodamiento rod) {
-//		ItemLP ilp = new ItemLP();
 		float itemPrecio = Float.parseFloat(ele.getElementsByTagName("Precio").item(0).getTextContent());
 		int itemStock = Integer.parseInt(ele.getElementsByTagName("Stock").item(0).getTextContent());
-//		ilp.setRodamiento(rod);	
-//		ilp.setPrecio(Float.parseFloat(ele.getElementsByTagName("Precio").item(0).getTextContent()));
-		ItemLP ilp = new ItemLP(rod, itemPrecio, itemStock);
-		ilp.obtenerCondCompra(ele);
-//		ilp.persistirse();
+		int itemCC = Integer.parseInt(ele.getElementsByTagName("CondCompra").item(0).getTextContent());
+		int itemBonif = Integer.parseInt(ele.getElementsByTagName("Bonificacion").item(0).getTextContent());
+//		ItemLP ilp = new ItemLP(rod, itemPrecio, itemStock);
+		ItemLP ilp = new ItemLP(rod, itemPrecio, itemStock, itemCC, itemBonif);
+//		ilp.obtenerCondCompra(ele);
 		items.add(ilp);
 	}
 	
 	private void persistirse() {
 		ListaPreciosENT lpENT = toENT();
-//		ListaPreciosDAO.getInstancia().grabar(lpENT);
 		HibernateDAO.getInstancia().saveOrUpdate(lpENT);
 		
 	}

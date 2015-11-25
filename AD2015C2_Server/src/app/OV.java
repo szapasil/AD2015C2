@@ -150,10 +150,7 @@ public class OV extends UnicastRemoteObject implements IOV {
 				return c;				
 		*/
 		return Cliente.buscarClienteDAO(cuil);
-	}
-
-	
-		
+	}	
 	
 	public void bajaCliente(String cuil) throws RemoteException {
 		Cliente c = buscarCliente(cuil);	
@@ -164,7 +161,6 @@ public class OV extends UnicastRemoteObject implements IOV {
 			System.out.print("No existe un Cliente con ese cuil");
 	}
 
-
 	public void modificarCliente(String cuil, String razonSocial, String direccion) throws RemoteException{
 		Cliente c = buscarCliente(cuil);	
 		if(c!=null){
@@ -173,8 +169,5 @@ public class OV extends UnicastRemoteObject implements IOV {
 		else
 			System.out.print("No existe un Cliente con ese cuil");
 	}
-
-	
-	
 		
 }

@@ -5,6 +5,8 @@ import hbt.HibernateDAO;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.CondCompraDAO;
+import dao.ItemLCDAO;
 import entities.ItemLCENT;
 import entities.CondCompraENT;
 
@@ -13,20 +15,24 @@ public class ItemLC {
 	private Rodamiento rodamiento;
 	private float precio;
 	private int stock;
-	private List<CondCompra> condicionesCompra;
+	private int condCompra;
+	private int bonificacion;
+//	private List<CondCompra> condicionesCompra;
 	private Proveedor proveedor;
 	
 	public ItemLC() {
 		
 	}
 
-	public ItemLC(Rodamiento rodamiento, float precio, int stock,
-			List<CondCompra> condicionesCompra, Proveedor proveedor) {
+	public ItemLC(Rodamiento rodamiento, float precio, int stock, int condCompra, 
+			int bonificacion, Proveedor proveedor) {
 		super();
 		this.rodamiento = rodamiento;
 		this.precio = precio;
 		this.stock = stock;
-		this.condicionesCompra = new ArrayList<CondCompra>();
+		this.condCompra = condCompra;
+		this.bonificacion = bonificacion;
+//		this.condicionesCompra = new ArrayList<CondCompra>();
 		this.proveedor = proveedor;
 	}
 
@@ -54,12 +60,28 @@ public class ItemLC {
 		this.stock = stock;
 	}
 
-	public List<CondCompra> getCondicionesCompra() {
-		return condicionesCompra;
+//	public List<CondCompra> getCondicionesCompra() {
+//		return condicionesCompra;
+//	}
+
+//	public void setCondicionesCompra(List<CondCompra> condicionesCompra) {
+//		this.condicionesCompra = condicionesCompra;
+//	}
+
+	public int getCondcompra() {
+		return condCompra;
 	}
 
-	public void setCondicionesCompra(List<CondCompra> condicionesCompra) {
-		this.condicionesCompra = condicionesCompra;
+	public void setCondcompra(int condCompra) {
+		this.condCompra = condCompra;
+	}
+
+	public int getBonificacion() {
+		return bonificacion;
+	}
+
+	public void setBonificacion(int bonificacion) {
+		this.bonificacion = bonificacion;
 	}
 
 	public Proveedor getProveedor() {
@@ -71,10 +93,16 @@ public class ItemLC {
 	}
 
 	public void modificarItemLC(ListaPrecios lp, ItemLP ilp) {
-		precio = ilp.getPrecio();
-		condicionesCompra = ilp.getCondicionesCompra();
-		proveedor = lp.getProveedor();
-		persistirse();
+		this.precio = ilp.getPrecio();
+		this.bonificacion = ilp.getBonificacion();
+		this.condCompra = ilp.getCondcompra();
+		this.proveedor = lp.getProveedor();
+//		condicionesCompra = ilp.getCondicionesCompra();
+		ItemLCDAO.getInstancia().modificarItemLC(ilp.toENT());
+//		for(CondCompra cc:condicionesCompra)
+//			CondCompraDAO.getInstancia().bajaLC(cc.toENT());
+//		for(CondCompra ilpcc:ilp.getCondicionesCompra())
+//			CondCompraDAO.getInstancia().altaLC(ilpcc.toENT());
 	}
 
 	public void persistirse() {
@@ -82,12 +110,12 @@ public class ItemLC {
 		HibernateDAO.getInstancia().saveOrUpdate(ilcENT);
 	}
 
-	@SuppressWarnings("null")
 	public ItemLCENT toENT() {
-		List<CondCompraENT> condicionesCompraENT = null;
-		for(CondCompra cc:this.condicionesCompra)
-			condicionesCompraENT.add(cc.toENT());
-		return new ItemLCENT(rodamiento.toENT(), precio, stock,	condicionesCompraENT, proveedor.toENT());
+		return new ItemLCENT(rodamiento.toENT(), precio, stock, condCompra, bonificacion, proveedor.toENT());
+//		List<CondCompraENT> condicionesCompraENT = null;
+//		for(CondCompra cc:this.condicionesCompra)
+//			condicionesCompraENT.add(cc.toENT());
+//		return new ItemLCENT(rodamiento.toENT(), precio, stock,	condicionesCompraENT, proveedor.toENT());
 	}
 
 }

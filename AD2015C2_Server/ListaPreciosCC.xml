@@ -14,9 +14,16 @@
 			<CodSFK>SFK0001</CodSFK>
 			<Precio>400</Precio>
 			<Stock>50000</Stock>
-			<Tipo>Cantidad</Tipo>
-			<CondCompra>1000</CondCompra>
-			<Bonificacion>5</Bonificacion>
+			<CondicionDeCompra>
+				<Tipo>Cantidad</Tipo>
+				<Valor>1000</Valor>
+				<Bonificacion>5</Bonificacion>
+			</CondicionDeCompra>
+			<CondicionDeCompra>
+				<Tipo>Cantidad</Tipo>
+				<Valor>5000</Valor>
+				<Bonificacion>10</Bonificacion>
+			</CondicionDeCompra>
 		</Item>
 		<Item>
 			<Codigo>NJ209</Codigo>
@@ -25,10 +32,18 @@
 			<Tipo>Bolilla</Tipo>
 			<Medidas>30x10</Medidas>
 			<CodSFK>SFK0002</CodSFK>
-			<Precio>25</Precio>
-			<Stock>4000</Stock>
-			<CondCompra>1000</CondCompra>
-			<Bonificacion>50</Bonificacion>
+			<Precio>50.50</Precio>
+			<Stock>100000</Stock>
+			<CondicionDeVenta>
+				<Tipo>Cantidad</Tipo>
+				<Valor>1000</Valor>
+				<Bonificacion>10</Bonificacion>
+			</CondicionDeVenta>
+			<CondicionDeVenta>
+				<Tipo>Cantidad</Tipo>
+				<Valor>5000</Valor>
+				<Bonificacion>15</Bonificacion>
+			</CondicionDeVenta>
 		</Item>
 	</Items>
 </ListaPrecios>

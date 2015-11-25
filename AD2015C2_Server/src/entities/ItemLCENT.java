@@ -10,20 +10,27 @@ import javax.persistence.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import dominio.Proveedor;
+import dominio.Rodamiento;
+
 @Entity
 @Table(name="itemsLC")
-public class ItemLCENT extends PersistentObject {
+//public class ItemLCENT {
+public class ItemLCENT extends PersistentObject{
 	
+//	@Id
 	@OneToOne
 	@JoinColumn(name="codRodamiento")
 	private RodamientoENT rodamiento;
 	private float precio;
 	private int stock;
+	private int condCompra;
+	private int bonificacion;
 
-	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinColumn(name="itemLC")
-	private List<CondCompraENT> condicionesCompra;
+//	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
+//	@LazyCollection(LazyCollectionOption.FALSE)
+//	@JoinColumn(name="itemLC")
+//	private List<CondCompraENT> condicionesCompra;
 
 	@OneToOne
 	@JoinColumn(name="cuitProveedor")
@@ -33,13 +40,15 @@ public class ItemLCENT extends PersistentObject {
 		
 	}
 
-	public ItemLCENT(RodamientoENT rodamiento, float precio, int stock,
-			List<CondCompraENT> condicionesCompra, ProveedorENT proveedor) {
+	public ItemLCENT(RodamientoENT rodamiento, float precio, int stock, int condCompra, 
+			int bonificacion, ProveedorENT proveedor) {
 		super();
 		this.rodamiento = rodamiento;
 		this.precio = precio;
 		this.stock = stock;
-		this.condicionesCompra = new ArrayList<CondCompraENT>();
+		this.condCompra = condCompra;
+		this.bonificacion = bonificacion;
+//		this.condicionesCompra = new ArrayList<CondCompraENT>();
 		this.proveedor = proveedor;
 	}
 
@@ -67,13 +76,30 @@ public class ItemLCENT extends PersistentObject {
 		this.stock = stock;
 	}
 
-	public List<CondCompraENT> getCondicionesCompra() {
-		return condicionesCompra;
+//	public List<CondCompraENT> getCondicionesCompra() {
+//		return condicionesCompra;
+//	}
+
+//	public void setCondicionesCompra(List<CondCompraENT> condicionesCompra) {
+//		this.condicionesCompra = condicionesCompra;
+//	}
+	
+	public int getCondcompra() {
+		return condCompra;
 	}
 
-	public void setCondicionesCompra(List<CondCompraENT> condicionesCompra) {
-		this.condicionesCompra = condicionesCompra;
+	public void setCondcompra(int condCompra) {
+		this.condCompra = condCompra;
 	}
+
+	public int getBonificacion() {
+		return bonificacion;
+	}
+
+	public void setBonificacion(int bonificacion) {
+		this.bonificacion = bonificacion;
+	}
+
 
 	public ProveedorENT getProveedor() {
 		return proveedor;
@@ -82,6 +108,5 @@ public class ItemLCENT extends PersistentObject {
 	public void setProveedor(ProveedorENT proveedor) {
 		this.proveedor = proveedor;
 	}
-
 	
 }

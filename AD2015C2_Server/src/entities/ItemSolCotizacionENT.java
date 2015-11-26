@@ -2,35 +2,38 @@ package entities;
 
 import javax.persistence.*;
 
-import dominio.ItemSolCotizacion;
-import hbt.PersistentObject;
-
 @Entity
 @Table(name="itemsSOL")
 public class ItemSolCotizacionENT { 
 	@EmbeddedId
-	private ItemSolENTpk id;
+	private ItemSolCotizacionENTpk id;
 	@Column
 	private int cantidad;
-	public ItemSolENTpk getId() {
+	
+	public ItemSolCotizacionENTpk getId() {
 		return id;
 	}
-	public void setId(ItemSolENTpk id) {
+	
+	public void setId(ItemSolCotizacionENTpk id) {
 		this.id = id;
 	}
+	
 	public int getCantidad() {
 		return cantidad;
 	}
+	
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
+	
 	public ItemSolCotizacionENT() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public ItemSolCotizacionENT(SolicitudCotizacionENT solCotiz, RodamientoENT rodamiento, int cantidad) {
 		super();
-		this.id = new ItemSolENTpk(solCotiz, rodamiento);
+		this.id = new ItemSolCotizacionENTpk(solCotiz, rodamiento);
 		this.cantidad = cantidad;
 	}
 	

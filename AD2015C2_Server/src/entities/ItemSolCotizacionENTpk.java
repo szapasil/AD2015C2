@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Embeddable
-public class ItemSolENTpk implements Serializable{
+public class ItemSolCotizacionENTpk implements Serializable{
 	
 	/**
 	 * 
@@ -17,26 +17,33 @@ public class ItemSolENTpk implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="codRodamiento", nullable = false)
 	private RodamientoENT rodamiento;
+	
 	public SolicitudCotizacionENT getSolicitudCotizacion() {
 		return solicitudCotizacion;
 	}
+	
 	public void setSolicitudCotizacion(SolicitudCotizacionENT solicitudCotizacion) {
 		this.solicitudCotizacion = solicitudCotizacion;
 	}
+	
 	public RodamientoENT getRodamiento() {
 		return rodamiento;
 	}
+	
 	public void setRodamiento(RodamientoENT rodamiento) {
 		this.rodamiento = rodamiento;
 	}
-	public ItemSolENTpk() {
+	
+	public ItemSolCotizacionENTpk() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ItemSolENTpk(SolicitudCotizacionENT solicitudCotizacion,
+	
+	public ItemSolCotizacionENTpk(SolicitudCotizacionENT solicitudCotizacion,
 			RodamientoENT rodamiento) {
 		super();
 		this.solicitudCotizacion = solicitudCotizacion;
 		this.rodamiento = rodamiento;
 	}
+	
 }

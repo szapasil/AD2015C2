@@ -18,54 +18,58 @@ public class TestLocal {
 		LOG ("Inicio");
 		//ALTA RODAMIENTO
 		LOG ("ALTA RODAMIENTO >>>");
-		CC.getInstancia().altaRodamiento("RSA0001", "ZKL", "USA", "Bolilla", "1x3", "SFK2502");
-		CC.getInstancia().altaRodamiento("RSA0002", "ZKL", "USA", "Rodillo", "1x3", "SFK2503");
-		CC.getInstancia().altaRodamiento("RSA0003", "ZKL", "USA", "Rodillo", "1x3", "SFK2504");
-		CC.getInstancia().altaRodamiento("RSA0004", "ZKL", "USA", "Rodillo", "1x3", "SFK2504");
-		CC.getInstancia().altaRodamiento("RSA0005", "ZKL", "USA", "Rodillo", "1x3", "SFK2504");
-		CC.getInstancia().altaRodamiento("RSA0006", "ZKL", "USA", "Rodillo", "1x3", "SFK2504");
-		CC.getInstancia().altaRodamiento("RSA0007", "ZKL", "USA", "Rodillo", "1x3", "SFK2504");
-		Rodamiento r = Rodamiento.buscarRodamientoDAO("RSA0001");
-		LOG (r.getCodSFK());
-		
-		//ALTA OV
-		LOG ("ALTA OV >>>");
-		CC.getInstancia().altaOV("Sucursal1");
-		CC.getInstancia().altaOV("Sucursal2");
-		
-		//ALTA CLIENTE
-		LOG ("ALTA CLIENTE >>>");
-		CC.getInstancia().getInstanciaOV("Sucursal1").altaCliente("20-30000002-6", "Gaston R", " Oro 1800");
-		Cliente c = CC.getInstancia().getInstanciaOV("Sucursal1").buscarCliente("20-30000002-6");
-		
-		//ALTA SOLICITUD COTIZACION
-		LOG ("ALTA SOLICITUD COTIZACION >>>");
-		CC.getInstancia().getInstanciaOV("Sucursal1").altaSolicitudCotizacion(1000, Calendar.getInstance().getTime(),	"20-30000002-6");
-		OV ov =CC.getInstancia().getInstanciaOV("Sucursal1");
-		SolicitudCotizacion sc = ov.buscarSolicitudCotizacion(1000);
-		//AGREGAR ITEMS A SOLICITUD COTIZACION
-		sc.agregarItemSolicitud("RSA0001", 1);
-		sc.agregarItemSolicitud("RSA0002", 2);
-		sc.agregarItemSolicitud("RSA0003", 3);
-		
-		sc.persistirse();
-		sc.agregarItemSolicitud("RSA0004", 1);
-		sc.agregarItemSolicitud("RSA0005", 2);
-		sc.agregarItemSolicitud("RSA0006", 3);
-		sc.persistirse();
-		LOG ("ALTA SOLICITUD COTIZACION >>>");
-		CC.getInstancia().getInstanciaOV("Sucursal1").altaSolicitudCotizacion(2000, Calendar.getInstance().getTime(),	"20-30000002-6");
-		SolicitudCotizacion sc2 = ov.buscarSolicitudCotizacion(2000);
-		sc2.agregarItemSolicitud("RSA0001", 1);
-		sc2.agregarItemSolicitud("RSA0004", 2);
-		sc2.agregarItemSolicitud("RSA0006", 3);
-		sc2.persistirse();
-		sc.toXML("PRUEBA1");
-		
-		SolicitudCotizacion sc3 = SolicitudCotizacion.fromXML("D:\\test\\PRUEBA1.xml", ov);
-		LOG (String.valueOf(sc3.getNumero()));
-		LOG ("FIN >>>");
-		
+		try {
+			CC.getInstancia().altaRodamiento("RSA0001", "ZKL", "USA", "Bolilla", "1x3", "SFK2502");
+			CC.getInstancia().altaRodamiento("RSA0002", "ZKL", "USA", "Rodillo", "1x3", "SFK2503");
+			CC.getInstancia().altaRodamiento("RSA0003", "ZKL", "USA", "Rodillo", "1x3", "SFK2504");
+			CC.getInstancia().altaRodamiento("RSA0004", "ZKL", "USA", "Rodillo", "1x3", "SFK2504");
+			CC.getInstancia().altaRodamiento("RSA0005", "ZKL", "USA", "Rodillo", "1x3", "SFK2504");
+			CC.getInstancia().altaRodamiento("RSA0006", "ZKL", "USA", "Rodillo", "1x3", "SFK2504");
+			CC.getInstancia().altaRodamiento("RSA0007", "ZKL", "USA", "Rodillo", "1x3", "SFK2504");
+			Rodamiento r = Rodamiento.buscarRodamientoDAO("RSA0001");
+			LOG (r.getCodSFK());
+			
+			//ALTA OV
+			LOG ("ALTA OV >>>");
+			CC.getInstancia().altaOV("Sucursal1");
+			CC.getInstancia().altaOV("Sucursal2");
+			
+			//ALTA CLIENTE
+			LOG ("ALTA CLIENTE >>>");
+			CC.getInstancia().getInstanciaOV("Sucursal1").altaCliente("20-30000002-6", "Gaston R", " Oro 1800");
+			Cliente c = CC.getInstancia().getInstanciaOV("Sucursal1").buscarCliente("20-30000002-6");
+			
+			//ALTA SOLICITUD COTIZACION
+			LOG ("ALTA SOLICITUD COTIZACION >>>");
+			CC.getInstancia().getInstanciaOV("Sucursal1").altaSolicitudCotizacion(1000, Calendar.getInstance().getTime(),	"20-30000002-6");
+			OV ov =CC.getInstancia().getInstanciaOV("Sucursal1");
+			SolicitudCotizacion sc = ov.buscarSolicitudCotizacion(1000);
+			//AGREGAR ITEMS A SOLICITUD COTIZACION
+			sc.agregarItemSolicitud("RSA0001", 1);
+			sc.agregarItemSolicitud("RSA0002", 2);
+			sc.agregarItemSolicitud("RSA0003", 3);
+			
+			sc.persistirse();
+			sc.agregarItemSolicitud("RSA0004", 1);
+			sc.agregarItemSolicitud("RSA0005", 2);
+			sc.agregarItemSolicitud("RSA0006", 3);
+			sc.persistirse();
+			LOG ("ALTA SOLICITUD COTIZACION >>>");
+			CC.getInstancia().getInstanciaOV("Sucursal1").altaSolicitudCotizacion(2000, Calendar.getInstance().getTime(),	"20-30000002-6");
+			SolicitudCotizacion sc2 = ov.buscarSolicitudCotizacion(2000);
+			sc2.agregarItemSolicitud("RSA0001", 1);
+			sc2.agregarItemSolicitud("RSA0004", 2);
+			sc2.agregarItemSolicitud("RSA0006", 3);
+			sc2.persistirse();
+			sc.toXML("PRUEBA1");
+			
+			SolicitudCotizacion sc3 = SolicitudCotizacion.fromXML("D:\\test\\PRUEBA1.xml", ov);
+			LOG (String.valueOf(sc3.getNumero()));
+			LOG ("FIN >>>");
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// SILVIO INICIO >>>
@@ -133,5 +137,5 @@ public class TestLocal {
 		}
 	
 	}
-
+*/
 }

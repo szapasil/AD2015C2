@@ -20,7 +20,7 @@ public class SolicitudDeCompraENT {
 	private String estado;
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="nroSC")
-	private List<ItemSCENT> items;
+	private List<ItemSolCompraENT> items;
 
 	public SolicitudDeCompraENT() {
 		
@@ -33,7 +33,7 @@ public class SolicitudDeCompraENT {
 		this.precioTotal = precioTotal;
 		this.ordenesDePedido = ordenesDePedido;
 		this.estado = estado;
-		this.items = new ArrayList<ItemSCENT>();
+		this.items = new ArrayList<ItemSolCompraENT>();
 	}
 
 	public int getNumero() {
@@ -76,11 +76,11 @@ public class SolicitudDeCompraENT {
 		this.estado = estado;
 	}
 
-	public List<ItemSCENT> getItems() {
+	public List<ItemSolCompraENT> getItems() {
 		return items;
 	}
 
-	public void setItems(List<ItemSCENT> items) {
+	public void setItems(List<ItemSolCompraENT> items) {
 		this.items = items;
 	}
 	

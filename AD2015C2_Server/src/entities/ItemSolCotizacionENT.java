@@ -2,12 +2,12 @@ package entities;
 
 import javax.persistence.*;
 
-import dominio.ItemSolicitud;
+import dominio.ItemSolCotizacion;
 import hbt.PersistentObject;
 
 @Entity
 @Table(name="itemsSOL")
-public class ItemSolENT { 
+public class ItemSolCotizacionENT { 
 	@EmbeddedId
 	private ItemSolENTpk id;
 	@Column
@@ -24,11 +24,11 @@ public class ItemSolENT {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-	public ItemSolENT() {
+	public ItemSolCotizacionENT() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ItemSolENT(SolicitudCotizacionENT solCotiz, RodamientoENT rodamiento, int cantidad) {
+	public ItemSolCotizacionENT(SolicitudCotizacionENT solCotiz, RodamientoENT rodamiento, int cantidad) {
 		super();
 		this.id = new ItemSolENTpk(solCotiz, rodamiento);
 		this.cantidad = cantidad;

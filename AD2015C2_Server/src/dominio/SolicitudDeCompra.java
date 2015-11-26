@@ -19,7 +19,7 @@ public class SolicitudDeCompra {
 	private float precioTotal;
 	private List<OrdenDePedido> ordenesDePedido;
 	private String estado;
-	private List<ItemSC> items;
+	private List<ItemSolCompra> items;
 
 	public SolicitudDeCompra(int numero, Date fecha, float precioTotal, List<OrdenDePedido> ordenesDePedido, String estado) {
 		super();
@@ -28,7 +28,7 @@ public class SolicitudDeCompra {
 		this.precioTotal = precioTotal;
 		this.ordenesDePedido = ordenesDePedido;
 		this.estado = estado;
-		this.items = new ArrayList<ItemSC>();
+		this.items = new ArrayList<ItemSolCompra>();
 		persistirse();
 	}
 
@@ -72,11 +72,11 @@ public class SolicitudDeCompra {
 		this.estado = estado;
 	}
 	
-	public List<ItemSC> getItems() {
+	public List<ItemSolCompra> getItems() {
 		return items;
 	}
 
-	public void setItems(List<ItemSC> items) {
+	public void setItems(List<ItemSolCompra> items) {
 		this.items = items;
 	}
 	

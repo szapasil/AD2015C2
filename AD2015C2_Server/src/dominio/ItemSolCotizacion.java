@@ -9,6 +9,7 @@ public class ItemSolCotizacion {
 	
 	public ItemSolCotizacion() {
 	}
+
 	public ItemSolCotizacion(Rodamiento r, int cantidad) {
 		// TODO Auto-generated constructor stub
 		super();

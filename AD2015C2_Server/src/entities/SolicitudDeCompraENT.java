@@ -17,6 +17,7 @@ public class SolicitudDeCompraENT {
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="nroSC")
 	private List<OrdenDePedidoENT> ordenesDePedido;
+	private String estado;
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="nroSC")
 	private List<ItemSCENT> items;
@@ -25,12 +26,13 @@ public class SolicitudDeCompraENT {
 		
 	}
 	
-	public SolicitudDeCompraENT(int numero, Date fecha, float precioTotal, List<OrdenDePedidoENT> ordenesDePedido) {
+	public SolicitudDeCompraENT(int numero, Date fecha, float precioTotal, List<OrdenDePedidoENT> ordenesDePedido, String estado) {
 		super();
 		this.numero = numero;
 		this.fecha = fecha;
 		this.precioTotal = precioTotal;
 		this.ordenesDePedido = ordenesDePedido;
+		this.estado = estado;
 		this.items = new ArrayList<ItemSCENT>();
 	}
 
@@ -64,6 +66,14 @@ public class SolicitudDeCompraENT {
 
 	public void setOrdenesDePedido(List<OrdenDePedidoENT> ordenesDePedido) {
 		this.ordenesDePedido = ordenesDePedido;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	public List<ItemSCENT> getItems() {

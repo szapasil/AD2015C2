@@ -12,7 +12,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name="listaComparativa")
-public class ListaCompENT extends PersistentObject {
+public class ListaComparativaENT extends PersistentObject {
 	
 //	@OneToMany(mappedBy="rodamiento",cascade=CascadeType.ALL)
 	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
@@ -25,7 +25,7 @@ public class ListaCompENT extends PersistentObject {
 //		this.itemsLC = new ArrayList<ItemLCENT>();
 //	}
 	
-	public ListaCompENT() {
+	public ListaComparativaENT() {
 		super();
 		this.itemsLC = new ArrayList<ItemLCENT>();
 	}

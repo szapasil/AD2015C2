@@ -16,14 +16,21 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import dao.ItemLCDAO;
+import dao.ListaComparativaDAO;
+import dao.SolicitudDeCompraDAO;
 import dominio.ItemLC;
 import dominio.ItemLP;
+import dominio.ItemOC;
+import dominio.ItemSC;
 import dominio.ListaPrecios;
 import dominio.OrdenDeCompra;
 import dominio.Proveedor;
 import dominio.Rodamiento;
 import dominio.SolicitudDeCompra;
-import dominio.ListaComp;
+import dominio.ListaComparativa;
+import entities.ItemLCENT;
+import entities.SolicitudDeCompraENT;
 
 public class CC extends UnicastRemoteObject implements interfaz.ICC {	
 
@@ -34,7 +41,7 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 	private List<Proveedor> proveedores;
 	private List<OrdenDeCompra> ordenesDeCompra;
 	private List<SolicitudDeCompra> solicitudesDeCompra;
-	private ListaComp ListaComp;
+	private ListaComparativa listaComp;
 	private float porcentajeGanancia;
 	
 	private static CC instancia;
@@ -52,7 +59,7 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		this.proveedores = new ArrayList<Proveedor>();
 		this.ordenesDeCompra = new ArrayList<OrdenDeCompra>();
 		this.solicitudesDeCompra = new ArrayList<SolicitudDeCompra>();
-		this.ListaComp = null;
+		this.listaComp = null;
 		this.porcentajeGanancia = 35;
 	}
 
@@ -96,12 +103,12 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		this.solicitudesDeCompra = solicitudesDeCompra;
 	}
 	
-	public ListaComp getListaComp() {
-		return ListaComp;
+	public ListaComparativa getListaComp() {
+		return listaComp;
 	}
 
-	public void setListaComp(ListaComp listaComp) {
-		ListaComp = listaComp;
+	public void setListaComp(ListaComparativa listaComp) {
+		this.listaComp = listaComp;
 	}
 
 	public float getPorcentajeGanancia() {
@@ -110,42 +117,6 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 
 	public void setPorcentajeGanancia(float porcentajeGanancia) {
 		this.porcentajeGanancia = porcentajeGanancia;
-	}
-
-	//PUNTO 1 - ABM PROVEEDOR
-	public void altaProveedor(String cuit, String razonSocial, String direccion) throws RemoteException {
-		Proveedor prov = buscarProveedor(cuit);
-		if(prov==null) {
-			prov = new Proveedor(cuit, razonSocial, direccion);
-			proveedores.add(prov);
-		}
-		else
-			System.out.print("Ya existe un Proveedor con ese cuit");
-	}
-	
-	public Proveedor buscarProveedor(String cuit) throws RemoteException{
-		for(Proveedor p:proveedores)
-			if(p.getCuit().equals(cuit))
-				return p;		
-		return Proveedor.buscarProveedorDAO(cuit);
-	}
-
-	public void bajaProveedor(String cuit) throws RemoteException {
-		Proveedor prov = buscarProveedor(cuit);
-		if(prov!=null) {
-			prov.baja();
-		}
-		else
-			System.out.print("No existe un Proveedor con ese cuit");
-	}
-
-	public void modificarProveedor(String cuit,String razonSocial, String direccion) throws RemoteException {
-		Proveedor prov = buscarProveedor(cuit);
-		if(prov!=null) {
-			prov.modificar(razonSocial,direccion,0);
-		}
-		else
-			System.out.print("No existe un Proveedor con ese cuit");
 	}
 	
 	//ABM RODAMIENTO
@@ -160,14 +131,14 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 				System.out.print("Ya existe un Rodamiento con ese codigo");
 		}
 
-		private Rodamiento buscarRodamiento(String codRodamiento) {
+		public Rodamiento buscarRodamiento(String codRodamiento) {
 			for(Rodamiento r:rodamientos)
 				if(r.getCodRodamiento().equals(codRodamiento))
 					return r;		
 			return Rodamiento.buscarRodamientoDAO(codRodamiento);
 		}
 		
-		private Rodamiento altaRodamientoXML(Element ele) {
+		public Rodamiento altaRodamientoXML(Element ele) {
 			Rodamiento rod = new Rodamiento();
 			rod.setCodRodamiento(ele.getElementsByTagName("Codigo").item(0).getTextContent());
 			rod.setCodSFK(ele.getElementsByTagName("CodSFK").item(0).getTextContent());
@@ -200,6 +171,43 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 				System.out.print("No existe un Rodamiento con ese codigo");
 		}
 		
+		//PUNTO 1 - ABM PROVEEDOR
+		public void altaProveedor(String cuit, String razonSocial, String direccion) throws RemoteException {
+			Proveedor prov = buscarProveedor(cuit);
+			if(prov==null) {
+				prov = new Proveedor(cuit, razonSocial, direccion);
+				proveedores.add(prov);
+			}
+			else
+				System.out.print("Ya existe un Proveedor con ese cuit");
+		}
+		
+		public Proveedor buscarProveedor(String cuit) throws RemoteException{
+			for(Proveedor p:proveedores)
+				if(p.getCuit().equals(cuit))
+					return p;		
+			return Proveedor.buscarProveedorDAO(cuit);
+		}
+
+		public void bajaProveedor(String cuit) throws RemoteException {
+			Proveedor prov = buscarProveedor(cuit);
+			if(prov!=null) {
+				prov.baja();
+			}
+			else
+				System.out.print("No existe un Proveedor con ese cuit");
+		}
+
+		public void modificarProveedor(String cuit,String razonSocial, String direccion) throws RemoteException {
+			Proveedor prov = buscarProveedor(cuit);
+			if(prov!=null) {
+				prov.modificar(razonSocial,direccion,0);
+			}
+			else
+				System.out.print("No existe un Proveedor con ese cuit");
+		}
+		
+		//PUNTO 2 - MANEJO DE LISTA DE PRECIOS
 		//ALTA LISTA DE PRECIOS
 		public void altaListaPrecios(String archivo) throws RemoteException, ParseException {
 			ListaPrecios lp = null;
@@ -214,7 +222,8 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 				}
 			}
 			if(lp!=null){
-				if(ListaComp == null){
+				listaComp = ListaComparativa.obtenerLC();
+				if(listaComp == null){
 					altaListaComp();
 					modificarListaComp(lp);
 				}
@@ -263,9 +272,10 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		return doc;
 	}
 
+		//PUNTO 3 - MANEJO DE LISTA COMPARATIVA
 		//ABM LISTA COMPARATIVA
 		public void altaListaComp() throws RemoteException {
-			ListaComp lc = new ListaComp();
+			ListaComparativa lc = new ListaComparativa();
 				setListaComp(lc);
 			}
 		
@@ -273,7 +283,7 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			boolean existe = false;
 			ItemLC item = null;
 			for(ItemLP ilp: lp.getItems()){
-				for(ItemLC ilc: ListaComp.getItemsLC()){
+				for(ItemLC ilc:listaComp.getItemsLC()){
 					System.out.println("itemLP: " + ilp.getRodamiento().getCodRodamiento()); //sacar
 					System.out.println("itemLC: " + ilc.getRodamiento().getCodRodamiento()); //sacar 
 					if(ilc.getRodamiento().getCodRodamiento().equals(ilp.getRodamiento().getCodRodamiento())){
@@ -285,14 +295,87 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 				if(!existe){
 //					item = new ItemLC(ilp.getRodamiento(), ilp.getPrecio(), ilp.getStock(), ilp.getCondicionesCompra(), lp.getProveedor());
 					item = new ItemLC(ilp.getRodamiento(), ilp.getPrecio(), ilp.getStock(), ilp.getCondcompra(), ilp.getBonificacion(), lp.getProveedor());
-					ListaComp.getItemsLC().add(item);
+					listaComp.getItemsLC().add(item);
 					item.persistirse();
 				}
 			}
 		}
 		
-		//GENERAR ORDEN DE COMPRA
-		public String generarOC(SolicitudDeCompra SC) {
-			return null;
+		//PUBLICAR LISTA COMPARATIVA
+		public ItemLC publicarLC(Rodamiento rod, int cantidad) {
+			listaComp = ListaComparativa.obtenerLC();
+			ItemLC ilc = buscarEnLC(rod.getCodRodamiento());
+			if(ilc==null)
+				ilc = buscarMejorCodSFK(rod.getCodSFK());
+			return ilc;
 		}
+
+		public ItemLC buscarMejorCodSFK(String codSFK) {
+			float precioMin = Float.MAX_VALUE; 
+			ItemLC item = null;
+			for(ItemLC ilc: listaComp.getItemsLC()){
+				if(ilc.getRodamiento().getCodSFK().equals(codSFK) && ilc.getPrecio()<precioMin)
+					item = ilc;
+			}
+			return item;
+		}
+
+		//PUNTO 4 - COMPRA DE RODAMIENTOS
+		//GENERAR ORDEN DE COMPRA
+		public void generarOC(SolicitudDeCompra SC) {
+			ItemLC itemLC = null; 
+			List<SolicitudDeCompra> scPendientes = obtenerSCPendientes();
+			for(SolicitudDeCompra sc:scPendientes){
+				List<ItemSC> itemsOC = new ArrayList<ItemSC>();
+				int cantidad = sc.getItems().size();
+				while(cantidad>0){
+					String cuitAnt = null;
+					for(ItemSC itemSC:sc.getItems()){
+						itemLC = buscarEnLC(itemSC.getRodamiento().getCodRodamiento());
+						if(itemLC.getProveedor().getCuit().equals(cuitAnt) || cuitAnt==null){
+							itemsOC.add(itemSC);
+							cuitAnt = itemLC.getProveedor().getCuit();
+							sc.getItems().remove(itemSC);
+							cantidad = cantidad - 1;
+						}
+					}
+					altaOC(sc,itemsOC,cuitAnt);
+				}
+			}
+		}
+				
+		public void altaOC(SolicitudDeCompra sc, List<ItemSC> itemsSC, String cuitProv) {
+			ItemOC ioc = null;
+			float montoTotal = 0;
+			OrdenDeCompra oc = new OrdenDeCompra();
+			oc.setFecha(fechaHOY);
+			oc.setProveedor(buscarProveedor(cuitProv));
+			oc.setSolicitudDeCompra(sc);
+			for(ItemSC isc:itemsSC){
+				ioc = new ItemOC(isc.getRodamiento(), isc.getCantidad(), isc.getPrecio());
+				montoTotal = montoTotal + isc.getPrecio();
+			}
+			oc.setMontoTotal(montoTotal);
+			oc.persistirse();
+			ordenesDeCompra.add(oc);
+		}
+
+		public List<SolicitudDeCompra> obtenerSCPendientes() {
+			return SolicitudDeCompra.buscarSCPendentesDAO();
+		}
+
+		public ItemLC buscarEnLC(String codRodamiento) {
+			ItemLC item = null;
+			boolean existe = false;	
+			for(ItemLC ilc: listaComp.getItemsLC()){
+				if(ilc.getRodamiento().getCodRodamiento().equals(codRodamiento)) {
+					existe = true;
+					item = ilc;
+				}
+			}
+			if(!existe)
+				item = ItemLC.buscarItemLCDAO(codRodamiento);
+			return item;
+		}
+
 }

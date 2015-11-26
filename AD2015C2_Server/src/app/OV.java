@@ -12,6 +12,7 @@ import dominio.Cliente;
 import dominio.CondPago;
 import dominio.Cotizacion;
 import dominio.Factura;
+import dominio.ItemSolicitud;
 import dominio.OrdenDeCompra;
 import dominio.OrdenDePedido;
 import dominio.Proveedor;
@@ -169,5 +170,45 @@ public class OV extends UnicastRemoteObject implements IOV {
 		else
 			System.out.print("No existe un Cliente con ese cuil");
 	}
-		
+
+	// SILVIO INICIO >>>
+	public OV(String nombreSucursal) throws RemoteException {
+		this.sucursal = nombreSucursal;		
+		this.solicitudesCotizacion = new ArrayList<SolicitudCotizacion>();
+		this.cotizaciones = new ArrayList<Cotizacion>();
+		this.clientes = new ArrayList<Cliente>();
+		this.facturas = new ArrayList<Factura>();
+		this.ordenesPedido = new ArrayList<OrdenDePedido>();
+		this.ordenesCompra = new ArrayList<OrdenDeCompra>();
+		this.remitos =  new ArrayList<Remito>();
+		this.condicionesPago = new ArrayList<CondPago>();
+	}
+	
+	public void altaSolicitudCotizacion(int numero, Date fechaEnviada, 
+			String clienteCuit) {
+		Cliente c = Cliente.buscarClienteDAO(clienteCuit);
+		SolicitudCotizacion sc = new SolicitudCotizacion(numero, fechaEnviada, c);  
+		this.solicitudesCotizacion.add(sc);
+	}
+	public SolicitudCotizacion buscarSolicitudCotizacion(int i) {
+		for (SolicitudCotizacion sc : solicitudesCotizacion) {
+			if (sc.getNumero()==i) {
+				return sc;
+			}
+		}
+		return null;
+	}
+
+	public Cotizacion buscarCotizacion(int i) {
+		for (Cotizacion c : cotizaciones) {
+			if (c.getNumero()==i) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	
+	// SILVIO FIN <<<		
+
 }

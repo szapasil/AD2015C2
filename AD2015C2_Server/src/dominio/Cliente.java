@@ -14,6 +14,7 @@ public class Cliente {
 	private String razonSocial;
 	private String direccion;
 	private String cuil;
+	private String condicionIVA;
 	private List<CondPago> condicionesPago;
 	private java.sql.Date fechaRegistro;
 	private List<SolicitudCotizacion> solicitudesCotizacion;
@@ -35,6 +36,14 @@ public Cliente( String cuil, String razonSocial, String direccion) {
 
 public Cliente(){
 	
+}
+
+public String getCondicionIVA() {
+	return condicionIVA;
+}
+
+public void setCondicionIVA(String condicionIVA) {
+	this.condicionIVA = condicionIVA;
 }
 
 public String getRazonSocial() {
@@ -108,7 +117,7 @@ public void modificar(String razonSocial, String direccion) {
 }
 
 
-private static Cliente toDOM(ClienteENT cliENT) {
+public static Cliente toDOM(ClienteENT cliENT) {
 	return new Cliente(cliENT.getCuil(), cliENT.getRazonSocial(), cliENT.getDireccion());
 }
 

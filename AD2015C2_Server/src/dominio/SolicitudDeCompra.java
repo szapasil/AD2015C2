@@ -6,7 +6,10 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.ProveedorDAO;
+import dao.SolicitudDeCompraDAO;
 import entities.OrdenDePedidoENT;
+import entities.ProveedorENT;
 import entities.SolicitudDeCompraENT;
 
 public class SolicitudDeCompra {
@@ -15,14 +18,16 @@ public class SolicitudDeCompra {
 	private Date fecha;
 	private float precioTotal;
 	private List<OrdenDePedido> ordenesDePedido;
+	private String estado;
 	private List<ItemSC> items;
 
-	public SolicitudDeCompra(int numero, Date fecha, float precioTotal, List<OrdenDePedido> ordenesDePedido) {
+	public SolicitudDeCompra(int numero, Date fecha, float precioTotal, List<OrdenDePedido> ordenesDePedido, String estado) {
 		super();
 		this.numero = numero;
 		this.fecha = fecha;
 		this.precioTotal = precioTotal;
 		this.ordenesDePedido = ordenesDePedido;
+		this.estado = estado;
 		this.items = new ArrayList<ItemSC>();
 		persistirse();
 	}
@@ -59,6 +64,14 @@ public class SolicitudDeCompra {
 		this.ordenesDePedido = ordenesDePedido;
 	}
 
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
 	public List<ItemSC> getItems() {
 		return items;
 	}
@@ -76,6 +89,21 @@ public class SolicitudDeCompra {
 		List<OrdenDePedidoENT> opsENT = new ArrayList<OrdenDePedidoENT>();
 		for(OrdenDePedido op:ordenesDePedido)
 			opsENT.add(op.toENT());
-		return new SolicitudDeCompraENT(numero, fecha, precioTotal,opsENT);
+		return new SolicitudDeCompraENT(numero, fecha, precioTotal,opsENT, estado);
 	}
+
+	public static List<SolicitudDeCompra> buscarSCPendentesDAO() {
+		List<SolicitudDeCompra> pendientes = new ArrayList<SolicitudDeCompra>();
+		for(SolicitudDeCompraENT sc:SolicitudDeCompraDAO.getInstancia().obtenerPendientes())
+			pendientes.add(toDOM(sc));
+		return pendientes;
+	}
+
+	private static SolicitudDeCompra toDOM(SolicitudDeCompraENT scENT) {
+		List<OrdenDePedido> ops = new ArrayList<OrdenDePedido>();
+		for(OrdenDePedidoENT opENT:scENT.getOrdenesDePedido())
+			ops.add(OrdenDePedido.toDOM(opENT));
+		return new SolicitudDeCompra(scENT.getNumero(), scENT.getFecha(), scENT.getPrecioTotal(), ops, scENT.getEstado());
+	}
+	
 }

@@ -12,14 +12,10 @@ import dominio.Cliente;
 import dominio.CondPago;
 import dominio.Cotizacion;
 import dominio.Factura;
-import dominio.ItemSolicitud;
 import dominio.OrdenDeCompra;
 import dominio.OrdenDePedido;
-import dominio.Proveedor;
 import dominio.Remito;
-import dominio.Rodamiento;
 import dominio.SolicitudCotizacion;
-import dao.ClienteDAO;
 
 public class OV extends UnicastRemoteObject implements IOV {
 

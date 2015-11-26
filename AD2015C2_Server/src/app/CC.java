@@ -378,4 +378,20 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			return item;
 		}
 
+	//SILVIO INICIO >>>
+		public OV getInstanciaOV (String nombreSucursal) throws RemoteException{
+			OV ovTemp = null;
+			for (OV ov : ovs) {
+				if (ov.getSucursal().compareTo(nombreSucursal)==0)
+					ovTemp=ov;
+			}
+			return ovTemp;
+		}
+		
+		public void altaOV (String nombreSucursal) throws RemoteException {
+				OV ovTemp = new OV(nombreSucursal);
+				ovs.add(ovTemp);
+		}
+		
+	//SILVIO FIN <<<
 }

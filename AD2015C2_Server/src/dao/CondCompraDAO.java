@@ -6,7 +6,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import dominio.CondCompra;
 import entities.CondCompraENT;
 
 public class CondCompraDAO {
@@ -38,7 +37,7 @@ public class CondCompraDAO {
 		session.beginTransaction();
 		Query query = session.createQuery("update from CondCompraENT set itemLC = ? where id = ?");
 		query.setParameter(0, null);
-		query.setInteger(1, condCompraENT.getId());
+		query.setInteger(1, ent.getId());
 		query.executeUpdate();
 		session.getTransaction().commit();
 		session.close();	

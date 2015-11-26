@@ -22,7 +22,7 @@ import dao.SolicitudDeCompraDAO;
 import dominio.ItemLC;
 import dominio.ItemLP;
 import dominio.ItemOC;
-import dominio.ItemSC;
+import dominio.ItemSolCompra;
 import dominio.ListaPrecios;
 import dominio.OrdenDeCompra;
 import dominio.Proveedor;
@@ -326,11 +326,11 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			ItemLC itemLC = null; 
 			List<SolicitudDeCompra> scPendientes = obtenerSCPendientes();
 			for(SolicitudDeCompra sc:scPendientes){
-				List<ItemSC> itemsOC = new ArrayList<ItemSC>();
+				List<ItemSolCompra> itemsOC = new ArrayList<ItemSolCompra>();
 				int cantidad = sc.getItems().size();
 				while(cantidad>0){
 					String cuitAnt = null;
-					for(ItemSC itemSC:sc.getItems()){
+					for(ItemSolCompra itemSC:sc.getItems()){
 						itemLC = buscarEnLC(itemSC.getRodamiento().getCodRodamiento());
 						if(itemLC.getProveedor().getCuit().equals(cuitAnt) || cuitAnt==null){
 							itemsOC.add(itemSC);
@@ -344,14 +344,14 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			}
 		}
 				
-		public void altaOC(SolicitudDeCompra sc, List<ItemSC> itemsSC, String cuitProv) {
+		public void altaOC(SolicitudDeCompra sc, List<ItemSolCompra> itemsSC, String cuitProv) {
 			ItemOC ioc = null;
 			float montoTotal = 0;
 			OrdenDeCompra oc = new OrdenDeCompra();
 			oc.setFecha(fechaHOY);
 			oc.setProveedor(buscarProveedor(cuitProv));
 			oc.setSolicitudDeCompra(sc);
-			for(ItemSC isc:itemsSC){
+			for(ItemSolCompra isc:itemsSC){
 				ioc = new ItemOC(isc.getRodamiento(), isc.getCantidad(), isc.getPrecio());
 				montoTotal = montoTotal + isc.getPrecio();
 			}

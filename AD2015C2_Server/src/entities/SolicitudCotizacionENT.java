@@ -14,10 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import dominio.Cliente;
-import dominio.ItemSolicitud;
-import dominio.SolicitudCotizacion;
-
 
 @Entity
 @Table(name="SolicitudesCotizacion")
@@ -30,7 +26,7 @@ public class SolicitudCotizacionENT {
 	private ClienteENT cliente;
 	private Date fechaEnviada;	
 	@OneToMany(cascade=CascadeType.ALL ,fetch=FetchType.LAZY ,mappedBy="id.solicitudCotizacion")
-	private List<ItemSolENT> items;
+	private List<ItemSolCotizacionENT> items;
 
 	public SolicitudCotizacionENT(int numero, ClienteENT cliente,
 			Date fechaEnviada) {
@@ -38,11 +34,10 @@ public class SolicitudCotizacionENT {
 		this.numeroSolicitud = numero;
 		this.cliente = cliente;
 		this.fechaEnviada = fechaEnviada;
-		this.items = new ArrayList<ItemSolENT> ();
+		this.items = new ArrayList<ItemSolCotizacionENT> ();
 	}
 	public SolicitudCotizacionENT() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public int getNumeroSolicitud() {
 		return numeroSolicitud;
@@ -62,10 +57,10 @@ public class SolicitudCotizacionENT {
 	public void setFechaEnviada(Date fechaEnviada) {
 		this.fechaEnviada = fechaEnviada;
 	}
-	public List<ItemSolENT> getItems() {
+	public List<ItemSolCotizacionENT> getItems() {
 		return items;
 	}
-	public void setItems(List<ItemSolENT> items) {
+	public void setItems(List<ItemSolCotizacionENT> items) {
 		this.items = items;
 	}
 }

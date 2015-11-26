@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="itemsSC")
-public class ItemSCENT extends PersistentObject {
+public class ItemSolCompraENT extends PersistentObject {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="codRodamiento")
@@ -14,11 +14,11 @@ public class ItemSCENT extends PersistentObject {
 	private int cantidad;
 	private float precio;
 	
-	public ItemSCENT() {
+	public ItemSolCompraENT() {
 		
 	}
 	
-	public ItemSCENT(RodamientoENT rodamiento, int cantidad, float precio) {
+	public ItemSolCompraENT(RodamientoENT rodamiento, int cantidad, float precio) {
 		super();
 		this.rodamiento = rodamiento;
 		this.cantidad = cantidad;

@@ -1,15 +1,15 @@
 package dominio;
 
-import entities.ItemSolENT;
+import entities.ItemSolCotizacionENT;
 import entities.SolicitudCotizacionENT;
 
-public class ItemSolicitud {
+public class ItemSolCotizacion {
 	private int cantidad;
 	private Rodamiento rodamiento;
 	
-	public ItemSolicitud() {
+	public ItemSolCotizacion() {
 	}
-	public ItemSolicitud(Rodamiento r, int cantidad) {
+	public ItemSolCotizacion(Rodamiento r, int cantidad) {
 		// TODO Auto-generated constructor stub
 		super();
 		this.cantidad = cantidad;
@@ -32,12 +32,12 @@ public class ItemSolicitud {
 		this.rodamiento = rodamiento;
 	}
 	
-	public ItemSolENT toENT (SolicitudCotizacionENT solicitudCotizacionENT) {
-		return (new ItemSolENT(solicitudCotizacionENT, this.rodamiento.toENT(),this.cantidad));
+	public ItemSolCotizacionENT toENT (SolicitudCotizacionENT solicitudCotizacionENT) {
+		return (new ItemSolCotizacionENT(solicitudCotizacionENT, this.rodamiento.toENT(),this.cantidad));
 	}
 	
-	public static ItemSolicitud toDOM(ItemSolENT iSolENT) {
-		ItemSolicitud iSol = new ItemSolicitud(Rodamiento.toDOM(iSolENT.getId().getRodamiento()) ,iSolENT.getCantidad());
+	public static ItemSolCotizacion toDOM(ItemSolCotizacionENT iSolENT) {
+		ItemSolCotizacion iSol = new ItemSolCotizacion(Rodamiento.toDOM(iSolENT.getId().getRodamiento()) ,iSolENT.getCantidad());
 		return iSol;
 	}
 	

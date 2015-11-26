@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 import app.CC;
 import app.OV;
 import dao.SolicitudCotizacionDAO;
-import entities.ItemSolENT;
+import entities.ItemSolCotizacionENT;
 import entities.SolicitudCotizacionENT;
 
 
@@ -36,17 +36,17 @@ public class SolicitudCotizacion {
 	private Date fechaEnviada;	
 	private int numero;
 	private Cliente cliente;
-	private List<ItemSolicitud> items;
+	private List<ItemSolCotizacion> items;
 	public SolicitudCotizacion(int numero, Date fechaEnviada, 
 			Cliente cliente) {
 		super();
 		this.numero = numero;
 		this.fechaEnviada = fechaEnviada;
 		this.cliente = cliente;
-		this.items =  new ArrayList<ItemSolicitud>();
+		this.items =  new ArrayList<ItemSolCotizacion>();
 	}
 	public SolicitudCotizacion(){
-		this.items =  new ArrayList<ItemSolicitud>();
+		this.items =  new ArrayList<ItemSolCotizacion>();
 	}
 	public Date getFechaEnviada() {
 		return fechaEnviada;
@@ -67,10 +67,10 @@ public class SolicitudCotizacion {
 		this.cliente = cliente;
 	}
 
-	public List<ItemSolicitud> getItems() {
+	public List<ItemSolCotizacion> getItems() {
 		return items;
 	}
-	public void setItems(List<ItemSolicitud> items) {
+	public void setItems(List<ItemSolCotizacion> items) {
 		this.items = items;
 	}
 	// SILVIO INICIO >>>
@@ -80,9 +80,9 @@ public class SolicitudCotizacion {
 	}
 	
 	public SolicitudCotizacionENT toENT() {
-		List<ItemSolENT> itemsENT = new ArrayList<ItemSolENT>();
+		List<ItemSolCotizacionENT> itemsENT = new ArrayList<ItemSolCotizacionENT>();
 		SolicitudCotizacionENT scENT = new SolicitudCotizacionENT(numero, this.cliente.toENT(),fechaEnviada);
-		for (ItemSolicitud item : this.items) {
+		for (ItemSolCotizacion item : this.items) {
 			itemsENT.add(item.toENT(scENT));
 			System.out.println("Agregando items---->"+ itemsENT.size());
 		}
@@ -93,9 +93,9 @@ public class SolicitudCotizacion {
 	private static SolicitudCotizacion toDOM(SolicitudCotizacionENT scENT) {
 		SolicitudCotizacion sc = new SolicitudCotizacion(scENT.getNumeroSolicitud(),
 				scENT.getFechaEnviada(),Cliente.toDOM(scENT.getCliente()));
-		List<ItemSolicitud> items = new ArrayList<ItemSolicitud>();
-		for (ItemSolENT item : scENT.getItems()) {
-			items.add(ItemSolicitud.toDOM(item));
+		List<ItemSolCotizacion> items = new ArrayList<ItemSolCotizacion>();
+		for (ItemSolCotizacionENT item : scENT.getItems()) {
+			items.add(ItemSolCotizacion.toDOM(item));
 			System.out.println("Agregando items---->"+ items.size());
 		}
 		
@@ -115,7 +115,7 @@ public class SolicitudCotizacion {
 		public void agregarItemSolicitud (String codRodamiento,int cantidad) {
 			try {
 				Rodamiento r = CC.getInstancia().buscarRodamiento(codRodamiento);
-				ItemSolicitud itemsc = new ItemSolicitud(r,cantidad);
+				ItemSolCotizacion itemsc = new ItemSolCotizacion(r,cantidad);
 				this.items.add(itemsc);
 				System.out.println("---->"+ items.size());
 			} catch (RemoteException e) {
@@ -144,7 +144,7 @@ public class SolicitudCotizacion {
 					for (int i=0;i < nList.getLength(); i++){
 					if (nList.item(i).hasChildNodes()){
 						Element ele = (Element)nList.item(i);
-						ItemSolicitud itemTemp = new ItemSolicitud();
+						ItemSolCotizacion itemTemp = new ItemSolCotizacion();
 						itemTemp.setRodamiento(CC.getInstancia().buscarRodamiento(ele.getElementsByTagName("codigoRodamiento").item(0).getTextContent()));
 						itemTemp.setCantidad(Integer.parseInt(ele.getElementsByTagName("cantidad").item(0).getTextContent()));
 						sc.items.add(itemTemp);
@@ -186,7 +186,7 @@ public class SolicitudCotizacion {
 				rootElement.appendChild(fechaSolicitud);
 				// detalle 
 				{
-					for (ItemSolicitud itemSolicitud : items) {
+					for (ItemSolCotizacion itemSolicitud : items) {
 						// items elements
 						Element item = doc.createElement("item");
 						rootElement.appendChild(item);

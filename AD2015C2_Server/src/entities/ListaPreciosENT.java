@@ -21,8 +21,6 @@ public class ListaPreciosENT {
 	@JoinColumn(name="cuitProveedor")
 	private ProveedorENT proveedor;
 	
-//	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-//	@OneToMany(mappedBy="rodamiento",cascade=CascadeType.ALL)
 	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name="nroLP")

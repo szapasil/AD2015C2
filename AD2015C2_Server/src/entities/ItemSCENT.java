@@ -11,14 +11,14 @@ public class ItemSCENT extends PersistentObject {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="codRodamiento")
 	private RodamientoENT rodamiento;
-	private float cantidad;
+	private int cantidad;
 	private float precio;
 	
 	public ItemSCENT() {
 		
 	}
 	
-	public ItemSCENT(RodamientoENT rodamiento, float cantidad, float precio) {
+	public ItemSCENT(RodamientoENT rodamiento, int cantidad, float precio) {
 		super();
 		this.rodamiento = rodamiento;
 		this.cantidad = cantidad;
@@ -33,11 +33,11 @@ public class ItemSCENT extends PersistentObject {
 		this.rodamiento = rodamiento;
 	}
 
-	public float getCantidad() {
+	public int getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(float cantidad) {
+	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
 

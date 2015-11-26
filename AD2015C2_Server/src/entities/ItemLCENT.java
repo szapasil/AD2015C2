@@ -84,11 +84,11 @@ public class ItemLCENT extends PersistentObject{
 //		this.condicionesCompra = condicionesCompra;
 //	}
 	
-	public int getCondcompra() {
+	public int getCondCompra() {
 		return condCompra;
 	}
 
-	public void setCondcompra(int condCompra) {
+	public void setCondCompra(int condCompra) {
 		this.condCompra = condCompra;
 	}
 

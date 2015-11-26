@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- LISTA DE PRECIOS -->
+<ListaPrecios>
+	<Numero>10001</Numero>
+	<Fecha>16/11/2015</Fecha>
+	<Proveedor>30-00000001-9</Proveedor>
+	<Items>
+		<Item>
+			<Codigo>22310</Codigo>
+			<Marca>ZKL</Marca>
+			<Pais>Japon</Pais>
+			<Tipo>Bolilla</Tipo>
+			<Medidas>20x5</Medidas>
+			<CodSFK>SFK0001</CodSFK>
+			<Precio>700.50</Precio>
+			<Stock>50000</Stock>
+			<CondCompra>1000</CondCompra>
+			<Bonificacion>5</Bonificacion>
+		</Item>
+		<Item>
+			<Codigo>NJ209</Codigo>
+			<Marca>SKF</Marca>
+			<Pais>Suecia</Pais>
+			<Tipo>Bolilla</Tipo>
+			<Medidas>30x10</Medidas>
+			<CodSFK>SFK0002</CodSFK>
+			<Precio>400.25</Precio>
+			<Stock>4000</Stock>
+			<CondCompra>1000</CondCompra>
+			<Bonificacion>50</Bonificacion>
+		</Item>
+	</Items>
+</ListaPrecios>

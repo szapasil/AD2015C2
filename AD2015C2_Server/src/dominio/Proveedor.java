@@ -124,7 +124,7 @@ public class Proveedor {
 		return new ProveedorENT(cuit, razonSocial, direccion, LPVigente, estado);
 	}
 	
-	private static Proveedor toDOM(ProveedorENT provENT) {
+	public static Proveedor toDOM(ProveedorENT provENT) {
 		return new Proveedor(provENT.getCuit(), provENT.getRazonSocial(), provENT.getDireccion());
 	}
 

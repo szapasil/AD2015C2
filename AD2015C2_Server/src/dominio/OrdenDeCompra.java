@@ -17,16 +17,19 @@ public class OrdenDeCompra {
 	private SolicitudDeCompra solicitudDeCompra;
 	private List<ItemOC> items; 
 	
-	public OrdenDeCompra(int numero, float montoTotal, Proveedor proveedor,
-			Date fecha, SolicitudDeCompra solicitudDeCompra) {
+	public OrdenDeCompra(float montoTotal, Proveedor proveedor,
+			Date fecha, SolicitudDeCompra solicitudDeCompra, List<ItemOC> items) {
 		super();
-		this.numero = numero;
 		this.montoTotal = montoTotal;
 		this.proveedor = proveedor;
 		this.fecha = fecha;
 		this.solicitudDeCompra = solicitudDeCompra;
-		this.items = new ArrayList<ItemOC>();
+		this.items = items;
 		persistirse();
+	}
+
+	public OrdenDeCompra() {
+		
 	}
 
 	public int getNumero() {

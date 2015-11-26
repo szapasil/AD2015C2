@@ -1,4 +1,5 @@
 package dominio;
+import hbt.HibernateDAO;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,95 +27,127 @@ import org.xml.sax.SAXException;
 
 import app.CC;
 import app.OV;
+import dao.SolicitudCotizacionDAO;
+import entities.ItemSolENT;
+import entities.SolicitudCotizacionENT;
 
-public class Cotizacion {
-		private Date fechaEnviada;
-		private Date fechaExpiracion;
-		private int numero;
-		private SolicitudCotizacion solicitudCotizacion;
-		private Cliente cliente;
-		private List<ItemCotizacion> items;
+
+public class SolicitudCotizacion {
+	private Date fechaEnviada;	
+	private int numero;
+	private Cliente cliente;
+	private List<ItemSolicitud> items;
+	public SolicitudCotizacion(int numero, Date fechaEnviada, 
+			Cliente cliente) {
+		super();
+		this.numero = numero;
+		this.fechaEnviada = fechaEnviada;
+		this.cliente = cliente;
+		this.items =  new ArrayList<ItemSolicitud>();
+	}
+	public SolicitudCotizacion(){
+		this.items =  new ArrayList<ItemSolicitud>();
+	}
+	public Date getFechaEnviada() {
+		return fechaEnviada;
+	}
+	public void setFechaEnviada(Date fechaEnviada) {
+		this.fechaEnviada = fechaEnviada;
+	}
+	public int getNumero() {
+		return numero;
+	}
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public List<ItemSolicitud> getItems() {
+		return items;
+	}
+	public void setItems(List<ItemSolicitud> items) {
+		this.items = items;
+	}
+	// SILVIO INICIO >>>
+	public void persistirse() {
+		SolicitudCotizacionENT scENT = this.toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(scENT);
+	}
+	
+	public SolicitudCotizacionENT toENT() {
+		List<ItemSolENT> itemsENT = new ArrayList<ItemSolENT>();
+		SolicitudCotizacionENT scENT = new SolicitudCotizacionENT(numero, this.cliente.toENT(),fechaEnviada);
+		for (ItemSolicitud item : this.items) {
+			itemsENT.add(item.toENT(scENT));
+			System.out.println("Agregando items---->"+ itemsENT.size());
+		}
+		scENT.setItems(itemsENT);
+		return scENT;
+	}
+	
+	private static SolicitudCotizacion toDOM(SolicitudCotizacionENT scENT) {
+		SolicitudCotizacion sc = new SolicitudCotizacion(scENT.getNumeroSolicitud(),
+				scENT.getFechaEnviada(),Cliente.toDOM(scENT.getCliente()));
+		List<ItemSolicitud> items = new ArrayList<ItemSolicitud>();
+		for (ItemSolENT item : scENT.getItems()) {
+			items.add(ItemSolicitud.toDOM(item));
+			System.out.println("Agregando items---->"+ items.size());
+		}
 		
-		public Cotizacion(int numero, int numeroSolicitudCotizacion
-				,Date fechaEnviada,Cliente cliente) {
-			super();
-			this.numero = numero;
-			this.fechaEnviada = fechaEnviada;
-			this.cliente = cliente;
-			this.items =  new ArrayList<ItemCotizacion>();
-		}
-		public Cotizacion() {
-			this.items =  new ArrayList<ItemCotizacion>();
-		}
-		public Date getFechaEnviada() {
-			return fechaEnviada;
-		}
-		public void setFechaEnviada(Date fechaEnviada) {
-			this.fechaEnviada = fechaEnviada;
-		}
-		public int getNumero() {
-			return numero;
-		}
-		public void setNumero(int numero) {
-			this.numero = numero;
-		}
-		public SolicitudCotizacion getSolicitudCotizacion() {
-			return solicitudCotizacion;
-		}
-		public void setSolicitudCotizacion(SolicitudCotizacion solicitudCotizacion) {
-			this.solicitudCotizacion = solicitudCotizacion;
-		}
-		public Cliente getCliente() {
-			return cliente;
-		}
-		public void setCliente(Cliente cliente) {
-			this.cliente = cliente;
-		}
-		public List<ItemCotizacion> getItems() {
-			return items;
-		}
-		public void setItems(List<ItemCotizacion> items) {
-			this.items = items;
-		}
-		public Date getFechaExpiracion() {
-			return fechaExpiracion;
-		}
-		public void setFechaExpiracion(Date fechaExpiración) {
-			this.fechaExpiracion = fechaExpiración;
-		}
-		
-		public void agregarItemCotizacion() {
+		return sc;
+
+	}
+	
+	public static SolicitudCotizacion buscarSolicitudCotizacionDAO(int numero) {
+		SolicitudCotizacionENT scENT = SolicitudCotizacionDAO.getInstancia().buscarSolicitudCotizacion(numero);
+		if(scENT!=null)
+			return toDOM(scENT);
+		return null;
+	}
+
+
+	
+		public void agregarItemSolicitud (String codRodamiento,int cantidad) {
+			try {
+				Rodamiento r = CC.getInstancia().buscarRodamiento(codRodamiento);
+				ItemSolicitud itemsc = new ItemSolicitud(r,cantidad);
+				this.items.add(itemsc);
+				System.out.println("---->"+ items.size());
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
-
-		public static Cotizacion fromXML(String nombreArchivo, OV estaOV) {
-			Cotizacion c = new Cotizacion();
+		
+		public static SolicitudCotizacion fromXML(String nombreArchivo, OV estaOV) {
+			SolicitudCotizacion sc = new SolicitudCotizacion();
 			Document doc = null;
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder;
 			try {
 					builder = factory.newDocumentBuilder();
 					doc = builder.parse(nombreArchivo);
-					c.setNumero(Integer.parseInt(doc.getElementsByTagName("numeroCotizacion").item(0).getTextContent()));
-					c.setSolicitudCotizacion(estaOV.buscarSolicitudCotizacion(Integer.parseInt(doc.getElementsByTagName("numeroSolicitud").item(0).getTextContent())));
-					c.setCliente(estaOV.buscarCliente(doc.getElementsByTagName("idCliente").item(0).getTextContent()));
+					sc.setNumero(Integer.parseInt(doc.getElementsByTagName("numeroSolicitud").item(0).getTextContent()));
+					sc.setCliente(estaOV.buscarCliente(doc.getElementsByTagName("idCliente").item(0).getTextContent()));
 					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 					java.util.Date parsed;
 					parsed = format.parse(doc.getElementsByTagName("fechaSolicitud").item(0).getTextContent());
-					c.setFechaEnviada(new java.sql.Date(parsed.getTime()));
-					parsed = format.parse(doc.getElementsByTagName("fechaExpiracion").item(0).getTextContent());
-					c.setFechaExpiracion(new java.sql.Date(parsed.getTime()));
-
+					sc.setFechaEnviada(new java.sql.Date(parsed.getTime()));
 
 					NodeList nList = doc.getElementsByTagName("item");
 					for (int i=0;i < nList.getLength(); i++){
 					if (nList.item(i).hasChildNodes()){
 						Element ele = (Element)nList.item(i);
-						ItemCotizacion itemTemp = new ItemCotizacion();
+						ItemSolicitud itemTemp = new ItemSolicitud();
 						itemTemp.setRodamiento(CC.getInstancia().buscarRodamiento(ele.getElementsByTagName("codigoRodamiento").item(0).getTextContent()));
 						itemTemp.setCantidad(Integer.parseInt(ele.getElementsByTagName("cantidad").item(0).getTextContent()));
-						itemTemp.setPrecio(Float.parseFloat(ele.getElementsByTagName("precio").item(0).getTextContent()));
-						c.items.add(itemTemp);
+						sc.items.add(itemTemp);
 						}
 					}
 					File f = new File(nombreArchivo);
@@ -127,9 +160,8 @@ public class Cotizacion {
 				} catch (IOException e) {e.printStackTrace();
 				} catch (ParseException e) {e.printStackTrace();
 			}
-			return c;
+			return sc;
 		}
-		
 		
 		public void toXML(String nombreArchivo) {
 			try {
@@ -137,12 +169,8 @@ public class Cotizacion {
 				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 				// root elements
 				Document doc = docBuilder.newDocument();
-				Element rootElement = doc.createElement("Cotizacion");
+				Element rootElement = doc.createElement("SolicitudCotizacion");
 				doc.appendChild(rootElement);
-				// numeroCotizacion
-				Element numeroCotizacion = doc.createElement("numeroCotizacion");
-				numeroCotizacion.appendChild(doc.createTextNode(String.valueOf(this.numero)));
-				rootElement.appendChild(numeroCotizacion);
 				// numeroSolicitud
 				Element numeroSolicitud = doc.createElement("numeroSolicitud");
 				numeroSolicitud.appendChild(doc.createTextNode(String.valueOf(this.numero)));
@@ -152,34 +180,24 @@ public class Cotizacion {
 				idCliente.appendChild(doc.createTextNode(this.getCliente().getCuil()));
 				rootElement.appendChild(idCliente);
 				// fechaSolicitud
-				Element fechaSolicitud = doc.createElement("fechaCotizacion");
+				Element fechaSolicitud = doc.createElement("fechaSolicitud");
 				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 				fechaSolicitud.appendChild(doc.createTextNode(format.format((this.getFechaEnviada()))));
 				rootElement.appendChild(fechaSolicitud);
-				// fechaExpiracion
-				Element fechaExpiracion = doc.createElement("fechaExpiracion");
-				//SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-				fechaExpiracion.appendChild(doc.createTextNode(format.format((this.getFechaExpiracion()))));
-				rootElement.appendChild(fechaExpiracion);
 				// detalle 
 				{
-					for (ItemCotizacion itemCotizacion : items) {
+					for (ItemSolicitud itemSolicitud : items) {
 						// items elements
 						Element item = doc.createElement("item");
 						rootElement.appendChild(item);
 						// codigoRodamiento
 						Element codigoRodamiento = doc.createElement("codigoRodamiento");
-						codigoRodamiento.appendChild(doc.createTextNode(itemCotizacion.getRodamiento().getCodRodamiento()));
+						codigoRodamiento.appendChild(doc.createTextNode(itemSolicitud.getRodamiento().getCodRodamiento()));
 						item.appendChild(codigoRodamiento);
 						// cantidad
 						Element cantidad = doc.createElement("cantidad");
-						cantidad.appendChild(doc.createTextNode(String.valueOf(itemCotizacion.getCantidad())));
+						cantidad.appendChild(doc.createTextNode(String.valueOf(itemSolicitud.getCantidad())));
 						item.appendChild(cantidad);
-						// precio
-						Element precio = doc.createElement("precio");
-						precio.appendChild(doc.createTextNode(String.valueOf(itemCotizacion.getPrecio())));
-						item.appendChild(precio);
-
 					}
 				}
 				// write the content into xml file
@@ -196,5 +214,9 @@ public class Cotizacion {
 			  } catch (TransformerException tfe) {
 				tfe.printStackTrace();
 			  }
+			
 		}
+		// SILVIO FIN <<<
+	
+	
 }

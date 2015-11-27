@@ -5,6 +5,7 @@ import java.util.List;
 
 import hbt.HibernateDAO;
 import dao.ItemLCDAO;
+import dto.ItemLCDTO;
 import entities.ItemLCENT;
 
 public class ItemLC {
@@ -95,7 +96,7 @@ public class ItemLC {
 		this.condCompra = ilp.getCondcompra();
 		this.proveedor = lp.getProveedor();
 //		condicionesCompra = ilp.getCondicionesCompra();
-		ItemLCDAO.getInstancia().modificarItemLC(ilp.toENT());
+		ItemLCDAO.getInstancia().modificarItemLC(ilp.toENT(lp.toENT()), lp.toENT());
 //		for(CondCompra cc:condicionesCompra)
 //			CondCompraDAO.getInstancia().bajaLC(cc.toENT());
 //		for(CondCompra ilpcc:ilp.getCondicionesCompra())
@@ -134,6 +135,10 @@ public class ItemLC {
 		for(ItemLCENT ilcENT:itemsENT)
 			items.add(toDOM(ilcENT));
 		return items;
+	}
+
+	public ItemLCDTO toDTO() {
+		return new ItemLCDTO(precio,stock,condCompra,bonificacion);
 	}
 
 }

@@ -17,8 +17,9 @@ public class TestLocal {
 
 		LOG ("Inicio");
 		//ALTA RODAMIENTO
-		LOG ("ALTA RODAMIENTO >>>");
+//		LOG ("ALTA RODAMIENTO >>>");s
 		try {
+/*			
 			CC.getInstancia().altaRodamiento("RSA0001", "ZKL", "USA", "Bolilla", "1x3", "SFK2502");
 			CC.getInstancia().altaRodamiento("RSA0002", "ZKL", "USA", "Rodillo", "1x3", "SFK2503");
 			CC.getInstancia().altaRodamiento("RSA0003", "ZKL", "USA", "Rodillo", "1x3", "SFK2504");
@@ -66,23 +67,11 @@ public class TestLocal {
 			SolicitudCotizacion sc3 = SolicitudCotizacion.fromXML("D:\\test\\PRUEBA1.xml", ov);
 			LOG (String.valueOf(sc3.getNumero()));
 			LOG ("FIN >>>");
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+*/			
 
-	// SILVIO INICIO >>>
-	public static void LOG(String TEXTO){
-		System.out.println(TEXTO);
-	}
-	// SILVIO FIN <<<			
-
-	
-	/*
-	 			//ALTA PROVEEDOR
-			//CC.getInstancia().altaProveedor("30-00000001-9", "Rodamientos S.A.", "Rivadavia 4545");
-			//CC.getInstancia().altaProveedor("30-00000002-9", "Rodamientos Malos", "Av. San Juan 2331");
+	 		//ALTA PROVEEDOR
+			CC.getInstancia().altaProveedor("30-00000001-9", "Rodamientos S.A.", "Rivadavia 4545");
+			CC.getInstancia().altaProveedor("30-00000002-9", "Rodamientos Malos", "Av. San Juan 2331");
 		
 			//BAJA PROVEEDOR
 //			CC.getInstancia().bajaProveedor("30-00000002-9");
@@ -107,35 +96,19 @@ public class TestLocal {
 			
 			//ALTA LISTA DE PRECIOS
 			CC.getInstancia().altaListaPrecios("ListaPrecios1001.xml");
-			CC.getInstancia().altaListaPrecios("ListaPrecios2001.xml");
-			
-//			OV ovtest = new OV("Suc1", null, null, null, null, null, null, null, null); 		
+			CC.getInstancia().altaListaPrecios("ListaPrecios2001.xml"); 		
 
 			//ALTA LISTA COMPARATIVA
-//			CC.getInstancia().altaListaComp();
+//			CC.getInstancia().altaListaComp();	
 			
-			//ALTA CLIENTE
-		
-	//	ovtest.altaCliente("20-30000002-6", "Gaston R", " Oro 1800");
-
-			
-			//BAJA CLIENTE
-			//ovtest.bajaCliente("20-30000002-6");
-			
-			//MODIFICAR CLIENTE
-	//	ovtest.modificarCliente("20-30000002-6", "pepe", "Rivadavia 3054");
-	  		
-			//BUSCAR CLIENTE
-			// ClienteENT cliEnt = ClienteDAO.getInstancia().BuscarCliente("20-30000002-6");
-			
-			
-			//System.out.println(cliEnt.getDireccion());
-				
-						
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-	
 	}
-*/
+
+	// SILVIO INICIO >>>
+	public static void LOG(String TEXTO){
+		System.out.println(TEXTO);
+	}
+	// SILVIO FIN <<<									
 }

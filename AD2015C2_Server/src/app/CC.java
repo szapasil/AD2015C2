@@ -29,6 +29,7 @@ import dominio.Proveedor;
 import dominio.Rodamiento;
 import dominio.SolicitudDeCompra;
 import dominio.ListaComparativa;
+import dto.ItemLCDTO;
 import entities.ItemLCENT;
 import entities.SolicitudDeCompraENT;
 
@@ -41,7 +42,7 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 	private List<Proveedor> proveedores;
 	private List<OrdenDeCompra> ordenesDeCompra;
 	private List<SolicitudDeCompra> solicitudesDeCompra;
-	private ListaComparativa listaComp;
+	private List<ItemLC> listaComp;
 	private float porcentajeGanancia;
 	
 	private static CC instancia;
@@ -102,12 +103,12 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 	public void setSolicitudesDeCompra(List<SolicitudDeCompra> solicitudesDeCompra) {
 		this.solicitudesDeCompra = solicitudesDeCompra;
 	}
-	
-	public ListaComparativa getListaComp() {
+
+	public List<ItemLC> getListaComp() {
 		return listaComp;
 	}
 
-	public void setListaComp(ListaComparativa listaComp) {
+	public void setListaComp(List<ItemLC> listaComp) {
 		this.listaComp = listaComp;
 	}
 
@@ -210,82 +211,19 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		//PUNTO 2 - MANEJO DE LISTA DE PRECIOS
 		//ALTA LISTA DE PRECIOS
 		public void altaListaPrecios(String archivo) throws RemoteException, ParseException {
-			ListaPrecios lp = null;
-			Document doc = crearDocumento(archivo);
-			NodeList nList = doc.getElementsByTagName("ListaPrecios");
-			for (int i=0;i < nList.getLength(); i++){
-				if (nList.item(i).hasChildNodes()){
-					Element ele = (Element)nList.item(i);
-					lp = armarCabeceraLP(ele);
-					if(lp!=null)
-						armarDetalleLP(ele,lp);
-				}
-			}
-			if(lp!=null){
-				listaComp = ListaComparativa.obtenerLC();
-				if(listaComp == null){
-					altaListaComp();
-					modificarListaComp(lp);
-				}
-				else
-					modificarListaComp(lp);
-			}
-		}
-
-		private ListaPrecios armarCabeceraLP(Element ele) throws DOMException, ParseException, RemoteException {
-			ListaPrecios lp = null;
-			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-			java.util.Date parsed = format.parse(ele.getElementsByTagName("Fecha").item(0).getTextContent());
-			Date fechaLP = new java.sql.Date(parsed.getTime());
-			int nroLP = Integer.parseInt(ele.getElementsByTagName("Numero").item(0).getTextContent());
-			Proveedor prov = buscarProveedor(ele.getElementsByTagName("Proveedor").item(0).getTextContent());
-			if(prov!=null)
-				lp = prov.obtenerLP(fechaLP,nroLP);
-			return lp;
+			ListaPrecios lp = ListaPrecios.fromXML(archivo);
+			lp.persistirse();
+			modificarListaComp(lp);
 		}
 		
-		private void armarDetalleLP(Element ele, ListaPrecios lp) {
-			Document doc = ele.getOwnerDocument();
-			NodeList nList = doc.getElementsByTagName("Item");
-			for (int i=0;i < nList.getLength(); i++){
-				if (nList.item(i).hasChildNodes()){
-					Element eleItem = (Element)nList.item(i);
-					String codRodamiento = eleItem.getElementsByTagName("Codigo").item(0).getTextContent();
-					Rodamiento rod = buscarRodamiento(codRodamiento);
-					if(rod==null)
-						rod = altaRodamientoXML(eleItem);
-					lp.agregarItem(eleItem,rod);
-				}
-			}
-		}
-
-		private Document crearDocumento(String archivo)	{
-		Document doc = null;
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder;
-		try	{
-			builder = factory.newDocumentBuilder();
-			doc = builder.parse(archivo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return doc;
-	}
-
 		//PUNTO 3 - MANEJO DE LISTA COMPARATIVA
-		//ABM LISTA COMPARATIVA
-		public void altaListaComp() throws RemoteException {
-			ListaComparativa lc = new ListaComparativa();
-				setListaComp(lc);
-			}
-		
+		//MODIFICAR LISTA COMPARATIVA	
 		private void modificarListaComp(ListaPrecios lp) {
+			listaComp = ItemLC.obtenerItemsLC();
 			boolean existe = false;
 			ItemLC item = null;
 			for(ItemLP ilp: lp.getItems()){
-				for(ItemLC ilc:listaComp.getItemsLC()){
-					System.out.println("itemLP: " + ilp.getRodamiento().getCodRodamiento()); //sacar
-					System.out.println("itemLC: " + ilc.getRodamiento().getCodRodamiento()); //sacar 
+				for(ItemLC ilc:listaComp){
 					if(ilc.getRodamiento().getCodRodamiento().equals(ilp.getRodamiento().getCodRodamiento())){
 						existe = true;
 						if(ilc.getPrecio() > ilp.getPrecio())
@@ -293,27 +231,26 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 					}
 				}
 				if(!existe){
-//					item = new ItemLC(ilp.getRodamiento(), ilp.getPrecio(), ilp.getStock(), ilp.getCondicionesCompra(), lp.getProveedor());
 					item = new ItemLC(ilp.getRodamiento(), ilp.getPrecio(), ilp.getStock(), ilp.getCondcompra(), ilp.getBonificacion(), lp.getProveedor());
-					listaComp.getItemsLC().add(item);
+					listaComp.add(item);
 					item.persistirse();
 				}
-			}
+			}	
 		}
-		
+
 		//PUBLICAR LISTA COMPARATIVA
-		public ItemLC publicarLC(Rodamiento rod, int cantidad) {
-			listaComp = ListaComparativa.obtenerLC();
-			ItemLC ilc = buscarEnLC(rod.getCodRodamiento());
+		public ItemLCDTO publicarLC(String codRodamiento, String codSFK) {
+			listaComp = ItemLC.obtenerItemsLC();
+			ItemLC ilc = buscarEnLC(codRodamiento);
 			if(ilc==null)
-				ilc = buscarMejorCodSFK(rod.getCodSFK());
-			return ilc;
+				ilc = buscarMejorCodSFK(codSFK);
+			return ilc.toDTO();
 		}
 
 		public ItemLC buscarMejorCodSFK(String codSFK) {
 			float precioMin = Float.MAX_VALUE; 
 			ItemLC item = null;
-			for(ItemLC ilc: listaComp.getItemsLC()){
+			for(ItemLC ilc: listaComp){
 				if(ilc.getRodamiento().getCodSFK().equals(codSFK) && ilc.getPrecio()<precioMin)
 					item = ilc;
 			}
@@ -367,7 +304,7 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		public ItemLC buscarEnLC(String codRodamiento) {
 			ItemLC item = null;
 			boolean existe = false;	
-			for(ItemLC ilc: listaComp.getItemsLC()){
+			for(ItemLC ilc: listaComp){
 				if(ilc.getRodamiento().getCodRodamiento().equals(codRodamiento)) {
 					existe = true;
 					item = ilc;

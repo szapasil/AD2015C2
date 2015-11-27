@@ -21,9 +21,10 @@ public class ListaPreciosENT {
 	@JoinColumn(name="cuitProveedor")
 	private ProveedorENT proveedor;
 	
-	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinColumn(name="nroLP")
+//	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
+//	@LazyCollection(LazyCollectionOption.FALSE)
+//	@JoinColumn(name="nroLP")
+	@OneToMany(cascade=CascadeType.ALL ,fetch=FetchType.LAZY ,mappedBy="id.listaPrecios")
 	private List<ItemLPENT> items;
 
 	public ListaPreciosENT() {
@@ -35,7 +36,7 @@ public class ListaPreciosENT {
 		this.numero = numero;
 		this.fecha = fecha;
 		this.proveedor = proveedor;
-		this.items = new ArrayList<ItemLPENT>();
+//		this.items = new ArrayList<ItemLPENT>();
 	}
 
 	public int getNumero() {

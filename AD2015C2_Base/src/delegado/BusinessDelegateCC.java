@@ -5,6 +5,8 @@ import interfaz.ICC;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
+import dto.ItemLCDTO;
+
 public class BusinessDelegateCC {
 
 	ICC cc;
@@ -24,5 +26,22 @@ public class BusinessDelegateCC {
     		e.printStackTrace();
     	}
     }
+
+	public void altaListaPrecios(String archivo) {
+		try {
+    		cc.altaListaPrecios(archivo);
+    	} catch (RemoteException e) {
+    		e.printStackTrace();
+    	}
+	}
+	
+	public ItemLCDTO publicarLC(String codRodamiento, String codSFK) {
+		try {
+    		return cc.publicarLC(codRodamiento,codSFK);
+    	} catch (RemoteException e) {
+    		e.printStackTrace();
+    		return null;
+    	}
+	}	
 	
 }

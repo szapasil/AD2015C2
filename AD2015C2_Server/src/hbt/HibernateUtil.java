@@ -22,7 +22,7 @@ public class HibernateUtil {
         	 config.addAnnotatedClass(entities.CondPagoENT.class);
         	 config.addAnnotatedClass(entities.SolicitudCotizacionENT.class);
         	 config.addAnnotatedClass(entities.ItemSolCotizacionENT.class);
-        	 config.addAnnotatedClass(entities.ListaComparativaENT.class);
+//        	 config.addAnnotatedClass(entities.ListaComparativaENT.class);
         	 config.addAnnotatedClass(entities.ItemLCENT.class);
         	 sessionFactory = config.buildSessionFactory();
         }

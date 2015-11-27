@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="itemsSOL")
 public class ItemSolCotizacionENT { 
+	
 	@EmbeddedId
 	private ItemSolCotizacionENTpk id;
 	@Column

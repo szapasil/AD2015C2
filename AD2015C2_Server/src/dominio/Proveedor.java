@@ -36,6 +36,10 @@ public class Proveedor {
 		persistirse();
 	}
 
+	public Proveedor() {
+		
+	}
+
 	public String getRazonSocial() {
 		return razonSocial;
 	}
@@ -115,7 +119,7 @@ public class Proveedor {
 		persistirse();
 	}
 	
-	private void persistirse() {
+	public void persistirse() {
 		ProveedorENT provENT = toENT();
 		HibernateDAO.getInstancia().saveOrUpdate(provENT);
 	}
@@ -125,25 +129,32 @@ public class Proveedor {
 	}
 	
 	public static Proveedor toDOM(ProveedorENT provENT) {
-		return new Proveedor(provENT.getCuit(), provENT.getRazonSocial(), provENT.getDireccion());
+		Proveedor prov = new Proveedor();
+//		prov.setCondicionesCompra(condicionesCompra);
+		prov.setCuit(provENT.getCuit());
+		prov.setDireccion(provENT.getDireccion());
+		prov.setEstado(provENT.getEstado());
+		prov.setLPVigente(provENT.getLPVigente());
+		prov.setRazonSocial(provENT.getRazonSocial());
+		return prov;
 	}
 
-	public ListaPrecios obtenerLP(Document doc) throws ParseException {
-		Element ele = doc.getElementById("ListaPrecios");
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        java.util.Date parsed = format.parse(ele.getAttribute("Fecha"));
-        java.sql.Date fechaSQL = new java.sql.Date(parsed.getTime());
-		ListaPrecios lp = new ListaPrecios(Integer.parseInt(ele.getAttribute("Numero")),fechaSQL,this); 
-		listasDePrecios.add(lp);
-		return lp;
-	}
-
-	public ListaPrecios obtenerLP(Date fechaLP, int nroLP) {
-		ListaPrecios lp = new ListaPrecios(nroLP,fechaLP,this); 
-		listasDePrecios.add(lp);
-		modificar("","",lp.getNumero());
-		return lp;
-	}
+//	public ListaPrecios obtenerLP(Document doc) throws ParseException {
+//		Element ele = doc.getElementById("ListaPrecios");
+//		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+//        java.util.Date parsed = format.parse(ele.getAttribute("Fecha"));
+//        java.sql.Date fechaSQL = new java.sql.Date(parsed.getTime());
+//		ListaPrecios lp = new ListaPrecios(Integer.parseInt(ele.getAttribute("Numero")),fechaSQL,this); 
+//		listasDePrecios.add(lp);
+//		return lp;
+//	}
+//
+//	public ListaPrecios obtenerLP(Date fechaLP, int nroLP) {
+//		ListaPrecios lp = new ListaPrecios(nroLP,fechaLP,this); 
+//		listasDePrecios.add(lp);
+//		modificar("","",lp.getNumero());
+//		return lp;
+//	}
 	
 /*
 	public dto.Proveedor toDTO() {

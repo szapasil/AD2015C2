@@ -14,17 +14,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name="SolicitudesCotizacion")
 public class SolicitudCotizacionENT {
+
 	@Id
 	@Column(name="numero_Solicitud")
 	private int numeroSolicitud;
+	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="cuilCliente")
 	private ClienteENT cliente;
 	private Date fechaEnviada;	
+	
 	@OneToMany(cascade=CascadeType.ALL ,fetch=FetchType.LAZY ,mappedBy="id.solicitudCotizacion")
 	private List<ItemSolCotizacionENT> items;
 

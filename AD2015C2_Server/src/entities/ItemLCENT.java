@@ -26,15 +26,15 @@ public class ItemLCENT extends PersistentObject{
 	private int stock;
 	private int condCompra;
 	private int bonificacion;
+	
+	@OneToOne
+	@JoinColumn(name="cuitProveedor")
+	private ProveedorENT proveedor;
 
 //	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
 //	@LazyCollection(LazyCollectionOption.FALSE)
 //	@JoinColumn(name="itemLC")
 //	private List<CondCompraENT> condicionesCompra;
-
-	@OneToOne
-	@JoinColumn(name="cuitProveedor")
-	private ProveedorENT proveedor;
 	
 	public ItemLCENT() {
 		

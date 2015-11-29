@@ -16,7 +16,9 @@ public class ItemOP {
 		this.precio = precio;
 		persistirse();
 	}
-
+	public ItemOP() {
+		super();
+	}
 	public Rodamiento getRodamiento() {
 		return rodamiento;
 	}

@@ -2,7 +2,7 @@
 <!-- LISTA DE PRECIOS -->
 <ListaPrecios>
 	<Numero>20001</Numero>
-	<Fecha>16/11/2015</Fecha>
+	<Fecha>23/11/2015</Fecha>
 	<Proveedor>30-00000002-9</Proveedor>
 	<Items>
 		<Item>
@@ -14,9 +14,8 @@
 			<CodSFK>SFK0001</CodSFK>
 			<Precio>400</Precio>
 			<Stock>50000</Stock>
-			<Tipo>Cantidad</Tipo>
-			<CondCompra>1000</CondCompra>
-			<Bonificacion>5</Bonificacion>
+			<CondCompra>5000</CondCompra>
+			<Bonificacion>25</Bonificacion>
 		</Item>
 		<Item>
 			<Codigo>NJ209</Codigo>
@@ -25,9 +24,9 @@
 			<Tipo>Bolilla</Tipo>
 			<Medidas>30x10</Medidas>
 			<CodSFK>SFK0002</CodSFK>
-			<Precio>25</Precio>
+			<Precio>1000</Precio>
 			<Stock>4000</Stock>
-			<CondCompra>1000</CondCompra>
+			<CondCompra>500</CondCompra>
 			<Bonificacion>50</Bonificacion>
 		</Item>
 	</Items>

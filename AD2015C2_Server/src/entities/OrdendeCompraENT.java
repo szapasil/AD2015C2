@@ -5,19 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 public class OrdendeCompraENT {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int numero;
 	private float montoTotal;
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="cuitProveedor")
 	private ProveedorENT proveedor;
 	private Date fecha;  
-	@OneToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="nroSC")
 	private SolicitudDeCompraENT solicitudDeCompra;
 	@OneToMany(cascade=CascadeType.ALL)

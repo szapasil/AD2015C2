@@ -14,11 +14,13 @@ import dominio.Rodamiento;
 
 @Entity
 @Table(name="itemsLP")
-public class ItemLPENT extends PersistentObject {
+public class ItemLPENT {
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="codRodamiento")
-	private RodamientoENT rodamiento;
+	@EmbeddedId
+	private ItemLPENTpk id;
+//	@OneToOne(cascade=CascadeType.ALL)
+//	@JoinColumn(name="codRodamiento")
+//	private RodamientoENT rodamiento;
 	private float precio;
 	private int stock;	
 	private int condCompra;
@@ -33,23 +35,33 @@ public class ItemLPENT extends PersistentObject {
 		
 	}
 	
-	public ItemLPENT(RodamientoENT rodamiento, float precio, int stock, int condCompra, int bonificacion) {
+	public ItemLPENT(ListaPreciosENT listaPrecios, RodamientoENT rodamiento, float precio, int stock, int condCompra, int bonificacion) {
 		super();
-		this.rodamiento = rodamiento;
+		this.id = new ItemLPENTpk(listaPrecios, rodamiento);
+//		this.rodamiento = rodamiento;
 		this.precio = precio;
 		this.stock = stock;
 		this.condCompra = condCompra;
 		this.bonificacion = bonificacion;
-//		this.condicionesCompra = new ArrayList<CondCompraENT>();
-	}
-	
-	
-	public RodamientoENT getRodamiento() {
-		return rodamiento;
 	}
 
-	public void setRodamiento(RodamientoENT rodamiento) {
-		this.rodamiento = rodamiento;
+
+
+
+//	public RodamientoENT getRodamiento() {
+//		return rodamiento;
+//	}
+
+//	public void setRodamiento(RodamientoENT rodamiento) {
+//		this.rodamiento = rodamiento;
+//	}
+
+	public ItemLPENTpk getId() {
+		return id;
+	}
+
+	public void setId(ItemLPENTpk id) {
+		this.id = id;
 	}
 
 	public float getPrecio() {

@@ -1,14 +1,12 @@
 package dominio;
 
-import hbt.HibernateDAO;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.CondCompraDAO;
+import hbt.HibernateDAO;
 import dao.ItemLCDAO;
+import dto.ItemLCDTO;
 import entities.ItemLCENT;
-import entities.CondCompraENT;
 
 public class ItemLC {
 
@@ -98,7 +96,7 @@ public class ItemLC {
 		this.condCompra = ilp.getCondcompra();
 		this.proveedor = lp.getProveedor();
 //		condicionesCompra = ilp.getCondicionesCompra();
-		ItemLCDAO.getInstancia().modificarItemLC(ilp.toENT());
+		ItemLCDAO.getInstancia().modificarItemLC(ilp.toENT(lp.toENT()), lp.toENT());
 //		for(CondCompra cc:condicionesCompra)
 //			CondCompraDAO.getInstancia().bajaLC(cc.toENT());
 //		for(CondCompra ilpcc:ilp.getCondicionesCompra())
@@ -116,6 +114,31 @@ public class ItemLC {
 //		for(CondCompra cc:this.condicionesCompra)
 //			condicionesCompraENT.add(cc.toENT());
 //		return new ItemLCENT(rodamiento.toENT(), precio, stock,	condicionesCompraENT, proveedor.toENT());
+	}
+
+	public static ItemLC buscarItemLCDAO(String codRodamiento) {
+		ItemLCENT ilcENT = ItemLCDAO.getInstancia().buscarItem(codRodamiento); 
+		if(ilcENT!=null)
+			return toDOM(ilcENT);
+		return null;
+	}
+
+	public static ItemLC toDOM(ItemLCENT ilcENT) {
+		Rodamiento rod = Rodamiento.toDOM(ilcENT.getRodamiento());
+		Proveedor prov = Proveedor.toDOM(ilcENT.getProveedor());
+		return new ItemLC(rod, ilcENT.getPrecio(), ilcENT.getStock(), ilcENT.getCondCompra(), ilcENT.getBonificacion(), prov);
+	}
+
+	public static List<ItemLC> obtenerItemsLC() {
+		List<ItemLC> items = new ArrayList<ItemLC>();
+		List<ItemLCENT> itemsENT = ItemLCDAO.getInstancia().obtenerItems();
+		for(ItemLCENT ilcENT:itemsENT)
+			items.add(toDOM(ilcENT));
+		return items;
+	}
+
+	public ItemLCDTO toDTO() {
+		return new ItemLCDTO(precio,stock,condCompra,bonificacion);
 	}
 
 }

@@ -1,15 +1,15 @@
 package dominio;
 
 import hbt.HibernateDAO;
-import entities.ItemSCENT;
+import entities.ItemSolCompraENT;
 
-public class ItemSC {
+public class ItemSolCompra {
 	
 	private Rodamiento rodamiento;
-	private float cantidad;
+	private int cantidad;
 	private float precio;
 	
-	public ItemSC(Rodamiento rodamiento, float cantidad, float precio) {
+	public ItemSolCompra(Rodamiento rodamiento, int cantidad, float precio) {
 		super();
 		this.rodamiento = rodamiento;
 		this.cantidad = cantidad;
@@ -25,11 +25,11 @@ public class ItemSC {
 		this.rodamiento = rodamiento;
 	}
 
-	public float getCantidad() {
+	public int getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(float cantidad) {
+	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
 
@@ -42,11 +42,11 @@ public class ItemSC {
 	}
 
 	public void persistirse() {
-		ItemSCENT iscENT = toENT();
+		ItemSolCompraENT iscENT = toENT();
 		HibernateDAO.getInstancia().saveOrUpdate(iscENT);
 	}
 
-	public ItemSCENT toENT() {
-		return new ItemSCENT(rodamiento.toENT(), cantidad, precio);
+	public ItemSolCompraENT toENT() {
+		return new ItemSolCompraENT(rodamiento.toENT(), cantidad, precio);
 	}
 }

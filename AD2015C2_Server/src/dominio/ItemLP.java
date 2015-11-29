@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import entities.ItemLPENT;
+import entities.ListaPreciosENT;
 
 public class ItemLP {
 
@@ -27,7 +28,7 @@ public class ItemLP {
 		this.condCompra = condCompra;
 		this.bonificacion = bonificacion;
 //		this.condicionesCompra = new ArrayList<CondCompra>();
-		persistirse();
+//		persistirse();
 	}
 
 	public ItemLP() {
@@ -87,14 +88,14 @@ public class ItemLP {
 		this.bonificacion = bonificacion;
 	}
 
-	public void persistirse() {
-		ItemLPENT ilpENT = toENT();
-		HibernateDAO.getInstancia().saveOrUpdate(ilpENT);
-	}
+//	public void persistirse() {
+//		ItemLPENT ilpENT = toENT();
+//		HibernateDAO.getInstancia().saveOrUpdate(ilpENT);
+//	}
 
-	public ItemLPENT toENT() {
+	public ItemLPENT toENT(ListaPreciosENT lpENT) {
 //		return new ItemLPENT(rodamiento.toENT(), precio, stock);
-		return new ItemLPENT(rodamiento.toENT(), precio, stock, condCompra, bonificacion);
+		return new ItemLPENT(lpENT, rodamiento.toENT(), precio, stock, condCompra, bonificacion);
 	}
 
 //	public void obtenerCondCompra(Element ele) {

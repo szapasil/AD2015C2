@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -26,6 +27,7 @@ import dominio.ItemSolCompra;
 import dominio.ListaPrecios;
 import dominio.OrdenDeCompra;
 import dominio.Proveedor;
+import dominio.RemitoProvCC;
 import dominio.Rodamiento;
 import dominio.SolicitudDeCompra;
 import dominio.ListaComparativa;
@@ -239,27 +241,28 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		}
 
 		//PUBLICAR LISTA COMPARATIVA
-		public ItemLCDTO publicarLC(String codRodamiento, String codSFK) {
+//		public ItemLCDTO publicarLC(String codRodamiento, String codSFK) {
+		public ItemLCDTO publicarLC(String codRodamiento) {
 			listaComp = ItemLC.obtenerItemsLC();
 			ItemLC ilc = buscarEnLC(codRodamiento);
-			if(ilc==null)
-				ilc = buscarMejorCodSFK(codSFK);
-			return ilc.toDTO();
+//			if(ilc==null)
+//				ilc = buscarMejorCodSFK(codSFK);
+//			return ilc.toDTO();
 		}
 
-		public ItemLC buscarMejorCodSFK(String codSFK) {
-			float precioMin = Float.MAX_VALUE; 
-			ItemLC item = null;
-			for(ItemLC ilc: listaComp){
-				if(ilc.getRodamiento().getCodSFK().equals(codSFK) && ilc.getPrecio()<precioMin)
-					item = ilc;
-			}
-			return item;
-		}
+//		public ItemLC buscarMejorCodSFK(String codSFK) {
+//			float precioMin = Float.MAX_VALUE; 
+//			ItemLC item = null;
+//			for(ItemLC ilc: listaComp){
+//				if(ilc.getRodamiento().getCodSFK().equals(codSFK) && ilc.getPrecio()<precioMin)
+//					item = ilc;
+//			}
+//			return item;
+//		}
 
 		//PUNTO 4 - COMPRA DE RODAMIENTOS
 		//GENERAR ORDEN DE COMPRA
-		public void generarOC(SolicitudDeCompra SC) {
+		public void generarOC() throws RemoteException {
 			ItemLC itemLC = null; 
 			List<SolicitudDeCompra> scPendientes = obtenerSCPendientes();
 			for(SolicitudDeCompra sc:scPendientes){
@@ -278,23 +281,20 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 					}
 					altaOC(sc,itemsOC,cuitAnt);
 				}
+				sc.setEstado("Enviada");
+				sc.setFechaEntregaEstimada(sc.getFechaEmision().add(Calendar.DATE,30));
+				sc.persistirse();
 			}
 		}
 				
-		public void altaOC(SolicitudDeCompra sc, List<ItemSolCompra> itemsSC, String cuitProv) {
-			ItemOC ioc = null;
-			float montoTotal = 0;
-			OrdenDeCompra oc = new OrdenDeCompra();
-			oc.setFecha(fechaHOY);
-			oc.setProveedor(buscarProveedor(cuitProv));
-			oc.setSolicitudDeCompra(sc);
-			for(ItemSolCompra isc:itemsSC){
-				ioc = new ItemOC(isc.getRodamiento(), isc.getCantidad(), isc.getPrecio());
-				montoTotal = montoTotal + isc.getPrecio();
-			}
-			oc.setMontoTotal(montoTotal);
+		public void altaOC(SolicitudDeCompra sc, List<ItemSolCompra> itemsSC, String cuitProv) throws RemoteException {
+			Proveedor prov = buscarProveedor(cuitProv);
+			Date fechaHoy = new java.sql.Date(System.currentTimeMillis());
+			OrdenDeCompra oc = new OrdenDeCompra(prov, fechaHoy, sc);
+			oc.agregarItems(itemsSC);
 			oc.persistirse();
 			ordenesDeCompra.add(oc);
+			oc.toXML();
 		}
 
 		public List<SolicitudDeCompra> obtenerSCPendientes() {
@@ -314,19 +314,57 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 				item = ItemLC.buscarItemLCDAO(codRodamiento);
 			return item;
 		}
-
+		
+		//PUNTO 5 - RECEPCION DE RODAMIENTOS
+		//GENERAR ORDEN DE COMPRA
+		public void recepcionRodamientos(String archivo) {
+			RemitoProvCC rpcc = RemitoProvCC.fromXML(archivo);
+			rpcc.persistirse();
+			generarRemitosCCOV(rpcc);
+		}
+		
+		public void generarRemitosCCOV(RemitoProvCC rpcc) {
+//			ItemLC itemLC = null; 
+//			List<SolicitudDeCompra> scPendientes = obtenerSCPendientes();
+			for(OrdenDeCompra oc:rpcc.getOrdenesDeCompra()){
+				OV ov = oc.getSolicitudDeCompra().getOV();
+				
+				
+				
+/*			
+				List<ItemSolCompra> itemsOC = new ArrayList<ItemSolCompra>();
+				int cantidad = sc.getItems().size();
+				while(cantidad>0){
+					String cuitAnt = null;
+					for(ItemSolCompra itemSC:sc.getItems()){
+						itemLC = buscarEnLC(itemSC.getRodamiento().getCodRodamiento());
+						if(itemLC.getProveedor().getCuit().equals(cuitAnt) || cuitAnt==null){
+							itemsOC.add(itemSC);
+							cuitAnt = itemLC.getProveedor().getCuit();
+							sc.getItems().remove(itemSC);
+							cantidad = cantidad - 1;
+						}
+					}
+					altaOC(sc,itemsOC,cuitAnt);
+				}
+				sc.setEstado("Enviada");
+				sc.setFechaEntregaEstimada(sc.getFechaEmision().add(Calendar.DATE,30));
+				sc.persistirse();
+*/				
+		}
+		
 	//SILVIO INICIO >>>
-		public OV getInstanciaOV (String nombreSucursal) throws RemoteException{
+		public OV getInstanciaOV (int numeroSucursal) throws RemoteException{
 			OV ovTemp = null;
 			for (OV ov : ovs) {
-				if (ov.getSucursal().compareTo(nombreSucursal)==0)
+				if (ov.getNumeroSucursal() == numeroSucursal)
 					ovTemp=ov;
 			}
 			return ovTemp;
 		}
 		
-		public void altaOV (String nombreSucursal) throws RemoteException {
-				OV ovTemp = new OV(nombreSucursal);
+		public void altaOV (int numeroSucursal, String nombreSucursal) throws RemoteException {
+				OV ovTemp = new OV(numeroSucursal, nombreSucursal);
 				ovs.add(ovTemp);
 		}
 		

@@ -14,7 +14,7 @@ public class ItemLPENTpk implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="lista_precios", nullable = false)
+    @JoinColumn(name="nroLP", nullable = false)
 	private ListaPreciosENT listaPrecios;
 	
 	@ManyToOne(fetch=FetchType.LAZY)

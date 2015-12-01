@@ -2,46 +2,100 @@ package dominio;
 
 import hbt.HibernateDAO;
 
+import java.rmi.RemoteException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.CC;
+import app.OV;
 import dao.ClienteDAO;
 import entities.ClienteENT;
+import entities.OVENT;
 
 public class Cliente {
-	
+	private OV ov;
 	private String razonSocial;
 	private String direccion;
 	private String cuil;
 	private String condicionIVA;
-	private List<CondPago> condicionesPago;
+	//private List<CondPago> condicionesPago;
+	private String condicionesPago;
+	private float porcentajeDescuento;
 	private java.sql.Date fechaRegistro;
-	private List<SolicitudCotizacion> solicitudesCotizacion;
+	//private List<SolicitudCotizacion> solicitudesCotizacion;
 
-	
-	
-public Cliente( String cuil, String razonSocial, String direccion) {
+
+
+/*public Cliente(String cuil, String razonSocial, String direccion) {
 	super();
 	this.razonSocial = razonSocial;
-	this.cuil = cuil;
-	long time = System.currentTimeMillis();
-	this.fechaRegistro  = new java.sql.Date(time);
-	this.condicionesPago = new ArrayList<CondPago>();
 	this.direccion = direccion;
-	this.solicitudesCotizacion =  new ArrayList<SolicitudCotizacion>();
-	ClienteENT cliENT = toENT();
-	HibernateDAO.getInstancia().saveOrUpdate(cliENT);
+	this.cuil = cuil;
+	persistirse();
+}*/
+
+
+public Cliente(OV ov, String razonSocial, String direccion, String cuil,
+		String condicionIVA, String condicionesPago, float porcentajeDescuento,
+		Date fechaRegistro) {
+	super();
+	this.ov = ov;
+	this.razonSocial = razonSocial;
+	this.direccion = direccion;
+	this.cuil = cuil;
+	this.condicionIVA = condicionIVA;
+	this.condicionesPago = condicionesPago;
+	this.porcentajeDescuento = porcentajeDescuento;
+	this.fechaRegistro = fechaRegistro;
+	persistirse();
 }
 
-public Cliente(){
-	
+
+private void persistirse() {
+	// TODO Auto-generated method stub
+	ClienteENT clienteENT = toENT();
+	HibernateDAO.getInstancia().saveOrUpdate(clienteENT);
 }
 
+
+public OV getOv() {
+	return ov;
+}
+
+
+public void setOv(OV ov) {
+	this.ov = ov;
+}
+
+
+public String getCondicionesPago() {
+	return condicionesPago;
+}
+
+
+public void setCondicionesPago(String condicionesPago) {
+	this.condicionesPago = condicionesPago;
+}
+
+
+public float getPorcentajeDescuento() {
+	return porcentajeDescuento;
+}
+
+
+public void setPorcentajeDescuento(float porcentajeDescuento) {
+	this.porcentajeDescuento = porcentajeDescuento;
+}
+
+
+public Cliente() {
+	super();
+	// TODO Auto-generated constructor stub
+}
 public String getCondicionIVA() {
 	return condicionIVA;
 }
-
 public void setCondicionIVA(String condicionIVA) {
 	this.condicionIVA = condicionIVA;
 }
@@ -70,13 +124,6 @@ public void setCuil(String cuil) {
 	this.cuil = cuil;
 }
 
-public List<CondPago> getCondicionesPago() {
-	return condicionesPago;
-}
-
-public void setCondicionesPago(List<CondPago> condicionesPago) {
-	this.condicionesPago = condicionesPago;
-}
 
 public Date getFechaRegistro() {
 	return fechaRegistro;
@@ -85,17 +132,8 @@ public Date getFechaRegistro() {
 public void setFechaRegistro(java.sql.Date fechaRegistro) {
 	this.fechaRegistro = fechaRegistro;
 }
-
-public List<SolicitudCotizacion> getSolicitudesCotizacion() {
-	return solicitudesCotizacion;
-}
-
-public void setSolicitudesCotizacion(
-		List<SolicitudCotizacion> solicitudesCotizacion) {
-	this.solicitudesCotizacion = solicitudesCotizacion;
-}
 	
-public static Cliente buscarClienteDAO(String cuil) {
+public static Cliente buscarClienteDAO(String cuil) throws RemoteException {
 	
 	ClienteENT cliENT =  ClienteDAO.getInstancia().BuscarCliente(cuil);
 	if(cliENT!=null)
@@ -103,10 +141,6 @@ public static Cliente buscarClienteDAO(String cuil) {
 	return null;
 }
 	
-
-
-
-
 public void modificar(String razonSocial, String direccion) {
 	if(!direccion.isEmpty())
 		this.direccion = direccion;
@@ -117,16 +151,24 @@ public void modificar(String razonSocial, String direccion) {
 }
 
 
-public static Cliente toDOM(ClienteENT cliENT) {
-	return new Cliente(cliENT.getCuil(), cliENT.getRazonSocial(), cliENT.getDireccion());
+public static Cliente toDOM(ClienteENT cliENT) throws RemoteException {
+		Cliente c = new Cliente();
+		c.ov = CC.getInstancia().getInstanciaOV(cliENT.getOv().getNumeroSucursal());
+		c.razonSocial = cliENT.getRazonSocial();
+		c.direccion = cliENT.getDireccion();
+		c.cuil = cliENT.getCuil();
+		c.condicionIVA = cliENT.getCondicionIVA();
+		c.condicionesPago = cliENT.getCondicionesPago();
+		c.porcentajeDescuento = cliENT.getPorcentajeDescuento();
+		c.fechaRegistro = cliENT.getFechaRegistro();
+		return c;
 }
 
 public ClienteENT toENT() {
-	return new ClienteENT(cuil, razonSocial, direccion);
+	return new 	ClienteENT ( cuil, ov.toENT() ,  razonSocial,
+			 direccion,  fechaRegistro,  porcentajeDescuento,
+			 condicionesPago, condicionIVA);
 }
-
-
-
 
 
 /* TODO: Ver esta operacion*/

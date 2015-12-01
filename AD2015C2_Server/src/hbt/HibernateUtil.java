@@ -22,8 +22,25 @@ public class HibernateUtil {
         	 config.addAnnotatedClass(entities.CondPagoENT.class);
         	 config.addAnnotatedClass(entities.SolicitudCotizacionENT.class);
         	 config.addAnnotatedClass(entities.ItemSolCotizacionENT.class);
-//        	 config.addAnnotatedClass(entities.ListaComparativaENT.class);
+        	 config.addAnnotatedClass(entities.ItemSolCotizacionENTpk.class);
+        	 //        	 config.addAnnotatedClass(entities.ListaComparativaENT.class);
         	 config.addAnnotatedClass(entities.ItemLCENT.class);
+        	 config.addAnnotatedClass(entities.CotizacionENT.class);
+        	 config.addAnnotatedClass(entities.ItemCotizacionENT.class);
+        	 config.addAnnotatedClass(entities.ItemCotizacionENTpk.class);
+        	 config.addAnnotatedClass(entities.OrdenDePedidoENT.class);
+        	 config.addAnnotatedClass(entities.ItemOPENT.class);
+        	 config.addAnnotatedClass(entities.ItemOPENTpk.class);
+        	 config.addAnnotatedClass(entities.FacturaENT.class);
+        	 config.addAnnotatedClass(entities.ItemFacturaENT.class);
+        	 config.addAnnotatedClass(entities.ItemFacturaENTpk.class);
+        	 config.addAnnotatedClass(entities.RemitoENT.class);
+        	 config.addAnnotatedClass(entities.ItemRemitoENT.class);
+        	 config.addAnnotatedClass(entities.ItemRemitoENTpk.class);
+        	 config.addAnnotatedClass(entities.SolicitudDeCompraENT.class);
+        	 config.addAnnotatedClass(entities.ItemSolCompraENT.class);
+        	 config.addAnnotatedClass(entities.ItemSolCompraENTpk.class);
+        	 config.addAnnotatedClass(entities.OVENT.class);
         	 sessionFactory = config.buildSessionFactory();
         }
         catch (Throwable ex) {

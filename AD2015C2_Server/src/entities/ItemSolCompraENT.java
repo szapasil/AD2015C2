@@ -6,47 +6,47 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="itemsSC")
-public class ItemSolCompraENT extends PersistentObject {
+public class ItemSolCompraENT  {
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="codRodamiento")
-	private RodamientoENT rodamiento;
+	@EmbeddedId
+	private ItemSolCompraENTpk id; 
+@Column
 	private int cantidad;
+@Column
 	private float precio;
+public ItemSolCompraENT() {
+	super();
+	// TODO Auto-generated constructor stub
+}
+public ItemSolCompraENT(ItemSolCompraENTpk id, int cantidad, float precio) {
+	super();
+	this.id = id;
+	this.cantidad = cantidad;
+	this.precio = precio;
+}
+public ItemSolCompraENT(RodamientoENT rodamiento, int cantidad2, float precio2) {
+	ItemSolCompraENTpk id = new ItemSolCompraENTpk();
+	id.setRodamiento(rodamiento);
+	id.setSolicitudCompra(solicitudCompra);
+}
+public ItemSolCompraENTpk getId() {
+	return id;
+}
+public void setId(ItemSolCompraENTpk id) {
+	this.id = id;
+}
+public int getCantidad() {
+	return cantidad;
+}
+public void setCantidad(int cantidad) {
+	this.cantidad = cantidad;
+}
+public float getPrecio() {
+	return precio;
+}
+public void setPrecio(float precio) {
+	this.precio = precio;
+}
 	
-	public ItemSolCompraENT() {
-		
-	}
-	
-	public ItemSolCompraENT(RodamientoENT rodamiento, int cantidad, float precio) {
-		super();
-		this.rodamiento = rodamiento;
-		this.cantidad = cantidad;
-		this.precio = precio;
-	}
-
-	public RodamientoENT getRodamiento() {
-		return rodamiento;
-	}
-
-	public void setRodamiento(RodamientoENT rodamiento) {
-		this.rodamiento = rodamiento;
-	}
-
-	public int getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(int cantidad) {
-		this.cantidad = cantidad;
-	}
-
-	public float getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(float precio) {
-		this.precio = precio;
-	}
 
 }

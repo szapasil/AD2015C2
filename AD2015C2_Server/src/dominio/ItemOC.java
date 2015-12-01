@@ -1,7 +1,7 @@
 package dominio;
 
-import hbt.HibernateDAO;
 import entities.ItemOCENT;
+import entities.OrdenDeCompraENT;
 
 public class ItemOC {
 
@@ -14,7 +14,7 @@ public class ItemOC {
 		this.rodamiento = rodamiento;
 		this.cantidad = cantidad;
 		this.precio = precio;
-		persistirse();
+//		persistirse();
 	}
 	
 	public Rodamiento getRodamiento() {
@@ -41,13 +41,13 @@ public class ItemOC {
 		this.precio = precio;
 	}
 	
-	private void persistirse() {
-		ItemOCENT iocENT = toENT();
-		HibernateDAO.getInstancia().saveOrUpdate(iocENT);
-	}
+//	public void persistirse() {
+//		ItemOCENT iocENT = toENT();
+//		HibernateDAO.getInstancia().saveOrUpdate(iocENT);
+//	}
 
-	private ItemOCENT toENT() {
-		return new ItemOCENT(rodamiento.toENT(), cantidad, precio);
+	public ItemOCENT toENT(OrdenDeCompraENT ocENT) {
+		return new ItemOCENT(ocENT, rodamiento.toENT(), cantidad, precio);
 	}
 	
 }

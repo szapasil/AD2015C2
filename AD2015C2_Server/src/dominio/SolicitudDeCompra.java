@@ -15,16 +15,17 @@ import entities.SolicitudDeCompraENT;
 public class SolicitudDeCompra {
 
 	private int numero;
-	private Date fecha;
+	private Date fechaEmision;
 	private float precioTotal;
 	private List<OrdenDePedido> ordenesDePedido;
 	private String estado;
+	private Date fechaEntregaEstimada;
 	private List<ItemSolCompra> items;
 
-	public SolicitudDeCompra(int numero, Date fecha, float precioTotal, List<OrdenDePedido> ordenesDePedido, String estado) {
+	public SolicitudDeCompra(int numero, Date fechaEmision, float precioTotal, List<OrdenDePedido> ordenesDePedido, String estado) {
 		super();
 		this.numero = numero;
-		this.fecha = fecha;
+		this.fechaEmision = fechaEmision;
 		this.precioTotal = precioTotal;
 		this.ordenesDePedido = ordenesDePedido;
 		this.estado = estado;
@@ -40,12 +41,12 @@ public class SolicitudDeCompra {
 		this.numero = numero;
 	}
 
-	public Date getFecha() {
-		return fecha;
+	public Date getFechaEmision() {
+		return fechaEmision;
 	}
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	public void setFechaEmision(Date fechaEmision) {
+		this.fechaEmision = fechaEmision;
 	}
 
 	public float getPrecioTotal() {
@@ -72,6 +73,14 @@ public class SolicitudDeCompra {
 		this.estado = estado;
 	}
 	
+	public Date getFechaEntregaEstimada() {
+		return fechaEntregaEstimada;
+	}
+
+	public void setFechaEntregaEstimada(Date fechaEntregaEstimada) {
+		this.fechaEntregaEstimada = fechaEntregaEstimada;
+	}
+
 	public List<ItemSolCompra> getItems() {
 		return items;
 	}
@@ -89,7 +98,7 @@ public class SolicitudDeCompra {
 		List<OrdenDePedidoENT> opsENT = new ArrayList<OrdenDePedidoENT>();
 		for(OrdenDePedido op:ordenesDePedido)
 			opsENT.add(op.toENT());
-		return new SolicitudDeCompraENT(numero, fecha, precioTotal,opsENT, estado);
+		return new SolicitudDeCompraENT(numero, fechaEmision, precioTotal,opsENT, estado);
 	}
 
 	public static List<SolicitudDeCompra> buscarSCPendentesDAO() {

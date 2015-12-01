@@ -41,11 +41,10 @@ public class ListaPrecios {
 		this.fecha = fecha;
 		this.proveedor = proveedor;
 		this.items = new ArrayList<ItemLP>();
-//		persistirse();
 	}
 
 	public ListaPrecios() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public int getNumero() {
@@ -79,27 +78,10 @@ public class ListaPrecios {
 	public void setItems(List<ItemLP> items) {
 		this.items = items;
 	}
-/*
-	public dto.ListaPrecios toDTO() {
-		return new dto.ListaPrecios(this.fecha,this.items,this.numero,this.proveedor);
-	}
-*/
-	
-	public void agregarItem(Element ele, Rodamiento rod) {
-		float itemPrecio = Float.parseFloat(ele.getElementsByTagName("Precio").item(0).getTextContent());
-		int itemStock = Integer.parseInt(ele.getElementsByTagName("Stock").item(0).getTextContent());
-		int itemCC = Integer.parseInt(ele.getElementsByTagName("CondCompra").item(0).getTextContent());
-		int itemBonif = Integer.parseInt(ele.getElementsByTagName("Bonificacion").item(0).getTextContent());
-//		ItemLP ilp = new ItemLP(rod, itemPrecio, itemStock);
-		ItemLP ilp = new ItemLP(rod, itemPrecio, itemStock, itemCC, itemBonif);
-//		ilp.obtenerCondCompra(ele);
-		items.add(ilp);
-	}
-	
+
 	public void persistirse() {
 		ListaPreciosENT lpENT = toENT();
 		HibernateDAO.getInstancia().saveOrUpdate(lpENT);
-//		proveedor.modificar("","",numero);
 		proveedor.setLPVigente(numero);
 		proveedor.persistirse();
 	}
@@ -162,5 +144,23 @@ public class ListaPrecios {
 		} catch (ParseException e) {e.printStackTrace();
 		} return lp;
 	}
+
+	/*
+	public dto.ListaPrecios toDTO() {
+		return new dto.ListaPrecios(this.fecha,this.items,this.numero,this.proveedor);
+	}
+*/
+/*	
+	public void agregarItem(Element ele, Rodamiento rod) {
+		float itemPrecio = Float.parseFloat(ele.getElementsByTagName("Precio").item(0).getTextContent());
+		int itemStock = Integer.parseInt(ele.getElementsByTagName("Stock").item(0).getTextContent());
+		int itemCC = Integer.parseInt(ele.getElementsByTagName("CondCompra").item(0).getTextContent());
+		int itemBonif = Integer.parseInt(ele.getElementsByTagName("Bonificacion").item(0).getTextContent());
+//		ItemLP ilp = new ItemLP(rod, itemPrecio, itemStock);
+		ItemLP ilp = new ItemLP(rod, itemPrecio, itemStock, itemCC, itemBonif);
+//		ilp.obtenerCondCompra(ele);
+		items.add(ilp);
+	}
+*/
 	
 }

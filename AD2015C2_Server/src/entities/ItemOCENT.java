@@ -1,34 +1,42 @@
 package entities;
 
-import hbt.PersistentObject;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name="itemsLP")
-public class ItemOCENT extends PersistentObject {
+public class ItemOCENT {
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="codRodamiento")
-	private RodamientoENT rodamiento;
+//	@OneToOne(cascade=CascadeType.ALL)
+//	@JoinColumn(name="codRodamiento")
+//	private RodamientoENT rodamiento;
+	@EmbeddedId
+	private ItemOCENTpk id;
 	private int cantidad;
 	private float precio;
 	
-	public ItemOCENT(RodamientoENT rodamiento, int cantidad, float precio) {
+	public ItemOCENT(OrdenDeCompraENT oc, RodamientoENT rodamiento, int cantidad, float precio) {
 		super();
-		this.rodamiento = rodamiento;
+//		this.rodamiento = rodamiento;
+		this.id = new ItemOCENTpk(oc, rodamiento);
 		this.cantidad = cantidad;
 		this.precio = precio;
 	}
 	
-	public RodamientoENT getRodamiento() {
-		return rodamiento;
-	}
+//	public RodamientoENT getRodamiento() {
+//		return rodamiento;
+//	}
 	
-	public void setRodamiento(RodamientoENT rodamiento) {
-		this.rodamiento = rodamiento;
-	}
+//	public void setRodamiento(RodamientoENT rodamiento) {
+//		this.rodamiento = rodamiento;
+//	}
 	
+	public ItemOCENTpk getId() {
+		return id;
+	}
+
+	public void setId(ItemOCENTpk id) {
+		this.id = id;
+	}
 	public int getCantidad() {
 		return cantidad;
 	}

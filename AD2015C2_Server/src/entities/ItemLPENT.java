@@ -1,16 +1,6 @@
 package entities;
 
-import hbt.PersistentObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.*;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
-import dominio.Rodamiento;
 
 @Entity
 @Table(name="itemsLP")
@@ -18,9 +8,6 @@ public class ItemLPENT {
 	
 	@EmbeddedId
 	private ItemLPENTpk id;
-//	@OneToOne(cascade=CascadeType.ALL)
-//	@JoinColumn(name="codRodamiento")
-//	private RodamientoENT rodamiento;
 	private float precio;
 	private int stock;	
 	private int condCompra;
@@ -38,23 +25,11 @@ public class ItemLPENT {
 	public ItemLPENT(ListaPreciosENT listaPrecios, RodamientoENT rodamiento, float precio, int stock, int condCompra, int bonificacion) {
 		super();
 		this.id = new ItemLPENTpk(listaPrecios, rodamiento);
-//		this.rodamiento = rodamiento;
 		this.precio = precio;
 		this.stock = stock;
 		this.condCompra = condCompra;
 		this.bonificacion = bonificacion;
 	}
-
-
-
-
-//	public RodamientoENT getRodamiento() {
-//		return rodamiento;
-//	}
-
-//	public void setRodamiento(RodamientoENT rodamiento) {
-//		this.rodamiento = rodamiento;
-//	}
 
 	public ItemLPENTpk getId() {
 		return id;

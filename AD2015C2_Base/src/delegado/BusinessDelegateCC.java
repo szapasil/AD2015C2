@@ -4,6 +4,7 @@ import interfaz.ICC;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.text.ParseException;
 
 import dto.ItemLCDTO;
 
@@ -32,7 +33,10 @@ public class BusinessDelegateCC {
     		cc.altaListaPrecios(archivo);
     	} catch (RemoteException e) {
     		e.printStackTrace();
-    	}
+    	} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public ItemLCDTO publicarLC(String codRodamiento, String codSFK) {

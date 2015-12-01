@@ -29,6 +29,10 @@ public class SolicitudCotizacionENT {
 	
 	@OneToMany(cascade=CascadeType.ALL ,fetch=FetchType.LAZY ,mappedBy="id.solicitudCotizacion")
 	private List<ItemSolCotizacionENT> items;
+	
+//	@ManyToOne(fetch=FetchType.LAZY)
+//  @JoinColumn(name="nroRemito", nullable = false)
+//	private RemitoCCOVENT remito;
 
 	public SolicitudCotizacionENT(int numero, ClienteENT cliente,
 			Date fechaEnviada) {

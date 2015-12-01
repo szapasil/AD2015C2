@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -17,9 +20,75 @@ import dominio.Cotizacion;
 import dominio.ItemOP;
 
 @Entity
-@Table(name="ordenesPedido")
+@Table(name="ordenesDePedido")
 public class OrdenDePedidoENT {
+	@Id
+	@Column (name="numero_pedido")
+	private int numero;
+	@Column
+	private Date fechaEnviada;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="numero_sucursal", nullable = false)
+	private OVENT ov; 
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="cuilCliente")
+	private ClienteENT cliente;
+	
+	@OneToMany(cascade=CascadeType.ALL ,fetch=FetchType.EAGER ,mappedBy="id.pedido")
+	private List<ItemOPENT> items;
+
+	public OrdenDePedidoENT() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public OrdenDePedidoENT(int numero, Date fechaEnviada, ClienteENT cliente,
+			List<ItemOPENT> items) {
+		super();
+		this.numero = numero;
+		this.fechaEnviada = fechaEnviada;
+		this.cliente = cliente;
+		this.items = items;
+	}
+
+	public int getNumero() {
+		return numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
+	public Date getFechaEnviada() {
+		return fechaEnviada;
+	}
+
+	public void setFechaEnviada(Date fechaEnviada) {
+		this.fechaEnviada = fechaEnviada;
+	}
+
+	public ClienteENT getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(ClienteENT cliente) {
+		this.cliente = cliente;
+	}
+
+	public List<ItemOPENT> getItems() {
+		return items;
+	}
+
+	public void setItems(List<ItemOPENT> items) {
+		this.items = items;
+	}
+
+	
+	
+	
+	/*	
 	@Id
 	private int numero;
 	@OneToOne(cascade=CascadeType.ALL)
@@ -36,7 +105,7 @@ public class OrdenDePedidoENT {
 	public OrdenDePedidoENT() {
 		
 	}
-	
+
 	public OrdenDePedidoENT(int numero, Cliente cliente, Date fecha, List<Cotizacion> cotizaciones) {
 		super();
 		this.numero = numero;
@@ -85,5 +154,5 @@ public class OrdenDePedidoENT {
 	public void setItems(List<ItemOP> items) {
 		this.items = items;
 	}
-	
+*/	
 }

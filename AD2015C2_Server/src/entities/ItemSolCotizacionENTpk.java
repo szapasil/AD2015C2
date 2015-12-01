@@ -13,7 +13,7 @@ public class ItemSolCotizacionENTpk implements Serializable{
 	private static final long serialVersionUID = -2678387704362020180L;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="numero_Solicitud", nullable = false)
+    @JoinColumn(name="numero_solicitudCotizacion", nullable = false)
 	private SolicitudCotizacionENT solicitudCotizacion;
 	
 	@ManyToOne(fetch=FetchType.LAZY)

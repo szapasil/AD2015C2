@@ -87,7 +87,7 @@ public class Cotizacion {
 			
 		}
 
-		public static Cotizacion fromXML(String nombreArchivo, OV estaOV) {
+		public static Cotizacion fromXML(String nombreArchivo, OV estaOV) throws Exception {
 			Cotizacion c = new Cotizacion();
 			Document doc = null;
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

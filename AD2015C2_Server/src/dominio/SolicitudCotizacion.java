@@ -44,6 +44,17 @@ public class SolicitudCotizacion {
 		this.fechaEnviada = fechaEnviada;
 		this.cliente = cliente;
 		this.items =  new ArrayList<ItemSolCotizacion>();
+		persistirse();
+	}
+	
+	public SolicitudCotizacion SolicitudCotizacionFromClient(int numero, Date fechaEnviada, 
+			Cliente cliente) {
+		SolicitudCotizacion sc = new SolicitudCotizacion();
+		sc.numero = numero;
+		sc.fechaEnviada = fechaEnviada;
+		sc.cliente = cliente;
+		sc.items =  new ArrayList<ItemSolCotizacion>();
+		return sc;
 	}
 	
 	public SolicitudCotizacion(){
@@ -99,7 +110,7 @@ public class SolicitudCotizacion {
 		return scENT;
 	}
 	
-	private static SolicitudCotizacion toDOM(SolicitudCotizacionENT scENT) {
+	private static SolicitudCotizacion toDOM(SolicitudCotizacionENT scENT) throws RemoteException {
 		SolicitudCotizacion sc = new SolicitudCotizacion(scENT.getNumeroSolicitud(),
 				scENT.getFechaEnviada(),Cliente.toDOM(scENT.getCliente()));
 		List<ItemSolCotizacion> items = new ArrayList<ItemSolCotizacion>();
@@ -112,7 +123,7 @@ public class SolicitudCotizacion {
 
 	}
 	
-	public static SolicitudCotizacion buscarSolicitudCotizacionDAO(int numero) {
+	public static SolicitudCotizacion buscarSolicitudCotizacionDAO(int numero) throws RemoteException {
 		SolicitudCotizacionENT scENT = SolicitudCotizacionDAO.getInstancia().buscarSolicitudCotizacion(numero);
 		if(scENT!=null)
 			return toDOM(scENT);
@@ -121,7 +132,7 @@ public class SolicitudCotizacion {
 
 
 	
-	public void agregarItemSolicitud (String codRodamiento,int cantidad) {
+	public void agregarItemSolicitud(String codRodamiento,int cantidad) {
 		try {
 			Rodamiento r = CC.getInstancia().buscarRodamiento(codRodamiento);
 			ItemSolCotizacion itemsc = new ItemSolCotizacion(r,cantidad);
@@ -134,7 +145,7 @@ public class SolicitudCotizacion {
 		
 	}
 		
-	public static SolicitudCotizacion fromXML(String nombreArchivo, OV estaOV) {
+	public static SolicitudCotizacion fromXML(String nombreArchivo, OV estaOV) throws Exception {
 		SolicitudCotizacion sc = new SolicitudCotizacion();
 		Document doc = null;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -159,6 +170,7 @@ public class SolicitudCotizacion {
 					sc.items.add(itemTemp);
 					}
 				}
+				sc.persistirse();
 				File f = new File(nombreArchivo);
 				f.delete();
 			} catch (NumberFormatException e) {e.printStackTrace();

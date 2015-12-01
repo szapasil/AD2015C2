@@ -11,77 +11,25 @@ import javax.persistence.*;
 public class SolicitudDeCompraENT {
 	
 	@Id
+	@Column(name="numero_solicitudCompra")
 	private int numero;
-	private Date fecha;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="numero_sucursal", nullable = false)	
+	private OVENT ov;
+	private Date fechaEmision;
+	private Date fechaEntregaEstimada;
 	private float precioTotal;
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="nroSC")
-	private List<OrdenDePedidoENT> ordenesDePedido;
+	/*@OneToMany(cascade=CascadeType.ALL, mappedBy="numero_pedido")
+	private List<OrdenDePedidoENT> ordenesDePedido;*/
 	private String estado;
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="nroSC")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="id.solicitudCompra")
 	private List<ItemSolCompraENT> items;
 
 	public SolicitudDeCompraENT() {
 		
 	}
 	
-	public SolicitudDeCompraENT(int numero, Date fecha, float precioTotal, List<OrdenDePedidoENT> ordenesDePedido, String estado) {
-		super();
-		this.numero = numero;
-		this.fecha = fecha;
-		this.precioTotal = precioTotal;
-		this.ordenesDePedido = ordenesDePedido;
-		this.estado = estado;
-		this.items = new ArrayList<ItemSolCompraENT>();
-	}
-
-	public int getNumero() {
-		return numero;
-	}
-
-	public void setNumero(int numero) {
-		this.numero = numero;
-	}
-
-	public Date getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
-
-	public float getPrecioTotal() {
-		return precioTotal;
-	}
-
-	public void setPrecioTotal(float precioTotal) {
-		this.precioTotal = precioTotal;
-	}
 	
-	public List<OrdenDePedidoENT> getOrdenesDePedido() {
-		return ordenesDePedido;
-	}
-
-	public void setOrdenesDePedido(List<OrdenDePedidoENT> ordenesDePedido) {
-		this.ordenesDePedido = ordenesDePedido;
-	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public List<ItemSolCompraENT> getItems() {
-		return items;
-	}
-
-	public void setItems(List<ItemSolCompraENT> items) {
-		this.items = items;
-	}
 	
 }

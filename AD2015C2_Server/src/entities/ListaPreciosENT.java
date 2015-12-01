@@ -21,9 +21,6 @@ public class ListaPreciosENT {
 	@JoinColumn(name="cuitProveedor")
 	private ProveedorENT proveedor;
 	
-//	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
-//	@LazyCollection(LazyCollectionOption.FALSE)
-//	@JoinColumn(name="nroLP")
 	@OneToMany(cascade=CascadeType.ALL ,fetch=FetchType.LAZY ,mappedBy="id.listaPrecios")
 	private List<ItemLPENT> items;
 

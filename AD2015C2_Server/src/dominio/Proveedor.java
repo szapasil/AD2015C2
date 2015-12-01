@@ -2,14 +2,8 @@ package dominio;
 
 import hbt.HibernateDAO;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import dao.ProveedorDAO;
 import entities.ProveedorENT;
@@ -19,7 +13,6 @@ public class Proveedor {
 	private String cuit;
 	private String razonSocial;
 	private String direccion;
-	private List<CondCompraProv> condicionesCompra;
 	private int LPVigente;
 	private List<ListaPrecios> listasDePrecios;
 	private String estado;
@@ -29,7 +22,6 @@ public class Proveedor {
 		this.cuit = cuit;
 		this.razonSocial = razonSocial;
 		this.direccion = direccion;
-		this.condicionesCompra = new ArrayList<CondCompraProv>();
 		this.LPVigente = 0;
 		this.listasDePrecios = new ArrayList<ListaPrecios>();
 		this.estado = "activo";
@@ -62,14 +54,6 @@ public class Proveedor {
 	
 	public void setCuit(String cuit) {
 		this.cuit = cuit;
-	}
-	
-	public List<CondCompraProv> getCondicionesCompra() {
-		return condicionesCompra;
-	}
-	
-	public void setCondicionesCompra(List<CondCompraProv> condicionesCompra) {
-		this.condicionesCompra = condicionesCompra;
 	}
 	
 	public int getLPVigente() {

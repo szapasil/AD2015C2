@@ -1,26 +1,32 @@
 package app;
 
+import hbt.HibernateDAO;
 import interfaz.IOV;
 
 import java.rmi.RemoteException;
+import java.rmi.server.RMIClientSocketFactory;
+import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import dominio.Cliente;
-import dominio.CondPago;
+
 import dominio.Cotizacion;
 import dominio.Factura;
 import dominio.OrdenDeCompra;
 import dominio.OrdenDePedido;
 import dominio.Remito;
 import dominio.SolicitudCotizacion;
+import entities.OVENT;
+import entities.ProveedorENT;
 
 public class OV extends UnicastRemoteObject implements IOV {
 
 	private static final long serialVersionUID = 1L;
-	private String sucursal;
+	private int numeroSucursal;
+	private String nombreSucursal;
 	private List<SolicitudCotizacion> solicitudesCotizacion;
 	private List<Cotizacion> cotizaciones;
 	private List<Cliente> clientes;
@@ -28,34 +34,21 @@ public class OV extends UnicastRemoteObject implements IOV {
 	private List<OrdenDePedido> ordenesPedido;
 	private List<OrdenDeCompra> ordenesCompra;
 	private List<Remito> remitos;
-	private List<CondPago> condicionesPago;
 	
-	public OV(String sucursal, List<SolicitudCotizacion> solicitudesCotizacion,
-			List<Cotizacion> cotizaciones, List<Cliente> clientes,
-			List<Factura> facturas, List<OrdenDePedido> ordenesPedido,
-			List<OrdenDeCompra> ordenesCompra, List<Remito> remitos,
-			List<CondPago> condicionesPago) throws RemoteException {
-		super();
-		this.sucursal = sucursal;		
-		this.solicitudesCotizacion = new ArrayList<SolicitudCotizacion>();
-		this.cotizaciones = new ArrayList<Cotizacion>();
-		this.clientes = new ArrayList<Cliente>();
-		this.facturas = new ArrayList<Factura>();
-		this.ordenesPedido = new ArrayList<OrdenDePedido>();
-		this.ordenesCompra = new ArrayList<OrdenDeCompra>();
-		this.remitos =  new ArrayList<Remito>();
-		this.condicionesPago = new ArrayList<CondPago>();
+	public int getNumeroSucursal() {
+		return numeroSucursal;
 	}
 
-	public OV() throws RemoteException {
+	public void setNumeroSucursal(int numeroSucursal) {
+		this.numeroSucursal = numeroSucursal;
 	}
 
-	public String getSucursal() {
-		return sucursal;
+	public String getNombreSucursal() {
+		return nombreSucursal;
 	}
 
-	public void setSucursal(String sucursal) {
-		this.sucursal = sucursal;
+	public void setNombreSucursal(String nombreSucursal) {
+		this.nombreSucursal = nombreSucursal;
 	}
 
 	public List<SolicitudCotizacion> getSolicitudesCotizacion() {
@@ -115,41 +108,81 @@ public class OV extends UnicastRemoteObject implements IOV {
 		this.remitos = remitos;
 	}
 
-	public List<CondPago> getCondicionesPago() {
-		return condicionesPago;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public void setCondicionPago(List<CondPago> condicionesPago) {
-		this.condicionesPago = condicionesPago;
+	public OV(int numeroSucursal, String nombreSucursal,
+			List<SolicitudCotizacion> solicitudesCotizacion,
+			List<Cotizacion> cotizaciones, List<Cliente> clientes,
+			List<Factura> facturas, List<OrdenDePedido> ordenesPedido,
+			List<OrdenDeCompra> ordenesCompra, List<Remito> remitos) throws RemoteException {
+		super();
+		this.numeroSucursal = numeroSucursal;
+		this.nombreSucursal = nombreSucursal;
+		this.solicitudesCotizacion = solicitudesCotizacion;
+		this.cotizaciones = cotizaciones;
+		this.clientes = clientes;
+		this.facturas = facturas;
+		this.ordenesPedido = ordenesPedido;
+		this.ordenesCompra = ordenesCompra;
+		this.remitos = remitos;
+		persistirse();
 	}
-	
-	
-	
+
+	public OV() throws RemoteException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public OV(int arg0, RMIClientSocketFactory arg1, RMIServerSocketFactory arg2)
+			throws RemoteException {
+		super(arg0, arg1, arg2);
+		// TODO Auto-generated constructor stub
+	}
+
+	public OV(int arg0) throws RemoteException {
+		super(arg0);
+		// TODO Auto-generated constructor stub
+	}
+
 	/* ABM Clientes - Gaston 04/10 */
-	
-	public void altaCliente(String cuil, String razonSocial, String direccion) throws RemoteException {
-		
-		Cliente c = buscarCliente(cuil);	
-		if(c==null){
-		 c = new Cliente(cuil, razonSocial, direccion);
-		//clientes.add(c);
+	public void altaCliente(String razonSocial, String direccion, String cuil,
+			String condicionIVA, String condicionesPago, float porcentajeDescuento,
+			Date fechaRegistro) throws Exception {
+					
+		if(!existeCliente(cuil)){
+		 //c = new Cliente(cuil, razonSocial, direccion);
+		Cliente c = new Cliente(this, razonSocial, direccion, cuil,	condicionIVA, condicionesPago, porcentajeDescuento,	(java.sql.Date) fechaRegistro) ;
+		clientes.add(c);
 		}
 		else
-			System.out.print("Ya existe un Cliente con ese cuil");
-			
-			
+			throw new Exception ("Ya existe un Cliente con ese cuil");
 	}
-	
-	public Cliente buscarCliente(String cuil) throws RemoteException{
-		/*
-		 * for(Cliente c:clientes)
-			if(c.getCuil().equals(cuil))
+
+	public boolean existeCliente(String cuil) throws Exception{
+		for(Cliente c:clientes)
+			if(c.getCuil().compareTo(cuil)==0)
+				return true;				
+		Cliente c = Cliente.buscarClienteDAO(cuil);
+		if (c == null) {
+			return false;
+		}
+		return true;
+	}
+	public Cliente buscarCliente(String cuil) throws Exception{
+		for(Cliente c:clientes)
+			if(c.getCuil().compareTo(cuil)==0)
 				return c;				
-		*/
-		return Cliente.buscarClienteDAO(cuil);
+		Cliente c = Cliente.buscarClienteDAO(cuil);
+		if (c == null) {
+			throw (new Exception ("Cliente no Existe"));
+		}
+		return c;
 	}	
 	
-	public void bajaCliente(String cuil) throws RemoteException {
+	public void bajaCliente(String cuil) throws Exception {
 		Cliente c = buscarCliente(cuil);	
 		if(c!=null){
 				c.baja();
@@ -158,7 +191,7 @@ public class OV extends UnicastRemoteObject implements IOV {
 			System.out.print("No existe un Cliente con ese cuil");
 	}
 
-	public void modificarCliente(String cuil, String razonSocial, String direccion) throws RemoteException{
+	public void modificarCliente(String cuil, String razonSocial, String direccion) throws Exception{
 		Cliente c = buscarCliente(cuil);	
 		if(c!=null){
 				c.modificar(razonSocial,direccion);
@@ -168,8 +201,9 @@ public class OV extends UnicastRemoteObject implements IOV {
 	}
 
 	// SILVIO INICIO >>>
-	public OV(String nombreSucursal) throws RemoteException {
-		this.sucursal = nombreSucursal;		
+	public OV(int numeroSucursal, String nombreSucursal) throws RemoteException {
+		this.numeroSucursal = numeroSucursal;		
+		this.nombreSucursal = nombreSucursal;		
 		this.solicitudesCotizacion = new ArrayList<SolicitudCotizacion>();
 		this.cotizaciones = new ArrayList<Cotizacion>();
 		this.clientes = new ArrayList<Cliente>();
@@ -177,15 +211,33 @@ public class OV extends UnicastRemoteObject implements IOV {
 		this.ordenesPedido = new ArrayList<OrdenDePedido>();
 		this.ordenesCompra = new ArrayList<OrdenDeCompra>();
 		this.remitos =  new ArrayList<Remito>();
-		this.condicionesPago = new ArrayList<CondPago>();
+		persistirse();
 	}
 	
+
+
+	private void persistirse() {
+		// TODO Auto-generated method stub
+		OVENT ovENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(ovENT);
+	}
+
 	public void altaSolicitudCotizacion(int numero, Date fechaEnviada, 
-			String clienteCuit) {
+			String clienteCuit) throws RemoteException {
 		Cliente c = Cliente.buscarClienteDAO(clienteCuit);
 		SolicitudCotizacion sc = new SolicitudCotizacion(numero, fechaEnviada, c);  
 		this.solicitudesCotizacion.add(sc);
 	}
+	public SolicitudCotizacion altaSolicitudCotizacionFromClient(int numero, Date fechaEnviada, 
+			String clienteCuit) throws RemoteException {
+		Cliente c = Cliente.buscarClienteDAO(clienteCuit);
+		SolicitudCotizacion sc = new SolicitudCotizacion();
+		sc.setCliente(c);
+		sc.setNumero(numero);
+		sc.setFechaEnviada(fechaEnviada);  
+		return sc;
+	}
+	
 	public SolicitudCotizacion buscarSolicitudCotizacion(int i) {
 		for (SolicitudCotizacion sc : solicitudesCotizacion) {
 			if (sc.getNumero()==i) {
@@ -204,7 +256,13 @@ public class OV extends UnicastRemoteObject implements IOV {
 		return null;
 	}
 	
-	
+	public OVENT toENT() {
+		return new OVENT(this.numeroSucursal, this.nombreSucursal);
+		
+	}
+	static public OV toDOM(OVENT ov) throws RemoteException {
+		return new OV(ov.getNumeroSucursal(), ov.getNombreSucursal());
+	}
 	// SILVIO FIN <<<		
 
 }

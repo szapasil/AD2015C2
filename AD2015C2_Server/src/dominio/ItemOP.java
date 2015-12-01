@@ -8,13 +8,14 @@ public class ItemOP {
 	private Rodamiento rodamiento;
 	private int cantidad;
 	private float precio;
+	private Cotizacion cotizacion;
 	
 	public ItemOP(Rodamiento rodamiento, int cantidad, float precio) {
 		super();
 		this.rodamiento = rodamiento;
 		this.cantidad = cantidad;
 		this.precio = precio;
-		persistirse();
+		//persistirse();
 	}
 	public ItemOP() {
 		super();
@@ -23,6 +24,12 @@ public class ItemOP {
 		return rodamiento;
 	}
 
+	public Cotizacion getCotizacion() {
+		return cotizacion;
+	}
+	public void setCotizacion(Cotizacion cotizacion) {
+		this.cotizacion = cotizacion;
+	}
 	public void setRodamiento(Rodamiento rodamiento) {
 		this.rodamiento = rodamiento;
 	}
@@ -43,13 +50,13 @@ public class ItemOP {
 		this.precio = precio;
 	}
 	
-	public void persistirse() {
+/*	public void persistirse() {
 		ItemOPENT iopENT = toENT();
 		HibernateDAO.getInstancia().saveOrUpdate(iopENT);
 	}
-
-	private ItemOPENT toENT() {
+*/
+/*	private ItemOPENT toENT() {
 		return new ItemOPENT(rodamiento.toENT(), cantidad, precio);
 	}
-	
+	*/
 }

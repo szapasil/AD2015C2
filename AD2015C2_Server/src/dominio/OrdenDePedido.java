@@ -31,15 +31,13 @@ public class OrdenDePedido {
 	private int numero;
 	private Date fechaEnviada;	
 	private Cliente cliente;
-	private Cotizacion cotizacion;
+
 	private List<ItemOP> items;
-	public OrdenDePedido(int numero, Date fechaEnviada, 
-			Cliente cliente, Cotizacion cotizacion) {
+	public OrdenDePedido(int numero, Date fechaEnviada,	Cliente cliente) {
 		super();
 		this.numero = numero;
 		this.fechaEnviada = fechaEnviada;
 		this.cliente = cliente;
-		this.cotizacion = cotizacion;
 		this.items =  new ArrayList<ItemOP>();
 	}
 	public OrdenDePedido() {
@@ -64,12 +62,6 @@ public class OrdenDePedido {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	public Cotizacion getCotizacion() {
-		return cotizacion;
-	}
-	public void setCotizacion(Cotizacion cotizacion) {
-		this.cotizacion = cotizacion;
-	}
 	public List<ItemOP> getItems() {
 		return items;
 	}
@@ -78,7 +70,7 @@ public class OrdenDePedido {
 	}
 	
 	
-	public void agregarItemsOrdenDePedido (String codRodamiento, int cantidad, float precio){
+	public void agregarItemsOrdenDePedido(String codRodamiento, int cantidad, float precio){
 		ItemOP item;
 		try {
 			item = new ItemOP(CC.getInstancia().buscarRodamiento(codRodamiento),cantidad,precio);
@@ -90,7 +82,7 @@ public class OrdenDePedido {
 	}
 	
 	
-	public static OrdenDePedido fromXML(String nombreArchivo, OV estaOV) {
+	public static OrdenDePedido fromXML(String nombreArchivo, OV estaOV) throws Exception {
 		OrdenDePedido op = new OrdenDePedido();
 		Document doc = null;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -99,7 +91,6 @@ public class OrdenDePedido {
 				builder = factory.newDocumentBuilder();
 				doc = builder.parse(nombreArchivo);
 				op.setNumero(Integer.parseInt(doc.getElementsByTagName("numeroPedido").item(0).getTextContent()));
-				op.setCotizacion(estaOV.buscarCotizacion(Integer.parseInt(doc.getElementsByTagName("numeroCotizacion").item(0).getTextContent())));
 				op.setCliente(estaOV.buscarCliente(doc.getElementsByTagName("idCliente").item(0).getTextContent()));
 				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 				java.util.Date parsed;
@@ -114,6 +105,7 @@ public class OrdenDePedido {
 					itemTemp.setRodamiento(CC.getInstancia().buscarRodamiento(ele.getElementsByTagName("codigoRodamiento").item(0).getTextContent()));
 					itemTemp.setCantidad(Integer.parseInt(ele.getElementsByTagName("cantidad").item(0).getTextContent()));
 					itemTemp.setPrecio(Float.parseFloat(ele.getElementsByTagName("precio").item(0).getTextContent()));
+					itemTemp.setCotizacion(estaOV.buscarCotizacion(Integer.parseInt(doc.getElementsByTagName("numeroCotizacion").item(0).getTextContent())));
 					op.items.add(itemTemp);
 					}
 				}
@@ -144,10 +136,6 @@ public class OrdenDePedido {
 			Element numeroPedido = doc.createElement("numeroPedido");
 			numeroPedido.appendChild(doc.createTextNode(String.valueOf(this.numero)));
 			rootElement.appendChild(numeroPedido);
-			// numeroSolicitud
-			Element numeroCotizacion = doc.createElement("numeroCotizacion");
-			numeroCotizacion.appendChild(doc.createTextNode(String.valueOf(this.cotizacion.getNumero())));
-			rootElement.appendChild(numeroCotizacion);
 			// idCliente
 			Element idCliente = doc.createElement("idCliente");
 			idCliente.appendChild(doc.createTextNode(this.getCliente().getCuil()));
@@ -175,6 +163,11 @@ public class OrdenDePedido {
 					Element precio = doc.createElement("precio");
 					precio.appendChild(doc.createTextNode(String.valueOf(itemOrdenDePedido.getPrecio())));
 					item.appendChild(precio);
+					// numeroSolicitud
+					Element numeroCotizacion = doc.createElement("numeroCotizacion");
+					numeroCotizacion.appendChild(doc.createTextNode(String.valueOf(itemOrdenDePedido.getCotizacion().getNumero())));
+					item.appendChild(numeroCotizacion);
+					
 				}
 			}
 			// write the content into xml file

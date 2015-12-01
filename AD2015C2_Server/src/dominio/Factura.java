@@ -112,7 +112,7 @@ public class Factura {
 		
 	}
 	
-	public static Factura fromXML(String nombreArchivo, OV estaOV) {
+	public static Factura fromXML(String nombreArchivo, OV estaOV) throws Exception {
 		Factura fa = new Factura();
 		Document doc = null;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

@@ -12,7 +12,7 @@ public class ItemLC {
 
 	private Rodamiento rodamiento;
 	private float precio;
-	private int stock;
+	private int stock; //SACAR!!!
 	private int condCompra;
 	private int bonificacion;
 //	private List<CondCompra> condicionesCompra;

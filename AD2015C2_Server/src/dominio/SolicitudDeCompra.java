@@ -6,8 +6,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.OV;
 import dao.ProveedorDAO;
 import dao.SolicitudDeCompraDAO;
+import entities.ItemLPENT;
+import entities.ItemSolCompraENT;
+import entities.OVENT;
 import entities.OrdenDePedidoENT;
 import entities.ProveedorENT;
 import entities.SolicitudDeCompraENT;
@@ -15,6 +19,7 @@ import entities.SolicitudDeCompraENT;
 public class SolicitudDeCompra {
 
 	private int numero;
+	private OV ov;
 	private Date fechaEmision;
 	private float precioTotal;
 	private List<OrdenDePedido> ordenesDePedido;
@@ -22,13 +27,19 @@ public class SolicitudDeCompra {
 	private Date fechaEntregaEstimada;
 	private List<ItemSolCompra> items;
 
-	public SolicitudDeCompra(int numero, Date fechaEmision, float precioTotal, List<OrdenDePedido> ordenesDePedido, String estado) {
+	public SolicitudDeCompra() {
+		
+	}
+	
+	public SolicitudDeCompra(int numero, OV ov, Date fechaEmision, float precioTotal, String estado, Date fechaEntregaEstimada) {
 		super();
 		this.numero = numero;
+		this.ov = ov;
 		this.fechaEmision = fechaEmision;
 		this.precioTotal = precioTotal;
-		this.ordenesDePedido = ordenesDePedido;
+		this.ordenesDePedido = new ArrayList<OrdenDePedido>();
 		this.estado = estado;
+		this.fechaEntregaEstimada = fechaEntregaEstimada;
 		this.items = new ArrayList<ItemSolCompra>();
 		persistirse();
 	}
@@ -39,6 +50,14 @@ public class SolicitudDeCompra {
 
 	public void setNumero(int numero) {
 		this.numero = numero;
+	}
+
+	public OV getOv() {
+		return ov;
+	}
+
+	public void setOv(OV ov) {
+		this.ov = ov;
 	}
 
 	public Date getFechaEmision() {
@@ -96,9 +115,15 @@ public class SolicitudDeCompra {
 
 	public SolicitudDeCompraENT toENT() {
 		List<OrdenDePedidoENT> opsENT = new ArrayList<OrdenDePedidoENT>();
+		List<ItemSolCompraENT> itemsENT = new ArrayList<ItemSolCompraENT>();
+		SolicitudDeCompraENT scENT = new SolicitudDeCompraENT(numero, ov.toENT(), fechaEmision, fechaEntregaEstimada, precioTotal, estado);
 		for(OrdenDePedido op:ordenesDePedido)
 			opsENT.add(op.toENT());
-		return new SolicitudDeCompraENT(numero, fechaEmision, precioTotal,opsENT, estado);
+		scENT.setOrdenesDePedido(opsENT);
+		for(ItemSolCompra item:items) 
+			itemsENT.add(item.toENT(scENT));
+		scENT.setItems(itemsENT);
+		return new SolicitudDeCompraENT();
 	}
 
 	public static List<SolicitudDeCompra> buscarSCPendentesDAO() {
@@ -110,9 +135,21 @@ public class SolicitudDeCompra {
 
 	private static SolicitudDeCompra toDOM(SolicitudDeCompraENT scENT) {
 		List<OrdenDePedido> ops = new ArrayList<OrdenDePedido>();
+		List<ItemSolCompra> items = new ArrayList<ItemSolCompra>();
+		SolicitudDeCompra sc = new SolicitudDeCompra();
+		sc.setEstado(scENT.getEstado());
+		sc.setFechaEmision(scENT.getFechaEmision());
+		sc.setFechaEntregaEstimada(scENT.getFechaEntregaEstimada());
+		for(ItemSolCompraENT iscENT:scENT.getItems())
+			items.add(ItemSolCompra.toDOM(iscENT));
+		sc.setItems(items);
+		sc.setNumero(scENT.getNumero());
 		for(OrdenDePedidoENT opENT:scENT.getOrdenesDePedido())
 			ops.add(OrdenDePedido.toDOM(opENT));
-		return new SolicitudDeCompra(scENT.getNumero(), scENT.getFecha(), scENT.getPrecioTotal(), ops, scENT.getEstado());
+		sc.setOrdenesDePedido(ops);
+		sc.setOv(scENT.getOv().toDOM());
+		sc.setPrecioTotal(scENT.getPrecioTotal());
+		return sc;
 	}
 	
 }

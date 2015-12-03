@@ -1,13 +1,9 @@
 package entities;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name="listasPrecios")
@@ -33,7 +29,6 @@ public class ListaPreciosENT {
 		this.numero = numero;
 		this.fecha = fecha;
 		this.proveedor = proveedor;
-//		this.items = new ArrayList<ItemLPENT>();
 	}
 
 	public int getNumero() {
@@ -60,7 +55,7 @@ public class ListaPreciosENT {
 		this.proveedor = proveedor;
 	}
 
-		public List<ItemLPENT> getItems() {
+	public List<ItemLPENT> getItems() {
 		return items;
 	}
 

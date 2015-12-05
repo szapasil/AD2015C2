@@ -266,37 +266,35 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		public void generarOC() throws RemoteException {
 			List<SolicitudDeCompra> scPendientes = obtenerSCPendientes();
 			for(SolicitudDeCompra sc:scPendientes){
-				OrdenDeCompra oc = new OrdenDeCompra();
-				oc.altaOC(sc);
-//				List<ItemSolCompra> itemsOC = new ArrayList<ItemSolCompra>();
-//				int cantidad = sc.getItems().size();
-//				while(cantidad>0){
-//					String cuitAnt = null;
-//					for(ItemSolCompra itemSC:sc.getItems()){
-//						if(itemSC.getProveedor().getCuit().equals(cuitAnt) || cuitAnt==null){
-//							itemsOC.add(itemSC);
-//							cuitAnt = itemSC.getProveedor().getCuit();
-//							sc.getItems().remove(itemSC);
-//							cantidad = cantidad - 1;
-//						}
-//					}
-//					altaOC(sc,itemsOC,cuitAnt);
-//				}
+				int cantidad = sc.getItems().size();
+				while(cantidad>0){
+					List<ItemSolCompra> itemsOC = new ArrayList<ItemSolCompra>();
+					String cuitAnt = null;
+					for(ItemSolCompra itemSC:sc.getItems()){
+						if(itemSC.getProveedor().getCuit().equals(cuitAnt) || cuitAnt==null){
+							itemsOC.add(itemSC);
+							cuitAnt = itemSC.getProveedor().getCuit();
+							sc.getItems().remove(itemSC);
+							cantidad = cantidad - 1;
+						}
+					}
+					altaOC(sc,itemsOC,cuitAnt);
+				}
 				sc.setEstado("Enviada");
 				sc.setFechaEntregaEstimada(sc.getFechaEmision().add(Calendar.DATE,30));
 				sc.persistirse();
 			}
 		}
 				
-//		public void altaOC(SolicitudDeCompra sc, List<ItemSolCompra> itemsSC, String cuitProv) throws RemoteException {
-//			Proveedor prov = buscarProveedor(cuitProv);
-//			Date fechaHoy = new java.sql.Date(System.currentTimeMillis());
-//			OrdenDeCompra oc = new OrdenDeCompra(prov, fechaHoy, sc);
-//			oc.agregarItems(itemsSC);
-//			oc.persistirse();
-//			ordenesDeCompra.add(oc);
-//			oc.toXML();
-//		}
+		public void altaOC(SolicitudDeCompra sc, List<ItemSolCompra> itemsSC, String cuitProv) throws RemoteException {
+			Proveedor prov = buscarProveedor(cuitProv);
+			Date fechaHoy = new java.sql.Date(System.currentTimeMillis());
+			OrdenDeCompra oc = new OrdenDeCompra(prov, fechaHoy, sc);
+			oc.agregarItems(itemsSC);
+			oc.persistirse();
+			ordenesDeCompra.add(oc);
+			oc.toXML();
+		}
 
 		public List<SolicitudDeCompra> obtenerSCPendientes() {
 			return SolicitudDeCompra.buscarSCPendentesDAO();
@@ -325,37 +323,20 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		}
 		
 		public void generarRemitosCCOV(RemitoProvCC rpcc) {
-//			ItemLC itemLC = null; 
-//			List<SolicitudDeCompra> scPendientes = obtenerSCPendientes();
-			for(OrdenDeCompra oc:rpcc.getOrdenesDeCompra()){
-				OV ov = oc.getSolicitudDeCompra().getOv();
-				RemitoCCOV rccov = new RemitoCCOV();
-				for(ItemOC ioc:oc.getItems()){
-					rccov.set          ioc.get
-				}
-				
-				
-				
-/*			
-				List<ItemSolCompra> itemsOC = new ArrayList<ItemSolCompra>();
-				int cantidad = sc.getItems().size();
-				while(cantidad>0){
-					String cuitAnt = null;
-					for(ItemSolCompra itemSC:sc.getItems()){
-						itemLC = buscarEnLC(itemSC.getRodamiento().getCodRodamiento());
-						if(itemLC.getProveedor().getCuit().equals(cuitAnt) || cuitAnt==null){
-							itemsOC.add(itemSC);
-							cuitAnt = itemLC.getProveedor().getCuit();
-							sc.getItems().remove(itemSC);
-							cantidad = cantidad - 1;
-						}
+			int cantidad = rpcc.getOrdenesDeCompra().size();
+			while(cantidad>0){
+				List<OrdenDeCompra> ocs = new ArrayList<OrdenDeCompra>();
+				int ovAnt = 0;
+				for(OrdenDeCompra oc:rpcc.getOrdenesDeCompra()){
+					if(oc.getSolicitudDeCompra().getOv().getNumeroSucursal()==ovAnt || ovAnt==0){
+						ocs.add(oc);
+						ovAnt = oc.getSolicitudDeCompra().getOv().getNumeroSucursal();
+						rpcc.getOrdenesDeCompra().remove(oc);
+						cantidad = cantidad - 1;
 					}
-					altaOC(sc,itemsOC,cuitAnt);
 				}
-				sc.setEstado("Enviada");
-				sc.setFechaEntregaEstimada(sc.getFechaEmision().add(Calendar.DATE,30));
-				sc.persistirse();
-*/				
+				altaRCCOV(rpcc,ocs,ovAnt);
+			}
 		}
 		
 	//SILVIO INICIO >>>

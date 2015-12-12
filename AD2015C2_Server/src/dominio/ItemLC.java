@@ -6,13 +6,14 @@ import java.util.List;
 import hbt.HibernateDAO;
 import dao.ItemLCDAO;
 import dto.ItemLCDTO;
+import dto.RodamientoDTO;
 import entities.ItemLCENT;
 
 public class ItemLC {
 
 	private Rodamiento rodamiento;
 	private float precio;
-	private int stock;
+	private int stock; //SACAR!!!
 	private int condCompra;
 	private int bonificacion;
 //	private List<CondCompra> condicionesCompra;
@@ -138,7 +139,9 @@ public class ItemLC {
 	}
 
 	public ItemLCDTO toDTO() {
-		return new ItemLCDTO(precio,stock,condCompra,bonificacion);
+		RodamientoDTO rodamientoDTO = new RodamientoDTO(rodamiento.getCodRodamiento(),rodamiento.getMarca(),rodamiento.getPais(),
+						rodamiento.getTipo(),rodamiento.getMedidas(),rodamiento.getCodSFK());
+		return new ItemLCDTO(rodamientoDTO,precio,stock,condCompra,bonificacion,proveedor.getCuit());
 	}
 
 }

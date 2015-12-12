@@ -247,7 +247,8 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			ItemLC ilc = buscarEnLC(codRodamiento);
 //			if(ilc==null)
 //				ilc = buscarMejorCodSFK(codSFK);
-//			return ilc.toDTO();
+			return ilc.toDTO();
+//			return ilc;
 		}
 
 //		public ItemLC buscarMejorCodSFK(String codSFK) {

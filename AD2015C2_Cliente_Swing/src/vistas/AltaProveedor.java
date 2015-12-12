@@ -124,6 +124,9 @@ public class AltaProveedor extends javax.swing.JFrame {
 						jTextFieldCuit.setText("");
 						jTextFieldRazonSocial.setText("");
 						jTextFieldDireccion.setText("");
+						jTextFieldCuit.setEnabled(true);
+						jTextFieldRazonSocial.setEnabled(true);
+						jTextFieldDireccion.setEnabled(true);
 					}
 				});
 			}

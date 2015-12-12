@@ -39,9 +39,9 @@ public class BusinessDelegateCC {
 		}
 	}
 	
-	public ItemLCDTO publicarLC(String codRodamiento, String codSFK) {
+	public ItemLCDTO publicarLC(String codRodamiento) {
 		try {
-    		return cc.publicarLC(codRodamiento,codSFK);
+    		return cc.publicarLC(codRodamiento);
     	} catch (RemoteException e) {
     		e.printStackTrace();
     		return null;

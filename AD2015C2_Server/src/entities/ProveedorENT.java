@@ -18,10 +18,10 @@ public class ProveedorENT {
 	private String razonSocial;
 	private String direccion;
 	
-	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)	
-	@JoinColumn(name="cuitProveedor")
-	private List<CondCompraProvENT> condicionesCompraProv;
+//	@OneToMany(mappedBy="id",cascade=CascadeType.ALL)
+//	@LazyCollection(LazyCollectionOption.FALSE)	
+//	@JoinColumn(name="cuitProveedor")
+//	private List<CondCompraProvENT> condicionesCompraProv;
 	private int LPVigente;
 	
 	@OneToMany(mappedBy="numero",cascade=CascadeType.ALL)
@@ -39,7 +39,7 @@ public class ProveedorENT {
 		this.cuit = cuit;
 		this.razonSocial = razonSocial;
 		this.direccion = direccion;
-		this.condicionesCompraProv = new ArrayList<CondCompraProvENT>();
+//		this.condicionesCompraProv = new ArrayList<CondCompraProvENT>();
 		this.LPVigente = lPVigente;
 		this.listasDePrecios = new ArrayList<ListaPreciosENT>();
 		this.estado = estado;
@@ -69,13 +69,13 @@ public class ProveedorENT {
 		this.direccion = direccion;
 	}
 	
-	public List<CondCompraProvENT> getCondicionesCompra() {
-		return condicionesCompraProv;
-	}
+//	public List<CondCompraProvENT> getCondicionesCompra() {
+//		return condicionesCompraProv;
+//	}
 	
-	public void setCondicionesCompra(List<CondCompraProvENT> condicionesCompraProv) {
-		this.condicionesCompraProv = condicionesCompraProv;
-	}
+//	public void setCondicionesCompra(List<CondCompraProvENT> condicionesCompraProv) {
+//		this.condicionesCompraProv = condicionesCompraProv;
+//	}
 	
 	public int getLPVigente() {
 		return LPVigente;

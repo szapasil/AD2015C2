@@ -2,7 +2,16 @@ package entities;
 
 import hbt.PersistentObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import dominio.Proveedor;
+import dominio.Rodamiento;
 
 @Entity
 @Table(name="itemsLC")
@@ -90,6 +99,7 @@ public class ItemLCENT extends PersistentObject{
 	public void setBonificacion(int bonificacion) {
 		this.bonificacion = bonificacion;
 	}
+
 
 	public ProveedorENT getProveedor() {
 		return proveedor;

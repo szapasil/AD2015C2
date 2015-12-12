@@ -12,8 +12,8 @@ public class HibernateUtil {
         try {
         	 AnnotationConfiguration config = new AnnotationConfiguration();
         	 config.addAnnotatedClass(entities.ClienteENT.class);
-        	 config.addAnnotatedClass(entities.CondCompraENT.class);
-        	 config.addAnnotatedClass(entities.CondCompraProvENT.class);
+//        	 config.addAnnotatedClass(entities.CondCompraENT.class);
+//        	 config.addAnnotatedClass(entities.CondCompraProvENT.class);
         	 config.addAnnotatedClass(entities.ItemLPENT.class);
         	 config.addAnnotatedClass(entities.ItemSolCompraENT.class);
         	 config.addAnnotatedClass(entities.ListaPreciosENT.class);
@@ -23,7 +23,7 @@ public class HibernateUtil {
         	 config.addAnnotatedClass(entities.SolicitudCotizacionENT.class);
         	 config.addAnnotatedClass(entities.ItemSolCotizacionENT.class);
         	 config.addAnnotatedClass(entities.ItemSolCotizacionENTpk.class);
-        	 //        	 config.addAnnotatedClass(entities.ListaComparativaENT.class);
+//        	 config.addAnnotatedClass(entities.ListaComparativaENT.class);
         	 config.addAnnotatedClass(entities.ItemLCENT.class);
         	 config.addAnnotatedClass(entities.CotizacionENT.class);
         	 config.addAnnotatedClass(entities.ItemCotizacionENT.class);

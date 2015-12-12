@@ -7,8 +7,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import dominio.Cliente;
+import dominio.ItemSolCompra;
 import dominio.Rodamiento;
 import dominio.SolicitudCotizacion;
+import dominio.SolicitudDeCompra;
 import app.CC;
 import app.OV;
 
@@ -20,6 +22,7 @@ public class TestLocal {
 		//ALTA RODAMIENTO
 //		LOG ("ALTA RODAMIENTO >>>");s
 		try {
+			
 			//ALTA OV
 			LOG ("ALTA OV >>>");
 			CC.getInstancia().altaOV(1, "Sucursal1");
@@ -96,8 +99,8 @@ public class TestLocal {
 			sc2.agregarItemSolicitud("RSA0006", 3);
 			sc2.toXML("PRUEBA2");
 
-			
-			SolicitudCotizacion sc3 = SolicitudCotizacion.fromXML("D:\\test\\PRUEBA1.xml", CC.getInstancia().getInstanciaOV(1));
+			SolicitudCotizacion sc3 = SolicitudCotizacion.fromXML("C:\\test\\PRUEBA1.xml", CC.getInstancia().getInstanciaOV(1));
+//			SolicitudCotizacion sc3 = SolicitudCotizacion.fromXML("D:\\test\\PRUEBA1.xml", CC.getInstancia().getInstanciaOV(1));
 			LOG (String.valueOf(sc3.getNumero()));
 			LOG ("FIN >>>");
 
@@ -128,15 +131,14 @@ public class TestLocal {
 			
 			//ALTA LISTA DE PRECIOS
 			CC.getInstancia().altaListaPrecios("ListaPrecios1001.xml");
-			CC.getInstancia().altaListaPrecios("ListaPrecios2001.xml"); 		
-
-			//ALTA LISTA COMPARATIVA
-//			CC.getInstancia().altaListaComp();	
+			CC.getInstancia().altaListaPrecios("ListaPrecios2001.xml"); 	
 			
+			//GENERAR OC	
+//			CC.getInstancia().generarOC(); 
+
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

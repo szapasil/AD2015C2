@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- REMITO PROVEEDOR - CC -->
+<RemitoProvCC>
+	<Numero>10001</Numero>
+	<Fecha>16/11/2015</Fecha>
+	<Proveedor>30-00000001-9</Proveedor>
+	<OCs>
+		<OC>
+			<NumneroOC>6000</NumneroOC>
+		</OC>
+		<OC>
+			<NumneroOC>6001</NumneroOC>
+		</OC>
+		<OC>
+			<NumneroOC>6002</NumneroOC>
+		</OC>
+		<OC>
+			<NumneroOC>6003</NumneroOC>
+		</OC>
+	</OCs>
+	<Items>
+		<Item>
+			<CodRodamiento>22310</CodRodamiento>
+			<Cantidad>500</Cantidad>
+		</Item>
+		<Item>
+			<CodRodamiento>NJ209</CodRodamiento>
+			<Cantidad>100</Cantidad>
+		</Item>
+		<Item>
+			<CodRodamiento>RSA0004</CodRodamiento>
+			<Cantidad>250</Cantidad>
+		</Item>
+		<Item>
+			<CodRodamiento>RSA0007</CodRodamiento>
+			<Cantidad>1000</Cantidad>
+		</Item>
+	</Items>
+</RemitoProvCC> 

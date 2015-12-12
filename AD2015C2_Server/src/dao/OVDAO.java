@@ -6,30 +6,30 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.ProveedorENT;
+import entities.OVENT;
 
-public class ProveedorDAO {
-	protected static ProveedorDAO instancia = null;
+public class OVDAO {
+	protected static OVDAO instancia = null;
 	protected static SessionFactory sf = null;
 	protected static Session session = null;
 	
-	public static ProveedorDAO getInstancia(){
+	public static OVDAO getInstancia(){
 		if(instancia == null){
 			sf = HibernateUtil.getSessionFactory();
-			instancia = new ProveedorDAO();
+			instancia = new OVDAO();
 		} 
 		return instancia;
 	}
 	
-	public ProveedorENT BuscarProveedor(String cuit) {
+	public OVENT BuscarOV(int nroSucursal) {
 		session = sf.openSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from ProveedorENT prov  where prov.cuit = :cuit");
-		query.setString("cuit", cuit);
-		ProveedorENT provENT = (ProveedorENT) query.uniqueResult();
+		Query query = session.createQuery("from OVENT ov  where ov.numeroSucursal = :numeroSucursal");
+		query.setInteger("numeroSucursal", nroSucursal);
+		OVENT ovENT = (OVENT) query.uniqueResult();
 		session.flush();
 		session.close();
-		return provENT;
+		return ovENT;
 	}	
 	
 }

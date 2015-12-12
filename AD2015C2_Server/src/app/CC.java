@@ -4,36 +4,23 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import dao.ItemLCDAO;
-import dao.ListaComparativaDAO;
-import dao.SolicitudDeCompraDAO;
 import dominio.ItemLC;
 import dominio.ItemLP;
-import dominio.ItemOC;
 import dominio.ItemSolCompra;
 import dominio.ListaPrecios;
 import dominio.OrdenDeCompra;
 import dominio.Proveedor;
+import dominio.RemitoCCOV;
 import dominio.RemitoProvCC;
+import dominio.RemitoTransporte;
 import dominio.Rodamiento;
 import dominio.SolicitudDeCompra;
-import dominio.ListaComparativa;
 import dto.ItemLCDTO;
-import entities.ItemLCENT;
-import entities.SolicitudDeCompraENT;
 
 public class CC extends UnicastRemoteObject implements interfaz.ICC {	
 
@@ -45,6 +32,8 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 	private List<OrdenDeCompra> ordenesDeCompra;
 	private List<SolicitudDeCompra> solicitudesDeCompra;
 	private List<ItemLC> listaComp;
+	private List<RemitoProvCC> remitosProvCC;
+	private List<RemitoCCOV> remitosCCOV;
 	private float porcentajeGanancia;
 	
 	private static CC instancia;
@@ -62,6 +51,8 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		this.proveedores = new ArrayList<Proveedor>();
 		this.ordenesDeCompra = new ArrayList<OrdenDeCompra>();
 		this.solicitudesDeCompra = new ArrayList<SolicitudDeCompra>();
+		this.remitosCCOV = new ArrayList<RemitoCCOV>();
+		this.remitosProvCC = new ArrayList<RemitoProvCC>();
 		this.listaComp = null;
 		this.porcentajeGanancia = 35;
 	}
@@ -112,6 +103,22 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 
 	public void setListaComp(List<ItemLC> listaComp) {
 		this.listaComp = listaComp;
+	}
+
+	public List<RemitoProvCC> getRemitosProvCC() {
+		return remitosProvCC;
+	}
+
+	public void setRemitosProvCC(List<RemitoProvCC> remitosProvCC) {
+		this.remitosProvCC = remitosProvCC;
+	}
+
+	public List<RemitoCCOV> getRemitosCCOV() {
+		return remitosCCOV;
+	}
+
+	public void setRemitosCCOV(List<RemitoCCOV> remitosCCOV) {
+		this.remitosCCOV = remitosCCOV;
 	}
 
 	public float getPorcentajeGanancia() {
@@ -248,7 +255,6 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 //			if(ilc==null)
 //				ilc = buscarMejorCodSFK(codSFK);
 			return ilc.toDTO();
-//			return ilc;
 		}
 
 //		public ItemLC buscarMejorCodSFK(String codSFK) {
@@ -264,18 +270,16 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		//PUNTO 4 - COMPRA DE RODAMIENTOS
 		//GENERAR ORDEN DE COMPRA
 		public void generarOC() throws RemoteException {
-			ItemLC itemLC = null; 
 			List<SolicitudDeCompra> scPendientes = obtenerSCPendientes();
 			for(SolicitudDeCompra sc:scPendientes){
-				List<ItemSolCompra> itemsOC = new ArrayList<ItemSolCompra>();
 				int cantidad = sc.getItems().size();
 				while(cantidad>0){
+					List<ItemSolCompra> itemsOC = new ArrayList<ItemSolCompra>();
 					String cuitAnt = null;
 					for(ItemSolCompra itemSC:sc.getItems()){
-						itemLC = buscarEnLC(itemSC.getRodamiento().getCodRodamiento());
-						if(itemLC.getProveedor().getCuit().equals(cuitAnt) || cuitAnt==null){
+						if(itemSC.getProveedor().getCuit().equals(cuitAnt) || cuitAnt==null){
 							itemsOC.add(itemSC);
-							cuitAnt = itemLC.getProveedor().getCuit();
+							cuitAnt = itemSC.getProveedor().getCuit();
 							sc.getItems().remove(itemSC);
 							cantidad = cantidad - 1;
 						}
@@ -283,7 +287,10 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 					altaOC(sc,itemsOC,cuitAnt);
 				}
 				sc.setEstado("Enviada");
-				sc.setFechaEntregaEstimada(sc.getFechaEmision().add(Calendar.DATE,30));
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(sc.getFechaEmision());
+				calendar.add(Calendar.DAY_OF_YEAR, 30);
+				sc.setFechaEntregaEstimada((Date)calendar.getTime());
 				sc.persistirse();
 			}
 		}
@@ -318,43 +325,56 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		
 		//PUNTO 5 - RECEPCION DE RODAMIENTOS
 		//GENERAR ORDEN DE COMPRA
-		public void recepcionRodamientos(String archivo) {
+		public void recepcionRodamientos(String archivo) throws RemoteException {
 			RemitoProvCC rpcc = RemitoProvCC.fromXML(archivo);
 			rpcc.persistirse();
+			remitosProvCC.add(rpcc);
 			generarRemitosCCOV(rpcc);
 		}
 		
-		public void generarRemitosCCOV(RemitoProvCC rpcc) {
-//			ItemLC itemLC = null; 
-//			List<SolicitudDeCompra> scPendientes = obtenerSCPendientes();
-			for(OrdenDeCompra oc:rpcc.getOrdenesDeCompra()){
-				OV ov = oc.getSolicitudDeCompra().getOV();
-				
-				
-				
-/*			
-				List<ItemSolCompra> itemsOC = new ArrayList<ItemSolCompra>();
-				int cantidad = sc.getItems().size();
-				while(cantidad>0){
-					String cuitAnt = null;
-					for(ItemSolCompra itemSC:sc.getItems()){
-						itemLC = buscarEnLC(itemSC.getRodamiento().getCodRodamiento());
-						if(itemLC.getProveedor().getCuit().equals(cuitAnt) || cuitAnt==null){
-							itemsOC.add(itemSC);
-							cuitAnt = itemLC.getProveedor().getCuit();
-							sc.getItems().remove(itemSC);
-							cantidad = cantidad - 1;
-						}
+		public void generarRemitosCCOV(RemitoProvCC rpcc) throws RemoteException {
+			RemitoTransporte rt = new RemitoTransporte();
+			int cantidad = rpcc.getOrdenesDeCompra().size();
+			while(cantidad>0){
+				List<OrdenDeCompra> ocs = new ArrayList<OrdenDeCompra>();
+				int ovAnt = 0;
+				for(OrdenDeCompra oc:rpcc.getOrdenesDeCompra()){
+					if(oc.getSolicitudDeCompra().getOv().getNumeroSucursal()==ovAnt || ovAnt==0){
+						ocs.add(oc);
+						ovAnt = oc.getSolicitudDeCompra().getOv().getNumeroSucursal();
+						rpcc.getOrdenesDeCompra().remove(oc);
+						cantidad = cantidad - 1;
 					}
-					altaOC(sc,itemsOC,cuitAnt);
 				}
-				sc.setEstado("Enviada");
-				sc.setFechaEntregaEstimada(sc.getFechaEmision().add(Calendar.DATE,30));
-				sc.persistirse();
-*/				
+				altaRCCOV(rpcc,ocs,ovAnt);
+				rt.agregarPedidoOV(rpcc,ovAnt);
+			}
+			rt.toXML();
 		}
 		
-	//SILVIO INICIO >>>
+	public void altaRCCOV(RemitoProvCC rpcc, List<OrdenDeCompra> ocs, int ovAnt) throws RemoteException {
+			RemitoCCOV rccov = new RemitoCCOV();
+			List<SolicitudDeCompra> scs = new ArrayList<SolicitudDeCompra>();
+			for(OrdenDeCompra oc:ocs)
+				scs.add(oc.getSolicitudDeCompra());
+			rccov.setSolicitudesDeCompra(scs);
+			rccov.setOV(buscarOV(ovAnt));
+			Date fechaHoy = new java.sql.Date(System.currentTimeMillis());
+			rccov.setFecha(fechaHoy);
+			rccov.agregarItems(rpcc);
+			rccov.persistirse();
+			remitosCCOV.add(rccov);
+			rccov.toXML();
+		}
+
+		public OV buscarOV(int nroSucursal) throws RemoteException {
+			for(OV ov:ovs)
+				if(ov.getNumeroSucursal() == nroSucursal)
+					return ov;		
+			return OV.buscarOVDAO(nroSucursal);
+	}
+
+		//SILVIO INICIO >>>
 		public OV getInstanciaOV (int numeroSucursal) throws RemoteException{
 			OV ovTemp = null;
 			for (OV ov : ovs) {
@@ -367,6 +387,13 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		public void altaOV (int numeroSucursal, String nombreSucursal) throws RemoteException {
 				OV ovTemp = new OV(numeroSucursal, nombreSucursal);
 				ovs.add(ovTemp);
+		}
+
+		public OrdenDeCompra buscarOC(int numero) {
+			for(OrdenDeCompra oc:ordenesDeCompra)
+				if(oc.getNumero() == numero)
+					return oc;		
+			return OrdenDeCompra.buscarOCDAO(numero);
 		}
 		
 	//SILVIO FIN <<<

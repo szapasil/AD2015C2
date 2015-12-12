@@ -20,6 +20,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import dao.OrdenDeCompraDAO;
 import entities.ItemOCENT;
 import entities.OrdenDeCompraENT;
 
@@ -181,6 +182,27 @@ public class OrdenDeCompra {
 		  } catch (TransformerException tfe) {
 			tfe.printStackTrace();
 		  }
+	}
+
+	public static OrdenDeCompra buscarOCDAO(int numero) {
+		OrdenDeCompraENT ocENT = OrdenDeCompraDAO.getInstancia().BuscarOC(numero);
+		if(ocENT!=null)
+			return toDOM(ocENT);
+		return null;
+	}
+
+	private static OrdenDeCompra toDOM(OrdenDeCompraENT ocENT) {
+		OrdenDeCompra oc = new OrdenDeCompra();
+		List<ItemOC> items = new ArrayList<ItemOC>();
+		oc.setFecha(ocENT.getFecha());
+		oc.setMontoTotal(ocENT.getMontoTotal());
+		oc.setNumero(ocENT.getNumero());
+		oc.setProveedor(Proveedor.toDOM(ocENT.getProveedor()));
+		oc.setSolicitudDeCompra(SolicitudDeCompra.toDOM(ocENT.getSolicitudDeCompra()));
+		for(ItemOCENT iocENT:ocENT.getItems())
+			items.add(ItemOCENT.toDOM(iocENT));
+		oc.setItems(items);
+		return oc;
 	}
 
 }

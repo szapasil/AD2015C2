@@ -89,9 +89,8 @@ public class ListaPrecios {
 	public ListaPreciosENT toENT() {
 		List<ItemLPENT> itemsENT = new ArrayList<ItemLPENT>();
 		ListaPreciosENT lpENT = new ListaPreciosENT(numero, fecha, proveedor.toENT());
-		for (ItemLP item : items) {
+		for (ItemLP item : items) 
 			itemsENT.add(item.toENT(lpENT));
-		}
 		lpENT.setItems(itemsENT);
 		return lpENT;
 	}

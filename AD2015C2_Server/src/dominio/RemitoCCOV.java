@@ -2,13 +2,25 @@ package dominio;
 
 import hbt.HibernateDAO;
 
+import java.io.File;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import entities.ItemRCCOVENT;
-import entities.ItemRPCCENT;
-import entities.OrdenDeCompraENT;
 import entities.RemitoCCOVENT;
 import entities.SolicitudDeCompraENT;
 import app.OV;
@@ -30,11 +42,15 @@ public class RemitoCCOV {
 		this.items = items;
 	}
 
-	public int getNuemero() {
+	public RemitoCCOV() {
+
+	}
+
+	public int getNumero() {
 		return numero;
 	}
 
-	public void setNuemero(int numero) {
+	public void setNumero(int numero) {
 		this.numero = numero;
 	}
 
@@ -90,4 +106,74 @@ public class RemitoCCOV {
 		rccovENT.setSolicitudesDeCompra(scsENT);
 		return rccovENT;
 	}
+
+	public void agregarItems(RemitoProvCC rpcc) {
+		for(ItemRPCC irpcc:rpcc.getItems()){
+			ItemRCCOV irccov = new ItemRCCOV(irpcc.getRodamiento(), irpcc.getCantidad());
+			items.add(irccov);
+		}
+	}
+
+	public void toXML() {
+		try {
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			// root elements
+			Document doc = docBuilder.newDocument();
+			Element rootElement = doc.createElement("RemitoCCOV");
+			doc.appendChild(rootElement);
+			// numeroRCCOV
+			Element numeroRCCOV = doc.createElement("numeroRCCOV");
+			numeroRCCOV.appendChild(doc.createTextNode(String.valueOf(this.numero)));
+			rootElement.appendChild(numeroRCCOV);
+			// nroSucursal
+			Element nroSucursal = doc.createElement("nroSucursal");
+			nroSucursal.appendChild(doc.createTextNode(String.valueOf(this.getOV().getNumeroSucursal())));
+			rootElement.appendChild(nroSucursal);
+			// fecha
+			Element fecha = doc.createElement("fecha");
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			fecha.appendChild(doc.createTextNode(format.format((this.getFecha()))));
+			rootElement.appendChild(fecha);
+			// Solicitudes de Compra 
+			{
+				for (SolicitudDeCompra solicitud : solicitudesDeCompra) {
+					// nroSC
+					Element nroSC = doc.createElement("nroSC");
+					nroSC.appendChild(doc.createTextNode(String.valueOf(solicitud.getNumero())));
+					rootElement.appendChild(nroSC);
+				}
+			}
+			// detalle 
+			{
+				for (ItemRCCOV itemRCCOV : items) {
+					// items elements
+					Element item = doc.createElement("item");
+					rootElement.appendChild(item);
+					// codigoRodamiento
+					Element codigoRodamiento = doc.createElement("codigoRodamiento");
+					codigoRodamiento.appendChild(doc.createTextNode(itemRCCOV.getRodamiento().getCodRodamiento()));
+					item.appendChild(codigoRodamiento);
+					// cantidad
+					Element cantidad = doc.createElement("cantidad");
+					cantidad.appendChild(doc.createTextNode(String.valueOf(itemRCCOV.getCantidad())));
+					item.appendChild(cantidad);
+				}
+			}
+			// write the content into xml file
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File("C:\\Eclipse EE\\RemitoCCOV" + String.valueOf(getNumero()) + ".xml"));
+			// Output to console for testing
+			// StreamResult result = new StreamResult(System.out);
+			transformer.transform(source, result);
+			System.out.println("File saved!");
+		  } catch (ParserConfigurationException pce) {
+			pce.printStackTrace();
+		  } catch (TransformerException tfe) {
+			tfe.printStackTrace();
+		  }
+	}
+	
 }

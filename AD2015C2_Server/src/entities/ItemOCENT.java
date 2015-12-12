@@ -1,6 +1,15 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
+
+import dominio.ItemOC;
+import dominio.OrdenDeCompra;
+import dominio.Proveedor;
+import dominio.Rodamiento;
+import dominio.SolicitudDeCompra;
 
 @Entity
 @Table(name="itemsLP")
@@ -51,6 +60,14 @@ public class ItemOCENT {
 	
 	public void setPrecio(float precio) {
 		this.precio = precio;
+	}
+
+	public static ItemOC toDOM(ItemOCENT iocENT) {
+		ItemOC ioc = new ItemOC();
+		ioc.setRodamiento(Rodamiento.toDOM(iocENT.getId().getRodamiento()));
+		ioc.setCantidad(iocENT.getCantidad());
+		ioc.setPrecio(iocENT.getPrecio());
+		return ioc;
 	}
 	
 }

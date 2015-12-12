@@ -1,22 +1,20 @@
 package dominio;
 
+import hbt.HibernateDAO;
 import entities.ItemSolCompraENT;
-import entities.SolicitudDeCompraENT;
 
 public class ItemSolCompra {
 	
 	private Rodamiento rodamiento;
 	private int cantidad;
 	private float precio;
-	private Proveedor proveedor;
 	
-	public ItemSolCompra(Rodamiento rodamiento, int cantidad, float precio, Proveedor proveedor) {
+	public ItemSolCompra(Rodamiento rodamiento, int cantidad, float precio) {
 		super();
 		this.rodamiento = rodamiento;
 		this.cantidad = cantidad;
 		this.precio = precio;
-		this.proveedor = proveedor;
-//		persistirse();
+		persistirse();
 	}
 
 	public Rodamiento getRodamiento() {
@@ -42,21 +40,13 @@ public class ItemSolCompra {
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
-	
-	public Proveedor getProveedor() {
-		return proveedor;
+
+	public void persistirse() {
+		ItemSolCompraENT iscENT = toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(iscENT);
 	}
 
-	public void setProveedor(Proveedor proveedor) {
-		this.proveedor = proveedor;
-	}
-
-//	public void persistirse() {
-//		ItemSolCompraENT iscENT = toENT();
-//		HibernateDAO.getInstancia().saveOrUpdate(iscENT);
-//	}
-
-	public ItemSolCompraENT toENT(SolicitudDeCompraENT scENT) {
-		return new ItemSolCompraENT(rodamiento.toENT(), scENT, cantidad, precio, proveedor.toENT());
+	public ItemSolCompraENT toENT() {
+		return new ItemSolCompraENT(rodamiento.toENT(), cantidad, precio);
 	}
 }

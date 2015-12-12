@@ -17,6 +17,10 @@ public class ItemOC {
 //		persistirse();
 	}
 	
+	public ItemOC() {
+
+	}
+
 	public Rodamiento getRodamiento() {
 		return rodamiento;
 	}

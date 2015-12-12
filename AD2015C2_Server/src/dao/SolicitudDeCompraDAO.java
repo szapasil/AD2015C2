@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import hbt.HibernateUtil;
@@ -34,4 +35,5 @@ public class SolicitudDeCompraDAO {
 		session.close();
 		return pendientes;
 	}
+	
 }

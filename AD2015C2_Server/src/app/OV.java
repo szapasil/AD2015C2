@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import dao.OVDAO;
 import dominio.Cliente;
-
 import dominio.Cotizacion;
 import dominio.Factura;
 import dominio.OrdenDeCompra;
@@ -20,7 +20,6 @@ import dominio.OrdenDePedido;
 import dominio.Remito;
 import dominio.SolicitudCotizacion;
 import entities.OVENT;
-import entities.ProveedorENT;
 
 public class OV extends UnicastRemoteObject implements IOV {
 
@@ -264,5 +263,12 @@ public class OV extends UnicastRemoteObject implements IOV {
 		return new OV(ov.getNumeroSucursal(), ov.getNombreSucursal());
 	}
 	// SILVIO FIN <<<		
+
+	public static OV buscarOVDAO(int nroSucursal) throws RemoteException {
+		OVENT ovENT = OVDAO.getInstancia().BuscarOV(nroSucursal);
+		if(ovENT!=null)
+			return toDOM(ovENT);
+		return null;
+	}
 
 }

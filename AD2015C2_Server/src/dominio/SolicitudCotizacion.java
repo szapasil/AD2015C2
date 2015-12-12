@@ -225,7 +225,8 @@ public class SolicitudCotizacion {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("D:\\test\\" + nombreArchivo + ".xml"));
+			StreamResult result = new StreamResult(new File("C:\\test\\" + nombreArchivo + ".xml"));
+//			StreamResult result = new StreamResult(new File("D:\\test\\" + nombreArchivo + ".xml"));
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);
 			transformer.transform(source, result);

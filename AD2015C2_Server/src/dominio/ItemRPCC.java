@@ -14,6 +14,10 @@ public class ItemRPCC {
 		this.cantidad = cantidad;
 	}
 
+	public ItemRPCC() {
+
+	}
+
 	public Rodamiento getRodamiento() {
 		return rodamiento;
 	}

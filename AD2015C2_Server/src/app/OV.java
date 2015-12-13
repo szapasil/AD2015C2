@@ -131,30 +131,27 @@ public class OV extends UnicastRemoteObject implements IOV {
 
 	public OV() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 
 	public OV(int arg0, RMIClientSocketFactory arg1, RMIServerSocketFactory arg2)
 			throws RemoteException {
 		super(arg0, arg1, arg2);
-		// TODO Auto-generated constructor stub
 	}
 
 	public OV(int arg0) throws RemoteException {
 		super(arg0);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* ABM Clientes - Gaston 04/10 */
 	public void altaCliente(String razonSocial, String direccion, String cuil,
-			String condicionIVA, String condicionesPago, float porcentajeDescuento,
-			Date fechaRegistro) throws Exception {
-					
-		if(!existeCliente(cuil)){
-		 //c = new Cliente(cuil, razonSocial, direccion);
-		Cliente c = new Cliente(this, razonSocial, direccion, cuil,	condicionIVA, condicionesPago, porcentajeDescuento,	(java.sql.Date) fechaRegistro) ;
-		clientes.add(c);
+			String condicionIVA, String condicionPago, float descuento, int nroSucursal) throws Exception {
+		Cliente c = Cliente.buscarClienteDAO(cuil);
+		if(c==null){
+//		if(!existeCliente(cuil)){
+//			Cliente c = new Cliente(this, razonSocial, direccion, cuil,	condicionIVA, condicionPago, descuento);
+			c = new Cliente(buscarOVDAO(nroSucursal), razonSocial, direccion, cuil,	condicionIVA, condicionPago, descuento);
+//			clientes.add(c);
 		}
 		else
 			throw new Exception ("Ya existe un Cliente con ese cuil");
@@ -216,7 +213,6 @@ public class OV extends UnicastRemoteObject implements IOV {
 
 
 	private void persistirse() {
-		// TODO Auto-generated method stub
 		OVENT ovENT = toENT();
 		HibernateDAO.getInstancia().saveOrUpdate(ovENT);
 	}

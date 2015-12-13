@@ -13,5 +13,7 @@ public interface ICC extends Remote{
 	public void altaListaPrecios(String archivo) throws RemoteException, ParseException; 
 	
 	public ItemLCDTO publicarLC(String codRodamiento) throws RemoteException;
+
+//	public OVDTO getInstanciaOV(String sucursal) throws RemoteException;
 	
 }

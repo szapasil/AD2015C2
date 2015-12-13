@@ -46,6 +46,15 @@ public class BusinessDelegateCC {
     		e.printStackTrace();
     		return null;
     	}
-	}	
+	}
+
+//	public OVDTO getInstanciaOV(String sucursal) {
+//		try {
+//    		return cc.getInstanciaOV(sucursal);
+//    	} catch (RemoteException e) {
+//    		e.printStackTrace();
+//    		return null;
+//    	}
+//	}	
 	
 }

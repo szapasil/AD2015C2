@@ -34,24 +34,24 @@ public class TestLocal {
 
 			OV ov1 = CC.getInstancia().getInstanciaOV(1);
 			
-			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-			java.util.Date parsed;
-			parsed = format.parse("30/11/2015");
-			Date fecha = new java.sql.Date(parsed.getTime());
+//			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+//			java.util.Date parsed;
+//			parsed = format.parse("30/11/2015");
+//			Date fecha = new java.sql.Date(parsed.getTime());
 			
-			ov1.altaCliente("Gaston R0", " Oro 1800", "20-00000002-0", "Inscripto", "Contado", 20, fecha);
-			ov1.altaCliente("Gaston R1", " Oro 1800", "20-10000002-1", "Inscripto", "Contado", 20, fecha);
-			ov1.altaCliente("Gaston R2", " Oro 1800", "20-20000002-2", "Inscripto", "Contado", 20, fecha);
-			ov1.altaCliente("Gaston R3", " Oro 1800", "20-30000002-3", "Inscripto", "Contado", 20, fecha);
-			ov1.altaCliente("Gaston R4", " Oro 1800", "20-40000002-4", "Inscripto", "Contado", 20, fecha);
+			ov1.altaCliente("Gaston R0", " Oro 1800", "20-00000002-0", "Inscripto", "Contado", 20, 1);
+			ov1.altaCliente("Gaston R1", " Oro 1800", "20-10000002-1", "Inscripto", "Contado", 20, 1);
+			ov1.altaCliente("Gaston R2", " Oro 1800", "20-20000002-2", "Inscripto", "Contado", 20, 1);
+			ov1.altaCliente("Gaston R3", " Oro 1800", "20-30000002-3", "Inscripto", "Contado", 20, 1);
+			ov1.altaCliente("Gaston R4", " Oro 1800", "20-40000002-4", "Inscripto", "Contado", 20, 1);
 			
 			OV ov2 = CC.getInstancia().getInstanciaOV(2);
 			
-			ov2.altaCliente("Martin R0", " Oro 1800", "30-00000002-0", "No Inscripto", "30 dias", 20, fecha);
-			ov2.altaCliente("Martin R1", " Oro 1800", "30-10000002-1", "No Inscripto", "30 dias", 20, fecha);
-			ov2.altaCliente("Martin R2", " Oro 1800", "30-20000002-2", "No Inscripto", "30 dias", 20, fecha);
-			ov2.altaCliente("Martin R3", " Oro 1800", "30-30000002-3", "No Inscripto", "60 dias", 20, fecha);
-			ov2.altaCliente("Martin R4", " Oro 1800", "30-40000002-4", "No Inscripto", "60 dias", 20, fecha);
+			ov2.altaCliente("Martin R0", " Oro 1800", "30-00000002-0", "No Inscripto", "30 dias", 20, 2);
+			ov2.altaCliente("Martin R1", " Oro 1800", "30-10000002-1", "No Inscripto", "30 dias", 20, 2);
+			ov2.altaCliente("Martin R2", " Oro 1800", "30-20000002-2", "No Inscripto", "30 dias", 20, 2);
+			ov2.altaCliente("Martin R3", " Oro 1800", "30-30000002-3", "No Inscripto", "60 dias", 20, 2);
+			ov2.altaCliente("Martin R4", " Oro 1800", "30-40000002-4", "No Inscripto", "60 dias", 20, 2);
 
 			
 			//Cliente c1 = CC.getInstancia().getInstanciaOV(1).buscarCliente("20-30000002-6");

@@ -15,5 +15,14 @@ public class BusinessDelegateOV {
     		javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
     	}
     }
+	
+	public void altaCliente(String razonSocial, String direccion, String cuil,
+			String condicionIVA, String condicionPago, float descuento, int nroSucursal){
+    	try {
+    		ov.altaCliente(razonSocial, direccion, cuil, condicionIVA, condicionPago, descuento, nroSucursal);
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
      	
 }

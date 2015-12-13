@@ -4,14 +4,10 @@ import hbt.HibernateDAO;
 
 import java.rmi.RemoteException;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import app.CC;
 import app.OV;
 import dao.ClienteDAO;
 import entities.ClienteENT;
-import entities.OVENT;
 
 public class Cliente {
 	private OV ov;
@@ -20,8 +16,8 @@ public class Cliente {
 	private String cuil;
 	private String condicionIVA;
 	//private List<CondPago> condicionesPago;
-	private String condicionesPago;
-	private float porcentajeDescuento;
+	private String condicionPago;
+	private float descuento;
 	private java.sql.Date fechaRegistro;
 	//private List<SolicitudCotizacion> solicitudesCotizacion;
 
@@ -37,23 +33,22 @@ public class Cliente {
 
 
 public Cliente(OV ov, String razonSocial, String direccion, String cuil,
-		String condicionIVA, String condicionesPago, float porcentajeDescuento,
-		Date fechaRegistro) {
+		String condicionIVA, String condicionPago, float descuento) {
 	super();
 	this.ov = ov;
 	this.razonSocial = razonSocial;
 	this.direccion = direccion;
 	this.cuil = cuil;
 	this.condicionIVA = condicionIVA;
-	this.condicionesPago = condicionesPago;
-	this.porcentajeDescuento = porcentajeDescuento;
-	this.fechaRegistro = fechaRegistro;
+	this.condicionPago = condicionPago;
+	this.descuento = descuento;
+	Date fechaHoy = new java.sql.Date(System.currentTimeMillis());
+	this.fechaRegistro = fechaHoy;
 	persistirse();
 }
 
 
 private void persistirse() {
-	// TODO Auto-generated method stub
 	ClienteENT clienteENT = toENT();
 	HibernateDAO.getInstancia().saveOrUpdate(clienteENT);
 }
@@ -69,29 +64,28 @@ public void setOv(OV ov) {
 }
 
 
-public String getCondicionesPago() {
-	return condicionesPago;
+public String getCondicionPago() {
+	return condicionPago;
 }
 
 
-public void setCondicionesPago(String condicionesPago) {
-	this.condicionesPago = condicionesPago;
+public void setCondicionPago(String condicionPago) {
+	this.condicionPago = condicionPago;
 }
 
 
-public float getPorcentajeDescuento() {
-	return porcentajeDescuento;
+public float geteDescuento() {
+	return descuento;
 }
 
 
-public void setPorcentajeDescuento(float porcentajeDescuento) {
-	this.porcentajeDescuento = porcentajeDescuento;
+public void setDescuento(float descuento) {
+	this.descuento = descuento;
 }
 
 
 public Cliente() {
 	super();
-	// TODO Auto-generated constructor stub
 }
 public String getCondicionIVA() {
 	return condicionIVA;
@@ -158,16 +152,16 @@ public static Cliente toDOM(ClienteENT cliENT) throws RemoteException {
 		c.direccion = cliENT.getDireccion();
 		c.cuil = cliENT.getCuil();
 		c.condicionIVA = cliENT.getCondicionIVA();
-		c.condicionesPago = cliENT.getCondicionesPago();
-		c.porcentajeDescuento = cliENT.getPorcentajeDescuento();
+		c.condicionPago = cliENT.getCondicionesPago();
+		c.descuento = cliENT.getPorcentajeDescuento();
 		c.fechaRegistro = cliENT.getFechaRegistro();
 		return c;
 }
 
 public ClienteENT toENT() {
 	return new 	ClienteENT ( cuil, ov.toENT() ,  razonSocial,
-			 direccion,  fechaRegistro,  porcentajeDescuento,
-			 condicionesPago, condicionIVA);
+			 direccion,  fechaRegistro,  descuento,
+			 condicionPago, condicionIVA);
 }
 
 

@@ -3,6 +3,8 @@ package dominio;
 import java.rmi.RemoteException;
 
 import dto.ItemLCDTO;
+import entities.CotizacionENT;
+import entities.ItemCotizacionENT;
 import app.CC;
 
 public class ItemCotizacion {
@@ -84,7 +86,9 @@ public class ItemCotizacion {
 		setBonificacion(ilcDTO.getBonificacion());
 		setProveedor(CC.getInstancia().buscarProveedor(ilcDTO.getCuitProveedor()));
 	}
-	
-	
+
+	public ItemCotizacionENT toENT(CotizacionENT cotENT) {
+		return (new ItemCotizacionENT(cotENT, rodamiento.toENT(), cantidad));
+	}
 	
 }

@@ -37,7 +37,6 @@ public class HibernateUtil {
         	 config.addAnnotatedClass(entities.ItemSolCompraENTpk.class);
         	 config.addAnnotatedClass(entities.ItemSolCotizacionENT.class);
         	 config.addAnnotatedClass(entities.ItemSolCotizacionENTpk.class);
-//        	 config.addAnnotatedClass(entities.ListaComparativaENT.class);
         	 config.addAnnotatedClass(entities.ListaPreciosENT.class);
 //        	 config.addAnnotatedClass(entities.OrdenDeCompraENT.class);
         	 config.addAnnotatedClass(entities.OrdenDePedidoENT.class);

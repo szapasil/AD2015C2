@@ -1,5 +1,7 @@
 package dominio;
 
+import hbt.HibernateDAO;
+
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -25,6 +27,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import entities.CotizacionENT;
+import entities.ItemCotizacionENT;
 import app.CC;
 import app.OV;
 
@@ -228,6 +232,22 @@ public class Cotizacion {
 		calendar.add(Calendar.DAY_OF_YEAR, 30);
 		setFechaExpiracion((Date)calendar.getTime());
 		setSolicitudCotizacion(sc);
+	}
+
+	public void persistirse() {
+		CotizacionENT cotENT = this.toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(cotENT);
+	}
+
+	public CotizacionENT toENT() {
+		List<ItemCotizacionENT> itemsENT = new ArrayList<ItemCotizacionENT>();
+		CotizacionENT cotENT = new CotizacionENT(numero, fechaEnviada, fechaExpiracion, cliente.toENT(), solicitudCotizacion.toENT());
+		for(ItemCotizacion item:items) {
+			itemsENT.add(item.toENT(cotENT));
+			System.out.println("Agregando items---->"+ itemsENT.size());
+		}
+		cotENT.setItems(itemsENT);
+		return cotENT;
 	}
 
 }

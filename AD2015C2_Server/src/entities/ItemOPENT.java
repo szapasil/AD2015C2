@@ -22,15 +22,17 @@ public class ItemOPENT {
 	private int cantidad;
 	@Column
 	private float precio;
+	private String estado;
 	public ItemOPENT() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ItemOPENT(ItemOPENTpk id, int cantidad, float precio) {
+	public ItemOPENT(ItemOPENTpk id, int cantidad, float precio, String estado) {
 		super();
 		this.id = id;
 		this.cantidad = cantidad;
 		this.precio = precio;
+		this.estado = estado;
 	}
 	public ItemOPENTpk getId() {
 		return id;
@@ -50,48 +52,10 @@ public class ItemOPENT {
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
-
-	
-	
-/*
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="codRodamiento")
-	private RodamientoENT rodamiento;
-	private int cantidad;
-	private float precio;
-	
-	public ItemOPENT() {
-		
+	public String getEstado() {
+		return estado;
 	}
-	public ItemOPENT(RodamientoENT rodamiento, int cantidad, float precio) {
-		super();
-		this.rodamiento = rodamiento;
-		this.cantidad = cantidad;
-		this.precio = precio;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
-
-	public RodamientoENT getRodamiento() {
-		return rodamiento;
-	}
-
-	public void setRodamiento(RodamientoENT rodamiento) {
-		this.rodamiento = rodamiento;
-	}
-
-	public int getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(int cantidad) {
-		this.cantidad = cantidad;
-	}
-
-	public float getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(float precio) {
-		this.precio = precio;
-	}
-*/	
 }

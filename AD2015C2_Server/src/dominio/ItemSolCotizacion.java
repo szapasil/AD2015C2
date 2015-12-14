@@ -11,7 +11,6 @@ public class ItemSolCotizacion {
 	}
 
 	public ItemSolCotizacion(Rodamiento r, int cantidad) {
-		// TODO Auto-generated constructor stub
 		super();
 		this.cantidad = cantidad;
 		this.rodamiento = r;

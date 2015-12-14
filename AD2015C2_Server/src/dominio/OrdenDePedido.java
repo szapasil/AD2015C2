@@ -70,16 +70,11 @@ public class OrdenDePedido {
 	}
 	
 	
-	public void agregarItemsOrdenDePedido(String codRodamiento, int cantidad, float precio){
-		ItemOP item;
-		try {
-			item = new ItemOP(CC.getInstancia().buscarRodamiento(codRodamiento),cantidad,precio);
-			items.add(item);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	public void agregarItemsOrdenDePedido(String codRodamiento, int cantidad, float precio) throws RemoteException{
+//		ItemOP item;
+//		item = new ItemOP(CC.getInstancia().buscarRodamiento(codRodamiento),cantidad,precio);
+//		items.add(item);
+//	}
 	
 	
 	public static OrdenDePedido fromXML(String nombreArchivo, OV estaOV) throws Exception {
@@ -106,6 +101,7 @@ public class OrdenDePedido {
 					itemTemp.setCantidad(Integer.parseInt(ele.getElementsByTagName("cantidad").item(0).getTextContent()));
 					itemTemp.setPrecio(Float.parseFloat(ele.getElementsByTagName("precio").item(0).getTextContent()));
 					itemTemp.setCotizacion(estaOV.buscarCotizacion(Integer.parseInt(doc.getElementsByTagName("numeroCotizacion").item(0).getTextContent())));
+					itemTemp.setEstado("pendiente");
 					op.items.add(itemTemp);
 					}
 				}
@@ -121,8 +117,6 @@ public class OrdenDePedido {
 		}
 		return op;
 	}
-	
-	
 	
 	public void toXML(String nombreArchivo) {
 		try {

@@ -139,7 +139,6 @@ public class SolicitudCotizacion {
 			this.items.add(itemsc);
 			System.out.println("---->"+ items.size());
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -170,7 +169,6 @@ public class SolicitudCotizacion {
 					sc.items.add(itemTemp);
 					}
 				}
-				sc.persistirse();
 				File f = new File(nombreArchivo);
 				f.delete();
 			} catch (NumberFormatException e) {e.printStackTrace();
@@ -239,5 +237,15 @@ public class SolicitudCotizacion {
 		
 	}
 	// SILVIO FIN <<<
+
+	public void generarSolicitudDesdeOP(OrdenDePedido op, List<ItemOP> itemsACotizar) {
+		setCliente(op.getCliente());
+		setFechaEnviada(op.getFechaEnviada());
+		setNumero(op.getNumero());
+		for(ItemOP iop:itemsACotizar){
+			ItemSolCotizacion isc = new ItemSolCotizacion(iop.getRodamiento(),iop.getCantidad());
+			items.add(isc);
+		}
+	}
 		
 }

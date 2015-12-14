@@ -52,10 +52,18 @@ public class RemitoTransporte {
 		this.items = items;
 	}
 
-	public void agregarPedidoOV(RemitoProvCC rpcc, int nroSucursal) {
+	public void agregarPedidoOV(RemitoProvCC rpcc, String nombreSucursal) {
 		ItemRT item = new ItemRT();
-		item.setSucursal(nroSucursal);
+		item.setDestino(nombreSucursal);
 		item.agregarProductos(rpcc);
+		items.add(item);
+	}
+	
+
+	public void agregarPedidoCliente(Remito remitoCliente) {
+		ItemRT item = new ItemRT();
+		item.setDestino(remitoCliente.getCliente().getCuil());
+		item.agregarProductos(remitoCliente);
 		items.add(item);
 	}
 
@@ -82,10 +90,10 @@ public class RemitoTransporte {
 					// items elements
 					Element item = doc.createElement("item");
 					rootElement.appendChild(item);
-					// sucursal
-					Element sucursal = doc.createElement("sucursal");
-					sucursal.appendChild(doc.createTextNode(String.valueOf(itemRT.getSucursal())));
-					item.appendChild(sucursal);
+					// destino
+					Element destino = doc.createElement("destino");
+					destino.appendChild(doc.createTextNode(itemRT.getDestino()));
+					item.appendChild(destino);
 					// itemsRTOV 
 					{
 						for (ItemRTOV itemRTOV : itemRT.getItemsOV()) {
@@ -108,7 +116,7 @@ public class RemitoTransporte {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("C:\\Eclipse EE\\RT" + String.valueOf(getNumero()) + ".xml"));
+			StreamResult result = new StreamResult(new File("C:\\test\\RT" + String.valueOf(getNumero()) + ".xml"));
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);
 			transformer.transform(source, result);

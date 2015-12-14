@@ -16,7 +16,10 @@ public class ItemSolCompra {
 		this.cantidad = cantidad;
 		this.precio = precio;
 		this.proveedor = proveedor;
-//		persistirse();
+	}
+
+	public ItemSolCompra() {
+
 	}
 
 	public Rodamiento getRodamiento() {
@@ -58,5 +61,17 @@ public class ItemSolCompra {
 
 	public ItemSolCompraENT toENT(SolicitudDeCompraENT scENT) {
 		return new ItemSolCompraENT(rodamiento.toENT(), scENT, cantidad, precio, proveedor.toENT());
+	}
+
+	public void generarItem(ItemOP iop) {
+		Proveedor iopProv = null;
+		setRodamiento(iop.getRodamiento());
+		setCantidad(iop.getCantidad());
+		setPrecio(iop.getPrecio());
+		for(ItemCotizacion ic:iop.getCotizacion().getItems()){
+		 if(iop.getRodamiento().getCodRodamiento().equals(ic.getRodamiento().getCodRodamiento()))
+				 iopProv = ic.getProveedor();
+		}
+		setProveedor(iopProv);
 	}
 }

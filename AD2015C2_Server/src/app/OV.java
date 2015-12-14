@@ -12,13 +12,23 @@ import java.util.Date;
 import java.util.List;
 
 import dao.OVDAO;
+import delegado.BusinessDelegateCC;
 import dominio.Cliente;
 import dominio.Cotizacion;
 import dominio.Factura;
+import dominio.ItemCotizacion;
+import dominio.ItemOP;
+import dominio.ItemRCCOV;
+import dominio.ItemSolCompra;
+import dominio.ItemSolCotizacion;
 import dominio.OrdenDeCompra;
+import dominio.RemitoCCOV;
+import dominio.RemitoTransporte;
+import dominio.SolicitudDeCompra;
 import dominio.OrdenDePedido;
 import dominio.Remito;
 import dominio.SolicitudCotizacion;
+import dto.ItemLCDTO;
 import entities.OVENT;
 
 public class OV extends UnicastRemoteObject implements IOV {
@@ -31,7 +41,7 @@ public class OV extends UnicastRemoteObject implements IOV {
 	private List<Cliente> clientes;
 	private List<Factura> facturas;
 	private List<OrdenDePedido> ordenesPedido;
-	private List<OrdenDeCompra> ordenesCompra;
+	private List<SolicitudDeCompra> solicitudesCompra;
 	private List<Remito> remitos;
 	
 	public int getNumeroSucursal() {
@@ -91,12 +101,12 @@ public class OV extends UnicastRemoteObject implements IOV {
 		this.ordenesPedido = ordenesPedido;
 	}
 
-	public List<OrdenDeCompra> getOrdenesCompra() {
-		return ordenesCompra;
+	public List<SolicitudDeCompra> getOrdenesCompra() {
+		return solicitudesCompra;
 	}
 
-	public void setOrdenesCompra(List<OrdenDeCompra> ordenesCompra) {
-		this.ordenesCompra = ordenesCompra;
+	public void setOrdenesCompra(List<SolicitudDeCompra> solicitudesCompra) {
+		this.solicitudesCompra = solicitudesCompra;
 	}
 
 	public List<Remito> getRemitos() {
@@ -115,7 +125,7 @@ public class OV extends UnicastRemoteObject implements IOV {
 			List<SolicitudCotizacion> solicitudesCotizacion,
 			List<Cotizacion> cotizaciones, List<Cliente> clientes,
 			List<Factura> facturas, List<OrdenDePedido> ordenesPedido,
-			List<OrdenDeCompra> ordenesCompra, List<Remito> remitos) throws RemoteException {
+			List<SolicitudDeCompra> solicitudesCompra, List<Remito> remitos) throws RemoteException {
 		super();
 		this.numeroSucursal = numeroSucursal;
 		this.nombreSucursal = nombreSucursal;
@@ -124,7 +134,7 @@ public class OV extends UnicastRemoteObject implements IOV {
 		this.clientes = clientes;
 		this.facturas = facturas;
 		this.ordenesPedido = ordenesPedido;
-		this.ordenesCompra = ordenesCompra;
+		this.solicitudesCompra = solicitudesCompra;
 		this.remitos = remitos;
 		persistirse();
 	}
@@ -143,59 +153,6 @@ public class OV extends UnicastRemoteObject implements IOV {
 		super(arg0);
 	}
 
-	/* ABM Clientes - Gaston 04/10 */
-	public void altaCliente(String razonSocial, String direccion, String cuil,
-			String condicionIVA, String condicionPago, float descuento, int nroSucursal) throws Exception {
-		Cliente c = Cliente.buscarClienteDAO(cuil);
-		if(c==null){
-//		if(!existeCliente(cuil)){
-//			Cliente c = new Cliente(this, razonSocial, direccion, cuil,	condicionIVA, condicionPago, descuento);
-			c = new Cliente(buscarOVDAO(nroSucursal), razonSocial, direccion, cuil,	condicionIVA, condicionPago, descuento);
-//			clientes.add(c);
-		}
-		else
-			throw new Exception ("Ya existe un Cliente con ese cuil");
-	}
-
-	public boolean existeCliente(String cuil) throws Exception{
-		for(Cliente c:clientes)
-			if(c.getCuil().compareTo(cuil)==0)
-				return true;				
-		Cliente c = Cliente.buscarClienteDAO(cuil);
-		if (c == null) {
-			return false;
-		}
-		return true;
-	}
-	public Cliente buscarCliente(String cuil) throws Exception{
-		for(Cliente c:clientes)
-			if(c.getCuil().compareTo(cuil)==0)
-				return c;				
-		Cliente c = Cliente.buscarClienteDAO(cuil);
-		if (c == null) {
-			throw (new Exception ("Cliente no Existe"));
-		}
-		return c;
-	}	
-	
-	public void bajaCliente(String cuil) throws Exception {
-		Cliente c = buscarCliente(cuil);	
-		if(c!=null){
-				c.baja();
-		}
-		else
-			System.out.print("No existe un Cliente con ese cuil");
-	}
-
-	public void modificarCliente(String cuil, String razonSocial, String direccion) throws Exception{
-		Cliente c = buscarCliente(cuil);	
-		if(c!=null){
-				c.modificar(razonSocial,direccion);
-		}
-		else
-			System.out.print("No existe un Cliente con ese cuil");
-	}
-
 	// SILVIO INICIO >>>
 	public OV(int numeroSucursal, String nombreSucursal) throws RemoteException {
 		this.numeroSucursal = numeroSucursal;		
@@ -205,13 +162,11 @@ public class OV extends UnicastRemoteObject implements IOV {
 		this.clientes = new ArrayList<Cliente>();
 		this.facturas = new ArrayList<Factura>();
 		this.ordenesPedido = new ArrayList<OrdenDePedido>();
-		this.ordenesCompra = new ArrayList<OrdenDeCompra>();
+		this.solicitudesCompra = new ArrayList<SolicitudDeCompra>();
 		this.remitos =  new ArrayList<Remito>();
 		persistirse();
 	}
 	
-
-
 	private void persistirse() {
 		OVENT ovENT = toENT();
 		HibernateDAO.getInstancia().saveOrUpdate(ovENT);
@@ -223,6 +178,7 @@ public class OV extends UnicastRemoteObject implements IOV {
 		SolicitudCotizacion sc = new SolicitudCotizacion(numero, fechaEnviada, c);  
 		this.solicitudesCotizacion.add(sc);
 	}
+
 	public SolicitudCotizacion altaSolicitudCotizacionFromClient(int numero, Date fechaEnviada, 
 			String clienteCuit) throws RemoteException {
 		Cliente c = Cliente.buscarClienteDAO(clienteCuit);
@@ -251,20 +207,178 @@ public class OV extends UnicastRemoteObject implements IOV {
 		return null;
 	}
 	
-	public OVENT toENT() {
-		return new OVENT(this.numeroSucursal, this.nombreSucursal);
-		
-	}
-	static public OV toDOM(OVENT ov) throws RemoteException {
-		return new OV(ov.getNumeroSucursal(), ov.getNombreSucursal());
-	}
 	// SILVIO FIN <<<		
 
+	// PUNTO 1 - COTIZAR SOLICITUD DE RODAMIENTO
+	
+	public void cotizarSolicitudCotizacion(String nombreArchivo) throws Exception {
+		SolicitudCotizacion sc = altaSolicitudCotizacion(nombreArchivo);
+		cotizarSolicitud(sc);
+	}
+
+	public SolicitudCotizacion altaSolicitudCotizacion(String nombreArchivo) throws Exception {
+		SolicitudCotizacion sc = SolicitudCotizacion.fromXML(nombreArchivo, this);
+		sc.persistirse();
+		solicitudesCotizacion.add(sc);
+		return sc;
+	}
+	
+	public void cotizarSolicitud(SolicitudCotizacion sc) {
+		BusinessDelegateCC bdCC = new BusinessDelegateCC();
+		bdCC.LookupServiceCC();
+		Cotizacion cotizacion = new Cotizacion();
+		for(ItemSolCotizacion isc:sc.getItems()){
+			ItemLCDTO ilcDTO = bdCC.publicarLC(isc.getRodamiento().getCodRodamiento());
+			ItemCotizacion ic = new ItemCotizacion();
+			ic.CotizarItem(ilcDTO,isc);
+			cotizacion.getItems().add(ic);
+		}
+		cotizacion.generarCotizacion(sc);
+		cotizacion.persistirse();
+		cotizaciones.add(cotizacion);
+		cotizacion.toXML();
+	}
+
+	// PUNTO 2 - VENTA DE RODAMIENTOS
+	public void ventaRodamientos(String nombreArchivo) throws Exception {
+		OrdenDePedido op = altaOrdenDePedido(nombreArchivo);
+		tratarOrdenDePedido(op);
+	}
+
+	public OrdenDePedido altaOrdenDePedido(String nombreArchivo) throws Exception {
+		OrdenDePedido op = OrdenDePedido.fromXML(nombreArchivo, this);
+		op.persistirse();
+		ordenesPedido.add(op);
+		return op;
+	}
+
+	private void tratarOrdenDePedido(OrdenDePedido op) {
+		float total = 0;
+		boolean cotizarNuevamente = false;
+		List<ItemOP> itemsACotizar = new ArrayList<ItemOP>();
+		SolicitudDeCompra sc = new SolicitudDeCompra();
+		for(ItemOP iop:op.getItems()){
+			if(op.getFechaEnviada().before(iop.getCotizacion().getFechaExpiracion())){
+				ItemSolCompra isc = new ItemSolCompra();
+				isc.generarItem(iop);
+				sc.getItems().add(isc);
+				total = total + (iop.getPrecio()*iop.getCantidad());
+			}
+			else{
+				cotizarNuevamente = true;
+				itemsACotizar.add(iop);
+			}
+		}
+		sc.generarSolicitudCompra(sc,op,this);
+		sc.setPrecioTotal(total);
+		sc.persistirse();
+		solicitudesCompra.add(sc);
+		sc.toXML();
+		if(cotizarNuevamente)
+			cotizarNuevamente(op,itemsACotizar);
+	}
+	
+	public void cotizarNuevamente(OrdenDePedido op, List<ItemOP> itemsACotizar) {
+		SolicitudCotizacion sc = new SolicitudCotizacion();
+		sc.generarSolicitudDesdeOP(op, itemsACotizar);
+		sc.persistirse();
+		solicitudesCotizacion.add(sc);
+		cotizarSolicitud(sc);
+	}
+	
+	// PUNTO 3 - ENTREGA DE PEDIDOS
+	public void entregaDePedidos(String nombreArchivo) throws Exception {
+		RemitoCCOV rccov = RemitoCCOV.fromXML(nombreArchivo);
+		RemitoTransporte rt = new RemitoTransporte();
+		int cantidadSC = rccov.getSolicitudesDeCompra().size();
+		//por cada SolcitudDeCompra
+		for(SolicitudDeCompra sc:rccov.getSolicitudesDeCompra()){
+			Remito remitoCliente = new Remito();
+			//por cada ItemSolCompra
+			for(ItemOP iop:sc.getOrdenDePedido().getItems()){
+				remitoCliente.agregarItem(iop,rccov);
+			}
+			remitoCliente.setCliente(sc.getOrdenDePedido().getCliente());
+			Date fechaHoy = new java.sql.Date(System.currentTimeMillis());
+			remitoCliente.setFechaEmision(fechaHoy);
+			Factura factura = new Factura();
+			remitoCliente.setFactura(factura);
+			remitoCliente.toXML();
+			factura.toXML();
+			rt.agregarPedidoCliente(remitoCliente);
+		}
+		rt.toXML();
+	}
+		
+	// PUNTO 4 - ABM CLIENTE
+	public void altaCliente(String razonSocial, String direccion, String cuil,
+			String condicionIVA, String condicionPago, float descuento, int nroSucursal) throws Exception {
+		Cliente c = Cliente.buscarClienteDAO(cuil);
+		if(c==null){
+//		if(!existeCliente(cuil)){
+//			Cliente c = new Cliente(this, razonSocial, direccion, cuil,	condicionIVA, condicionPago, descuento);
+			c = new Cliente(buscarOVDAO(nroSucursal), razonSocial, direccion, cuil,	condicionIVA, condicionPago, descuento);
+//			clientes.add(c);
+		}
+		else
+			throw new Exception ("Ya existe un Cliente con ese cuil");
+	}
+
+	public boolean existeCliente(String cuil) throws Exception{
+		for(Cliente c:clientes)
+			if(c.getCuil().compareTo(cuil)==0)
+				return true;				
+		Cliente c = Cliente.buscarClienteDAO(cuil);
+		if (c == null) {
+			return false;
+		}
+		return true;
+	}
+	
+	public Cliente buscarCliente(String cuil) throws Exception{
+		for(Cliente c:clientes)
+			if(c.getCuil().compareTo(cuil)==0)
+				return c;				
+		Cliente c = Cliente.buscarClienteDAO(cuil);
+		if (c == null) {
+			throw (new Exception ("Cliente no Existe"));
+		}
+		return c;
+	}	
+	
+	public void bajaCliente(String cuil) throws Exception {
+		Cliente c = buscarCliente(cuil);	
+		if(c!=null){
+				c.baja();
+		}
+		else
+			System.out.print("No existe un Cliente con ese cuil");
+	}
+
+	public void modificarCliente(String cuil, String razonSocial, String direccion) throws Exception{
+		Cliente c = buscarCliente(cuil);	
+		if(c!=null){
+				c.modificar(razonSocial,direccion);
+		}
+		else
+			System.out.print("No existe un Cliente con ese cuil");
+	}
+	
+	//OPERACIONES PROPIAS DE OV
 	public static OV buscarOVDAO(int nroSucursal) throws RemoteException {
 		OVENT ovENT = OVDAO.getInstancia().BuscarOV(nroSucursal);
 		if(ovENT!=null)
 			return toDOM(ovENT);
 		return null;
+	}
+	
+	public OVENT toENT() {
+		return new OVENT(this.numeroSucursal, this.nombreSucursal);
+		
+	}
+	
+	static public OV toDOM(OVENT ov) throws RemoteException {
+		return new OV(ov.getNumeroSucursal(), ov.getNombreSucursal());
 	}
 
 }

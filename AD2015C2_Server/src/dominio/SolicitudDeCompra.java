@@ -3,6 +3,7 @@ package dominio;
 import hbt.HibernateDAO;
 
 import java.io.File;
+import java.rmi.RemoteException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,13 +22,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import app.OV;
-import dao.ProveedorDAO;
 import dao.SolicitudDeCompraDAO;
-import entities.ItemLPENT;
 import entities.ItemSolCompraENT;
-import entities.OVENT;
-import entities.OrdenDePedidoENT;
-import entities.ProveedorENT;
 import entities.SolicitudDeCompraENT;
 
 public class SolicitudDeCompra {
@@ -129,7 +125,6 @@ public class SolicitudDeCompra {
 	}
 
 	public SolicitudDeCompraENT toENT() {
-		OrdenDePedidoENT opENT = new OrdenDePedidoENT();
 		List<ItemSolCompraENT> itemsENT = new ArrayList<ItemSolCompraENT>();
 		SolicitudDeCompraENT scENT = new SolicitudDeCompraENT(numero, ov.toENT(), ordenDePedido.toENT(), 
 				fechaEmision, fechaEntregaEstimada, precioTotal, estado);
@@ -139,14 +134,14 @@ public class SolicitudDeCompra {
 		return new SolicitudDeCompraENT();
 	}
 
-	public static List<SolicitudDeCompra> buscarSCPendentesDAO() {
+	public static List<SolicitudDeCompra> buscarSCPendentesDAO() throws RemoteException {
 		List<SolicitudDeCompra> pendientes = new ArrayList<SolicitudDeCompra>();
 		for(SolicitudDeCompraENT sc:SolicitudDeCompraDAO.getInstancia().obtenerPendientes())
 			pendientes.add(toDOM(sc));
 		return pendientes;
 	}
 
-	public static SolicitudDeCompra toDOM(SolicitudDeCompraENT scENT) {
+	public static SolicitudDeCompra toDOM(SolicitudDeCompraENT scENT) throws RemoteException {
 //		List<OrdenDePedido> ops = new ArrayList<OrdenDePedido>();
 		List<ItemSolCompra> items = new ArrayList<ItemSolCompra>();
 		SolicitudDeCompra sc = new SolicitudDeCompra();
@@ -171,6 +166,14 @@ public class SolicitudDeCompra {
 		setOrdenDePedido(op);
 		setOv(ov);
 	}
+	
+	public static SolicitudDeCompra buscarSCDAO(int numero) throws RemoteException {
+		SolicitudDeCompraENT scENT = SolicitudDeCompraDAO.getInstancia().BuscarSC(numero);
+		if(scENT!=null)
+			return toDOM(scENT);
+		return null;
+	}
+	
 
 	public void toXML() {
 		try {
@@ -240,5 +243,5 @@ public class SolicitudDeCompra {
 			tfe.printStackTrace();
 		  }
 	}
-	
+
 }

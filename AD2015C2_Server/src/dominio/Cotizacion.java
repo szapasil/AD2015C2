@@ -34,18 +34,19 @@ import app.OV;
 
 public class Cotizacion {
 	
+	private int numero;
 	private Date fechaEnviada;
 	private Date fechaExpiracion;
-	private int numero;
 	private SolicitudCotizacion solicitudCotizacion;
 	private Cliente cliente;
 	private List<ItemCotizacion> items;
 	
-	public Cotizacion(int numero, int numeroSolicitudCotizacion, Date fechaEnviada,Cliente cliente) {
+	public Cotizacion(int numero, SolicitudCotizacion solicitudCotizacion, Date fechaEnviada, Cliente cliente) {
 		super();
 		this.numero = numero;
 		this.fechaEnviada = fechaEnviada;
 		this.cliente = cliente;
+		this.solicitudCotizacion = solicitudCotizacion;
 		this.items =  new ArrayList<ItemCotizacion>();
 	}
 
@@ -248,6 +249,17 @@ public class Cotizacion {
 		}
 		cotENT.setItems(itemsENT);
 		return cotENT;
+	}
+
+	public static Cotizacion toDOM(CotizacionENT cotENT) throws RemoteException {
+		Cotizacion cot = new Cotizacion(cotENT.getNumero(),SolicitudCotizacion.toDOM(cotENT.getSolicitudCotizacion()),
+				cotENT.getFechaEnviada(),Cliente.toDOM(cotENT.getCliente()));
+		List<ItemCotizacion> items = new ArrayList<ItemCotizacion>();
+		for (ItemCotizacionENT item : cotENT.getItems()) {
+			items.add(ItemCotizacion.toDOM(item));
+			System.out.println("Agregando items---->"+ items.size());
+		}
+		return cot;
 	}
 
 }

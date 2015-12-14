@@ -2,7 +2,6 @@ package dominio;
 
 import hbt.HibernateDAO;
 
-import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.Date;
@@ -22,11 +21,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import app.CC;
-import app.OV;
 import entities.ItemLPENT;
-import entities.ItemSolCotizacionENT;
 import entities.ListaPreciosENT;
-import entities.SolicitudCotizacionENT;
 
 public class ListaPrecios {
 

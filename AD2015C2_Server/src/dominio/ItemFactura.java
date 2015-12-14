@@ -1,7 +1,5 @@
 package dominio;
 
-import java.text.DecimalFormat;
-
 public class ItemFactura {
 private Rodamiento rodamiento;
 private int cantidad;

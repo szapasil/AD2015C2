@@ -3,7 +3,10 @@ package dominio;
 import hbt.HibernateDAO;
 
 import java.io.File;
+import java.io.IOException;
+import java.rmi.RemoteException;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +20,16 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import entities.ItemRCCOVENT;
 import entities.RemitoCCOVENT;
 import entities.SolicitudDeCompraENT;
+import app.CC;
 import app.OV;
 
 public class RemitoCCOV {
@@ -164,7 +171,7 @@ public class RemitoCCOV {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("C:\\Eclipse EE\\RemitoCCOV" + String.valueOf(getNumero()) + ".xml"));
+			StreamResult result = new StreamResult(new File("C:\\test\\RemitoCCOV" + String.valueOf(getNumero()) + ".xml"));
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);
 			transformer.transform(source, result);
@@ -174,6 +181,69 @@ public class RemitoCCOV {
 		  } catch (TransformerException tfe) {
 			tfe.printStackTrace();
 		  }
+	}
+
+	public static RemitoCCOV fromXML(String nombreArchivo) {
+		RemitoCCOV rccov = new RemitoCCOV();
+		Document doc = null;
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder;
+		try {
+			builder = factory.newDocumentBuilder();
+			doc = builder.parse(nombreArchivo);
+			
+			NodeList nRCCOV = doc.getElementsByTagName("RemitoCCOV");
+			for(int j=0;j < nRCCOV.getLength(); j++){
+				if(nRCCOV.item(j).hasChildNodes()){
+					Element eleRCCOV = (Element)nRCCOV.item(j);
+					rccov.setNumero(Integer.parseInt(eleRCCOV.getElementsByTagName("Numero").item(0).getTextContent()));
+					rccov.setOV(CC.getInstancia().buscarOV(Integer.parseInt(eleRCCOV.getElementsByTagName("NroSucursal").item(0).getTextContent())));
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					java.util.Date parsed = format.parse(eleRCCOV.getElementsByTagName("Fecha").item(0).getTextContent());
+					rccov.setFecha(new java.sql.Date(parsed.getTime()));
+					//SCs
+					NodeList nListSCs = doc.getElementsByTagName("SolicitudDeCompra");
+					rccov.solicitudesDeCompra = new ArrayList<SolicitudDeCompra>();
+					for (int i=0;i < nListSCs.getLength(); i++){
+						if (nListSCs.item(i).hasChildNodes()){
+							Element eleSC = (Element)nListSCs.item(i);
+							SolicitudDeCompra sc = CC.getInstancia().buscarSolCompra(Integer.parseInt(eleSC.getElementsByTagName("nroSC").item(0).getTextContent()));
+							if(sc==null)
+								rccov.solicitudesDeCompra.add(sc);
+							else
+								System.out.println("La SolCompra " + eleSC.getElementsByTagName("nroSC").item(0).getTextContent() + " no existe");
+						}
+					}
+					//Items
+					NodeList nListItems = doc.getElementsByTagName("Item");
+					rccov.items = new ArrayList<ItemRCCOV>();
+					for (int h=0;h < nListItems.getLength(); h++){
+						if (nListItems.item(h).hasChildNodes()){
+							Element eleItem = (Element)nListItems.item(h);
+							ItemRCCOV irccov = new ItemRCCOV();
+							Rodamiento rod = CC.getInstancia().buscarRodamiento(eleItem.getElementsByTagName("CodRodamiento").item(0).getTextContent());
+							if(rod==null){
+								irccov.setRodamiento(rod);
+								irccov.setCantidad(Integer.parseInt(eleItem.getElementsByTagName("Cantidad").item(0).getTextContent()));
+								rccov.items.add(irccov);
+							}
+							else
+								System.out.println("El Rodamiento " + eleItem.getElementsByTagName("CodRodamiento").item(0).getTextContent() + " no existe");
+							
+						}
+					}
+//					File f = new File(nombreArchivo); LUEGO PONER
+//					f.delete();
+				}
+			}
+		} catch (NumberFormatException e) {e.printStackTrace();
+		} catch (DOMException e) {e.printStackTrace();
+		} catch (RemoteException e) {e.printStackTrace();
+		} catch (ParserConfigurationException e) {e.printStackTrace();
+		} catch (SAXException e) {e.printStackTrace();
+		} catch (IOException e) {e.printStackTrace();
+		} catch (ParseException e) {e.printStackTrace();
+		} return rccov;
 	}
 
 }

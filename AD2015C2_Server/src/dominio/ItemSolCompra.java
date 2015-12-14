@@ -74,4 +74,10 @@ public class ItemSolCompra {
 		}
 		setProveedor(iopProv);
 	}
+
+	public static ItemSolCompra toDOM(ItemSolCompraENT iscENT) {
+		Rodamiento rod = Rodamiento.toDOM(iscENT.getId().getRodamiento());
+		Proveedor prov = Proveedor.toDOM(iscENT.getProveedor());
+		return new ItemSolCompra(rod, iscENT.getCantidad(), iscENT.getPrecio(), prov);
+	}
 }

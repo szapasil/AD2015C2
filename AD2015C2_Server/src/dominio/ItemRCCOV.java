@@ -14,6 +14,10 @@ public class ItemRCCOV {
 		this.cantidad = cantidad;
 	}
 
+	public ItemRCCOV() {
+		
+	}
+
 	public Rodamiento getRodamiento() {
 		return rodamiento;
 	}

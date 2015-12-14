@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.hibernate.mapping.Selectable;
-
 @Embeddable
 public class ItemSolCompraENTpk implements Serializable {
 	

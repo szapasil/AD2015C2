@@ -30,6 +30,17 @@ public class ItemCotizacion {
 			this.proveedor = proveedor;
 	}
 	
+	public ItemCotizacion (Rodamiento rodamiento, int cantidad, float precio, int condicionCompra,
+			int bonificacion, Proveedor proveedor) {
+	super();
+		this.rodamiento = rodamiento;
+		this.cantidad = cantidad;
+		this.precio = precio;
+		this.condicionCompra = condicionCompra;
+		this.bonificacion = bonificacion;
+		this.proveedor = proveedor;
+}
+	
 	public int getCantidad() {
 		return cantidad;
 	}
@@ -88,7 +99,12 @@ public class ItemCotizacion {
 	}
 
 	public ItemCotizacionENT toENT(CotizacionENT cotENT) {
-		return (new ItemCotizacionENT(cotENT, rodamiento.toENT(), cantidad));
+		return (new ItemCotizacionENT(cotENT, rodamiento.toENT(), cantidad, precio, condicionCompra, bonificacion, proveedor.toENT()));
+	}
+
+	public static ItemCotizacion toDOM(ItemCotizacionENT icotENT) {
+		ItemCotizacion icot = new ItemCotizacion(Rodamiento.toDOM(icotENT.getId().getRodamiento()),icotENT.getCantidad(),icotENT.getPrecio(),icotENT.getCondicionCompra(),icotENT.getBonificacion(),Proveedor.toDOM(icotENT.getProveedor()));
+		return icot;
 	}
 	
 }

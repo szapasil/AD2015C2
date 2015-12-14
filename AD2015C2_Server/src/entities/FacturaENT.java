@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import dominio.Cliente;
-import dominio.ItemFactura;
-
 @Entity
 @Table(name="facturas")
 public class FacturaENT {

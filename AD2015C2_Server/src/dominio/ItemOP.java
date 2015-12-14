@@ -1,7 +1,11 @@
 package dominio;
 
 import hbt.HibernateDAO;
+
+import java.rmi.RemoteException;
+
 import entities.ItemOPENT;
+import entities.OrdenDePedidoENT;
 
 public class ItemOP {
 
@@ -59,6 +63,20 @@ public class ItemOP {
 	
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	
+	public ItemOPENT toENT(OrdenDePedidoENT opENT) {
+		return (new ItemOPENT(opENT, rodamiento.toENT(), cotizacion.toENT(), cantidad, precio, estado));
+	}
+	
+	public static ItemOP toDOM(ItemOPENT iopENT) throws RemoteException {
+		ItemOP iop = new ItemOP(Rodamiento.toDOM(iopENT.getId().getRodamiento()), iopENT.getCantidad(), iopENT.getPrecio(), iopENT.getEstado(), Cotizacion.toDOM(iopENT.getId().getCotizacion()));
+		return iop;
+	}
+	
+	public void persistirse(OrdenDePedidoENT opENT) {
+		ItemOPENT iopENT = toENT(opENT);
+		HibernateDAO.getInstancia().saveOrUpdate(iopENT);
 	}
 	
 /*	public void persistirse() {

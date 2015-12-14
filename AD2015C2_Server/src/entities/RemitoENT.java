@@ -5,10 +5,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import dominio.Cliente;
-import dominio.Factura;
-import dominio.ItemRemito;
-
 @Entity
 @Table (name="remitos")
 public class RemitoENT {

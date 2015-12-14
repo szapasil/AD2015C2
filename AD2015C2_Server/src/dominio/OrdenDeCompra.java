@@ -3,6 +3,7 @@ package dominio;
 import hbt.HibernateDAO;
 
 import java.io.File;
+import java.rmi.RemoteException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -184,14 +185,14 @@ public class OrdenDeCompra {
 		  }
 	}
 
-	public static OrdenDeCompra buscarOCDAO(int numero) {
+	public static OrdenDeCompra buscarOCDAO(int numero) throws RemoteException {
 		OrdenDeCompraENT ocENT = OrdenDeCompraDAO.getInstancia().BuscarOC(numero);
 		if(ocENT!=null)
 			return toDOM(ocENT);
 		return null;
 	}
 
-	private static OrdenDeCompra toDOM(OrdenDeCompraENT ocENT) {
+	private static OrdenDeCompra toDOM(OrdenDeCompraENT ocENT) throws RemoteException {
 		OrdenDeCompra oc = new OrdenDeCompra();
 		List<ItemOC> items = new ArrayList<ItemOC>();
 		oc.setFecha(ocENT.getFecha());

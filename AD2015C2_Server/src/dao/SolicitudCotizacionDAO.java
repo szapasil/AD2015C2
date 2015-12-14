@@ -6,9 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.ClienteENT;
 import entities.SolicitudCotizacionENT;
-
 
 public class SolicitudCotizacionDAO {
 	protected static SolicitudCotizacionDAO instancia = null;

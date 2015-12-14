@@ -1,12 +1,14 @@
 package dominio;
 
+import hbt.HibernateDAO;
+
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,6 +26,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import entities.ItemOPENT;
+import entities.OrdenDePedidoENT;
 import app.CC;
 import app.OV;
 
@@ -76,6 +80,32 @@ public class OrdenDePedido {
 //		items.add(item);
 //	}
 	
+	public void persistirse() {
+		OrdenDePedidoENT opENT = this.toENT();
+		HibernateDAO.getInstancia().saveOrUpdate(opENT);
+	}
+	
+	public OrdenDePedidoENT toENT() {
+		List<ItemOPENT> itemsENT = new ArrayList<ItemOPENT>();
+		OrdenDePedidoENT opENT = new OrdenDePedidoENT(numero, fechaEnviada, cliente.toENT());
+		for (ItemOP item : this.items) {
+			itemsENT.add(item.toENT(opENT));
+			System.out.println("Agregando items---->"+ itemsENT.size());
+		}
+		opENT.setItems(itemsENT);
+		return opENT;
+	}
+	
+	public static OrdenDePedido toDOM(OrdenDePedidoENT opENT) throws RemoteException {
+		OrdenDePedido op = new OrdenDePedido(opENT.getNumero(),opENT.getFechaEnviada(),Cliente.toDOM(opENT.getCliente()));
+		List<ItemOP> items = new ArrayList<ItemOP>();
+		for (ItemOPENT item : opENT.getItems()) {
+			items.add(ItemOP.toDOM(item));
+			System.out.println("Agregando items---->"+ items.size());
+		}
+		
+		return op;
+	}
 	
 	public static OrdenDePedido fromXML(String nombreArchivo, OV estaOV) throws Exception {
 		OrdenDePedido op = new OrdenDePedido();

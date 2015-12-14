@@ -302,6 +302,7 @@ public class OV extends UnicastRemoteObject implements IOV {
 			Date fechaHoy = new java.sql.Date(System.currentTimeMillis());
 			remitoCliente.setFechaEmision(fechaHoy);
 			Factura factura = new Factura();
+			factura.generarFactura(sc,remitoCliente);
 			remitoCliente.setFactura(factura);
 			remitoCliente.toXML();
 			factura.toXML();

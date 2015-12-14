@@ -223,7 +223,7 @@ public class OV extends UnicastRemoteObject implements IOV {
 		return sc;
 	}
 	
-	public void cotizarSolicitud(SolicitudCotizacion sc) {
+	public void cotizarSolicitud(SolicitudCotizacion sc) throws RemoteException {
 		BusinessDelegateCC bdCC = new BusinessDelegateCC();
 		bdCC.LookupServiceCC();
 		Cotizacion cotizacion = new Cotizacion();
@@ -252,7 +252,7 @@ public class OV extends UnicastRemoteObject implements IOV {
 		return op;
 	}
 
-	private void tratarOrdenDePedido(OrdenDePedido op) {
+	private void tratarOrdenDePedido(OrdenDePedido op) throws RemoteException {
 		float total = 0;
 		boolean cotizarNuevamente = false;
 		List<ItemOP> itemsACotizar = new ArrayList<ItemOP>();
@@ -278,7 +278,7 @@ public class OV extends UnicastRemoteObject implements IOV {
 			cotizarNuevamente(op,itemsACotizar);
 	}
 	
-	public void cotizarNuevamente(OrdenDePedido op, List<ItemOP> itemsACotizar) {
+	public void cotizarNuevamente(OrdenDePedido op, List<ItemOP> itemsACotizar) throws RemoteException {
 		SolicitudCotizacion sc = new SolicitudCotizacion();
 		sc.generarSolicitudDesdeOP(op, itemsACotizar);
 		sc.persistirse();

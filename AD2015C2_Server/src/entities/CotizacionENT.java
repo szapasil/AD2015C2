@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,10 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import dominio.Cliente;
-import dominio.ItemCotizacion;
-import dominio.SolicitudCotizacion;
 
 @Entity
 @Table(name="cotizaciones")
@@ -44,19 +41,17 @@ public class CotizacionENT {
 
 	public CotizacionENT() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public CotizacionENT(int numero, Date fechaEnviada, Date fechaExpiracion,
-			ClienteENT cliente, SolicitudCotizacionENT solicitudCotizacion,
-			List<ItemCotizacionENT> items) {
+			ClienteENT cliente, SolicitudCotizacionENT solicitudCotizacion) {
 		super();
 		this.numero = numero;
 		this.fechaEnviada = fechaEnviada;
 		this.fechaExpiracion = fechaExpiracion;
 		this.cliente = cliente;
 		this.solicitudCotizacion = solicitudCotizacion;
-		this.items = items;
+		this.items = new ArrayList<ItemCotizacionENT>();
 	}
 
 	public int getNumero() {
@@ -107,6 +102,4 @@ public class CotizacionENT {
 		this.items = items;
 	}
 	
-	
-
 }

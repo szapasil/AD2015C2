@@ -276,9 +276,10 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			int cantidad = sc.getItems().size();
 			while(cantidad>0){
 				List<ItemSolCompra> itemsOC = new ArrayList<ItemSolCompra>();
-				String cuitAnt = null;
+				String cuitAnt = "";
 				for(ItemSolCompra itemSC:sc.getItems()){
-					if(itemSC.getProveedor().getCuit().equals(cuitAnt) || cuitAnt==null){
+					//Solo agrego los items que pertenecen al mismo Proveedor
+					if(itemSC.getProveedor().getCuit().equals(cuitAnt) || cuitAnt.isEmpty()){
 						itemsOC.add(itemSC);
 						cuitAnt = itemSC.getProveedor().getCuit();
 						sc.getItems().remove(itemSC);
@@ -287,7 +288,7 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 				}
 				altaOC(sc,itemsOC,cuitAnt);
 			}
-			sc.setEstado("Enviada");
+			sc.setEstado("enviada");
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(sc.getFechaEmision());
 			calendar.add(Calendar.DAY_OF_YEAR, 30);
@@ -339,16 +340,19 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		while(cantidad>0){
 			List<OrdenDeCompra> ocs = new ArrayList<OrdenDeCompra>();
 			int ovAnt = 0;
+			String nombreSucursal = "";
 			for(OrdenDeCompra oc:rpcc.getOrdenesDeCompra()){
+				//Solo agrego las OC que pertenecen a la misma OV
 				if(oc.getSolicitudDeCompra().getOv().getNumeroSucursal()==ovAnt || ovAnt==0){
 					ocs.add(oc);
 					ovAnt = oc.getSolicitudDeCompra().getOv().getNumeroSucursal();
 					rpcc.getOrdenesDeCompra().remove(oc);
 					cantidad = cantidad - 1;
+					nombreSucursal = oc.getSolicitudDeCompra().getOv().getNombreSucursal();
 				}
 			}
 			altaRCCOV(rpcc,ocs,ovAnt);
-			rt.agregarPedidoOV(rpcc,ovAnt);
+			rt.agregarPedidoOV(rpcc,nombreSucursal);
 		}
 		rt.toXML();
 	}

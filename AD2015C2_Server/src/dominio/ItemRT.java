@@ -5,19 +5,19 @@ import java.util.List;
 
 public class ItemRT {
 
-	private int sucursal;
+	private String destino;
 	private List<ItemRTOV> itemsOV;
 	
 	public ItemRT() {
 		this.itemsOV = new ArrayList<ItemRTOV>();
 	}
 	
-	public int getSucursal() {
-		return sucursal;
+	public String getDestino() {
+		return destino;
 	}
 	
-	public void setSucursal(int sucursal) {
-		this.sucursal = sucursal;
+	public void setDestino(String destino) {
+		this.destino = destino;
 	}
 	
 	public List<ItemRTOV> getItemsOV() {
@@ -33,6 +33,15 @@ public class ItemRT {
 			ItemRTOV itemOV = new ItemRTOV();
 			itemOV.setRodamiento(irpcc.getRodamiento());
 			itemOV.setCantidad(irpcc.getCantidad());
+			itemsOV.add(itemOV);
+		}
+	}
+
+	public void agregarProductos(Remito remitoCliente) {
+		for(ItemRemito ir:remitoCliente.getItems()){
+			ItemRTOV itemOV = new ItemRTOV();
+			itemOV.setRodamiento(ir.getRodamiento());
+			itemOV.setCantidad(ir.getCantidad());
 			itemsOV.add(itemOV);
 		}
 	} 

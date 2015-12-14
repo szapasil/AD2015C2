@@ -16,12 +16,16 @@ public class SolicitudDeCompraENT {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="numero_sucursal", nullable = false)	
 	private OVENT ov;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="nroOP")
+	private OrdenDePedidoENT op;
+	
 	private Date fechaEmision;
 	private Date fechaEntregaEstimada;
 	private float precioTotal;
-//	@OneToMany(cascade=CascadeType.ALL, mappedBy="numero_pedido")
-//	private List<OrdenDePedidoENT> ordenesDePedido;
 	private String estado;
+	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="id.solicitudCompra")
 	private List<ItemSolCompraENT> items;
 
@@ -29,11 +33,12 @@ public class SolicitudDeCompraENT {
 		
 	}
 
-	public SolicitudDeCompraENT(int numero, OVENT ov, Date fechaEmision, Date fechaEntregaEstimada, 
+	public SolicitudDeCompraENT(int numero, OVENT ov, OrdenDePedidoENT op, Date fechaEmision, Date fechaEntregaEstimada, 
 			float precioTotal, String estado) {
 		super();
 		this.numero = numero;
 		this.ov = ov;
+		this.op = op;
 		this.fechaEmision = fechaEmision;
 		this.fechaEntregaEstimada = fechaEntregaEstimada;
 		this.precioTotal = precioTotal;
@@ -54,6 +59,14 @@ public class SolicitudDeCompraENT {
 
 	public void setOv(OVENT ov) {
 		this.ov = ov;
+	}
+	
+	public OrdenDePedidoENT getOp() {
+		return op;
+	}
+
+	public void setOp(OrdenDePedidoENT op) {
+		this.op = op;
 	}
 
 	public Date getFechaEmision() {
@@ -79,14 +92,6 @@ public class SolicitudDeCompraENT {
 	public void setPrecioTotal(float precioTotal) {
 		this.precioTotal = precioTotal;
 	}
-
-//	public List<OrdenDePedidoENT> getOrdenesDePedido() {
-//		return ordenesDePedido;
-//	}
-//
-//	public void setOrdenesDePedido(List<OrdenDePedidoENT> ordenesDePedido) {
-//		this.ordenesDePedido = ordenesDePedido;
-//	}
 
 	public String getEstado() {
 		return estado;

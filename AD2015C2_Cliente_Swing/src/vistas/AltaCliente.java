@@ -9,7 +9,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import delegado.BusinessDelegateCC;
 import delegado.BusinessDelegateOV;
 
 public class AltaCliente extends javax.swing.JFrame {

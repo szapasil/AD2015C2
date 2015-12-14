@@ -1,15 +1,9 @@
 package entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.*;
 
 import dominio.ItemOC;
-import dominio.OrdenDeCompra;
-import dominio.Proveedor;
 import dominio.Rodamiento;
-import dominio.SolicitudDeCompra;
 
 @Entity
 @Table(name="itemsLP")

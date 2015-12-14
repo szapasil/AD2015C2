@@ -1,7 +1,5 @@
 package entities;
 
-import dominio.Rodamiento;
-
 import javax.persistence.*;
 
 @Entity

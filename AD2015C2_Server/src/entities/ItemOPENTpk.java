@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import dominio.Cotizacion;
-import dominio.Rodamiento;
-
 @Embeddable
 public class ItemOPENTpk implements Serializable{
 
@@ -25,7 +22,6 @@ public class ItemOPENTpk implements Serializable{
 
 	public ItemOPENTpk() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public ItemOPENTpk(OrdenDePedidoENT pedido, RodamientoENT rodamiento,

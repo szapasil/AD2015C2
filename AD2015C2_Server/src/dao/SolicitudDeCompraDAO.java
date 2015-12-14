@@ -1,6 +1,5 @@
 package dao;
 
-import java.util.Collections;
 import java.util.List;
 
 import hbt.HibernateUtil;
@@ -34,6 +33,17 @@ public class SolicitudDeCompraDAO {
 		session.flush();
 		session.close();
 		return pendientes;
+	}
+
+	public SolicitudDeCompraENT BuscarSC(int numero) {
+		session = sf.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from SolicitudDeCompraENT sc  where sc.numero = :numero");
+		query.setInteger("numero", numero);
+		SolicitudDeCompraENT scENT = (SolicitudDeCompraENT) query.uniqueResult();
+		session.flush();
+		session.close();
+		return scENT;
 	}
 	
 }

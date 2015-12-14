@@ -18,10 +18,8 @@ import dominio.Cotizacion;
 import dominio.Factura;
 import dominio.ItemCotizacion;
 import dominio.ItemOP;
-import dominio.ItemRCCOV;
 import dominio.ItemSolCompra;
 import dominio.ItemSolCotizacion;
-import dominio.OrdenDeCompra;
 import dominio.RemitoCCOV;
 import dominio.RemitoTransporte;
 import dominio.SolicitudDeCompra;
@@ -290,13 +288,13 @@ public class OV extends UnicastRemoteObject implements IOV {
 	public void entregaDePedidos(String nombreArchivo) throws Exception {
 		RemitoCCOV rccov = RemitoCCOV.fromXML(nombreArchivo);
 		RemitoTransporte rt = new RemitoTransporte();
-		int cantidadSC = rccov.getSolicitudesDeCompra().size();
 		//por cada SolcitudDeCompra
 		for(SolicitudDeCompra sc:rccov.getSolicitudesDeCompra()){
 			Remito remitoCliente = new Remito();
+			OrdenDePedido op = sc.getOrdenDePedido();
 			//por cada ItemSolCompra
 			for(ItemOP iop:sc.getOrdenDePedido().getItems()){
-				remitoCliente.agregarItem(iop,rccov);
+				remitoCliente.agregarItem(op,iop,rccov);
 			}
 			remitoCliente.setCliente(sc.getOrdenDePedido().getCliente());
 			Date fechaHoy = new java.sql.Date(System.currentTimeMillis());

@@ -307,7 +307,7 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		oc.toXML();
 	}
 
-	public List<SolicitudDeCompra> obtenerSCPendientes() {
+	public List<SolicitudDeCompra> obtenerSCPendientes() throws RemoteException {
 		return SolicitudDeCompra.buscarSCPendentesDAO();
 	}
 
@@ -379,12 +379,20 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 		return OV.buscarOVDAO(nroSucursal);
 	}
 	
-	public OrdenDeCompra buscarOC(int numero) {
+	public OrdenDeCompra buscarOC(int numero) throws RemoteException {
 		for(OrdenDeCompra oc:ordenesDeCompra)
 			if(oc.getNumero() == numero)
 				return oc;		
 		return OrdenDeCompra.buscarOCDAO(numero);
 	}
+	
+	public SolicitudDeCompra buscarSolCompra(int numero) throws RemoteException {
+		for(SolicitudDeCompra sc:solicitudesDeCompra)
+			if(sc.getNumero() == numero)
+				return sc;		
+		return SolicitudDeCompra.buscarSCDAO(numero);
+	}
+		
 
 	//SILVIO INICIO >>>
 	public OV getInstanciaOV (int numeroSucursal) throws RemoteException{
@@ -400,6 +408,6 @@ public class CC extends UnicastRemoteObject implements interfaz.ICC {
 			OV ovTemp = new OV(numeroSucursal, nombreSucursal);
 			ovs.add(ovTemp);
 	}
-		
+
 	//SILVIO FIN <<<
 }

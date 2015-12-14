@@ -110,7 +110,7 @@ public class SolicitudCotizacion {
 		return scENT;
 	}
 	
-	private static SolicitudCotizacion toDOM(SolicitudCotizacionENT scENT) throws RemoteException {
+	public static SolicitudCotizacion toDOM(SolicitudCotizacionENT scENT) throws RemoteException {
 		SolicitudCotizacion sc = new SolicitudCotizacion(scENT.getNumeroSolicitud(),
 				scENT.getFechaEnviada(),Cliente.toDOM(scENT.getCliente()));
 		List<ItemSolCotizacion> items = new ArrayList<ItemSolCotizacion>();
@@ -118,9 +118,7 @@ public class SolicitudCotizacion {
 			items.add(ItemSolCotizacion.toDOM(item));
 			System.out.println("Agregando items---->"+ items.size());
 		}
-		
 		return sc;
-
 	}
 	
 	public static SolicitudCotizacion buscarSolicitudCotizacionDAO(int numero) throws RemoteException {

@@ -1,16 +1,6 @@
 package entities;
 
-import java.util.List;
-
 import javax.persistence.*;
-
-import dominio.Cliente;
-import dominio.Cotizacion;
-import dominio.Factura;
-import dominio.OrdenDeCompra;
-import dominio.OrdenDePedido;
-import dominio.Remito;
-import dominio.SolicitudCotizacion;
 
 @Entity
 @Table(name="oficinasDeVenta")

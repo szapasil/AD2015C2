@@ -12,12 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import dominio.Cliente;
-import dominio.Cotizacion;
-import dominio.ItemOP;
 
 @Entity
 @Table(name="ordenesDePedido")
@@ -41,16 +36,14 @@ public class OrdenDePedidoENT {
 
 	public OrdenDePedidoENT() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public OrdenDePedidoENT(int numero, Date fechaEnviada, ClienteENT cliente,
-			List<ItemOPENT> items) {
+	public OrdenDePedidoENT(int numero, Date fechaEnviada, ClienteENT cliente) {
 		super();
 		this.numero = numero;
 		this.fechaEnviada = fechaEnviada;
 		this.cliente = cliente;
-		this.items = items;
+		this.items = new ArrayList<ItemOPENT> ();
 	}
 
 	public int getNumero() {

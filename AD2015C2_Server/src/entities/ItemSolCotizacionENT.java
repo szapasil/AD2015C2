@@ -29,7 +29,6 @@ public class ItemSolCotizacionENT {
 	
 	public ItemSolCotizacionENT() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public ItemSolCotizacionENT(SolicitudCotizacionENT solCotiz, RodamientoENT rodamiento, int cantidad) {

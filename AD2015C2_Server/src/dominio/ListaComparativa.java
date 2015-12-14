@@ -5,12 +5,8 @@ import hbt.HibernateDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.ItemLCDAO;
 import dao.ListaComparativaDAO;
-import dao.ProveedorDAO;
-import entities.ItemLCENT;
 import entities.ListaComparativaENT;
-import entities.ProveedorENT;
 
 public class ListaComparativa {
 

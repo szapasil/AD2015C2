@@ -30,8 +30,7 @@ public class SolicitudCotizacionENT {
 	@OneToMany(cascade=CascadeType.ALL ,fetch=FetchType.LAZY ,mappedBy="id.solicitudCotizacion")
 	private List<ItemSolCotizacionENT> items;
 
-	public SolicitudCotizacionENT(int numero, ClienteENT cliente,
-			Date fechaEnviada) {
+	public SolicitudCotizacionENT(int numero, ClienteENT cliente, Date fechaEnviada) {
 		super();
 		this.numeroSolicitud = numero;
 		this.cliente = cliente;
